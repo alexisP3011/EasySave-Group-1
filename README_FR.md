@@ -8,7 +8,7 @@ Ceci est la version française de notre README. Une version anglaise est disponi
 
 Notre groupe de projet est composé de 4 membres dont un chef :
 
-    - îsra BOUDEMAGH
+    - Îsra BOUDEMAGH
     
     - Clément EVANGELISTI
     
