@@ -7,9 +7,13 @@ Ceci est la version française de notre README. Une version anglaise est disponi
 ### Présentation de notre groupe
 
 Notre groupe de projet est composé de 4 membres dont un chef :
+
     - îsra BOUDEMAGH
+    
     - Clément EVANGELISTI
+    
     - Elrazi KOULA (le chef)
+    
     - Alexis PEIFFER
 
 ### Contexte du projet
