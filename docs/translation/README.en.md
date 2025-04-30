@@ -4,7 +4,7 @@
 
 This is the English version of our README. A French version is available under the name "README", it provides the same presentations and is located in the main folder. Below the French version available :
 
-[![alt text](docs/images/drapeau_fr.png)](https://github.com/alexisP3011/EasySave-Group-1/blob/main/README.md)
+[![alt text](../images/drapeau_fr.png)](https://github.com/alexisP3011/EasySave-Group-1/blob/main/README.md)
 
 ## Our Team Introduction
 
