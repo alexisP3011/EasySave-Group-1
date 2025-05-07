@@ -12,7 +12,7 @@ namespace Version_1._0.View
 
         public void AskSaveName()
         {
-            Console.WriteLine("Please enter the name of the backup work you want to create: ");
+            Console.WriteLine("Please enter the name of the backup work: ");
         }
 
         public void AskSource()
