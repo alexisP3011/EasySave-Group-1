@@ -44,6 +44,8 @@ namespace Version_1._0
                         break;
                 }
             }
+
+            view.ShowLeaveMessage();
         }
     }
 }
