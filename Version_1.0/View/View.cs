@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace Version_1._0.View
 {
-    class View
+    public class View
     {
+        private readonly ViewModel.ViewModel _vm = new ViewModel.ViewModel();
 
         public View() { }
 
         public void ShowMenu()
         {
-       
             Console.WriteLine("Welcome to the application!");
             Console.WriteLine("Please select an option:");
             Console.WriteLine("1. Create a backup work");
@@ -23,7 +23,6 @@ namespace Version_1._0.View
             Console.WriteLine("5. Launch a backup work");
             Console.WriteLine("6. Change the the application language");
             Console.WriteLine("7. Exit");
-            
 
             Console.Write("Enter your choice: ");
         }
@@ -31,7 +30,6 @@ namespace Version_1._0.View
         public void ShowMessageChoice()
         {
             Console.WriteLine("Please select an option:");
-
         }
 
         public void AskConfirmation()
@@ -47,7 +45,6 @@ namespace Version_1._0.View
         public void ShowList()
         {
             Console.WriteLine("Here is the list of your backup works: ");
-
         }
 
         public void ShowLeaveMessage()
@@ -59,6 +56,5 @@ namespace Version_1._0.View
         {
             Console.WriteLine("Here is the work you selected: ");
         }
-
     }
 }

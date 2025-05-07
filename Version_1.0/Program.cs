@@ -9,31 +9,31 @@ namespace Version_1._0
         static void Main(string[] args)
         {
             bool exit = false;
-            var view = new View.View(); 
+            var view = new View.View();
+            ViewModel.ViewModel? work = null; // Declare the object outside the switch to share it across cases
 
             while (!exit)
             {
                 view.ShowMenu();
-                
+
                 ConsoleKeyInfo choice = Console.ReadKey();
                 Console.Clear();
                 switch (choice.KeyChar)
                 {
-
                     case '1':
-                        
                         var add = new View.Add();
+                        work = new ViewModel.ViewModel(); // Initialize the object 
                         add.AskSaveName();
-                        string? saveName = Console.ReadLine();
+                        work.SetName(Console.ReadLine());
 
                         add.AskSource();
-                        string? source = Console.ReadLine();
+                        work.SetSource(Console.ReadLine());
 
                         add.AskTarget();
-                        string? target = Console.ReadLine();
+                        work.SetTarget(Console.ReadLine());
 
                         add.AskType();
-                        string? type = Console.ReadLine();
+                        work.SetType(Console.ReadLine());
 
                         view.AskConfirmation();
                         string? confirmation = Console.ReadLine();
@@ -42,13 +42,25 @@ namespace Version_1._0
                         break;
 
                     case '2':
-                        view.ShowList();
+                        if (work != null) 
+                        {
+                            view.ShowList();
 
-                       
-                        Console.ReadKey(); 
+                            Console.WriteLine($"Name: {work.GetName()}");
+                            Console.WriteLine($"Source: {work.GetSource()}");
+                            Console.WriteLine($"Target: {work.GetTarget()}");
+                            Console.WriteLine($"Type: {work.GetType()}");
+
+                            Console.ReadKey();
+                        }
+                        else
+                        {
+                            Console.WriteLine("No work object available. Please create one first.");
+                            Console.ReadKey();
+                        }
                         Console.Clear();
-                  
                         break;
+
                     case '3':
                         var delete = new View.Add();
                         view.ShowList();
@@ -60,7 +72,6 @@ namespace Version_1._0
                         break;
 
                     case '4':
-
                         var update = new View.Update();
                         update.ShowList();
                         update.AskSaveName();
@@ -68,9 +79,9 @@ namespace Version_1._0
                         update.ShowWork();
                         update.AskItemToUpdate();
 
-                        ConsoleKeyInfo itemToUpdate = Console.ReadKey(); 
+                        ConsoleKeyInfo itemToUpdate = Console.ReadKey();
 
-                        switch (itemToUpdate.KeyChar) 
+                        switch (itemToUpdate.KeyChar)
                         {
                             case '1':
                                 update.AskSaveName();
@@ -95,14 +106,11 @@ namespace Version_1._0
                                 view.WarnInputError();
                                 break;
                         }
-     
-                        
 
-                        update.AskConfirmation(); 
+                        update.AskConfirmation();
                         string? confirmation_4 = Console.ReadLine();
                         Console.Clear();
-                      
-           
+
                         break;
                     case '5':
                         view.ShowList();
@@ -112,7 +120,6 @@ namespace Version_1._0
                         view.AskConfirmation();
                         string? confirmation_5 = Console.ReadLine();
                         Console.Clear();
-
 
                         break;
                     case '6':
