@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Version_1._0.Model
 {
-    internal class Model
+    public class Work
     {
+
     }
 }
