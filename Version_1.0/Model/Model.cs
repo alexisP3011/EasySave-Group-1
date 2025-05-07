@@ -8,6 +8,19 @@ namespace Version_1._0.Model
 {
     public class Work
     {
+        public Work() {
+            name = "";
+            source = "";
+            target = "";
+            type = "";
+            state = "";     
+
+        }
+        public string name { get; set; }
+        public string source { get; set; }
+        public string target { get; set; }
+        public string type { get; set; }
+        public string state { get; set; }
 
     }
 }
