@@ -26,7 +26,7 @@ namespace Version_1._0.View
 
         public void AskType()
         {
-            Console.WriteLine("Please enter the type of backup work you want to create: ");
+            Console.WriteLine("Please enter the type of the backup work: ");
         }
 
 

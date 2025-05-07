@@ -58,17 +58,51 @@ namespace Version_1._0
                         string? confirmation_3 = Console.ReadLine();
                         Console.Clear();
                         break;
+
                     case '4':
+
                         var update = new View.Update();
                         update.ShowList();
                         update.AskSaveName();
                         string? updateName = Console.ReadLine();
                         update.ShowWork();
                         update.AskItemToUpdate();
-                        string? itemToUpdate = Console.ReadLine();
-                        update.AskConfirmation();
+
+                        ConsoleKeyInfo itemToUpdate = Console.ReadKey(); 
+
+                        switch (itemToUpdate.KeyChar) 
+                        {
+                            case '1':
+                                update.AskSaveName();
+                                string? newName = Console.ReadLine();
+                                break;
+
+                            case '2':
+                                update.AskSource();
+                                string? newSource = Console.ReadLine();
+                                break;
+                            case '3':
+                                update.AskTarget();
+                                string? newTarget = Console.ReadLine();
+                                break;
+                            case '4':
+                                update.AskType();
+                                string? newType = Console.ReadLine();
+                                break;
+                            case '5':
+                                break;
+                            default:
+                                view.WarnInputError();
+                                break;
+                        }
+     
+                        
+
+                        update.AskConfirmation(); 
                         string? confirmation_4 = Console.ReadLine();
                         Console.Clear();
+                      
+           
                         break;
                     case '5':
                         view.ShowList();
