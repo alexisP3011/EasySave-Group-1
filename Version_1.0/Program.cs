@@ -171,10 +171,12 @@ namespace Version_1._0
                                 view.ShowWork(workToLaunch);
                                 view.AskConfirmation();
                                 string confirmation_5 = Console.ReadLine().ToLower();
-
+                                
                                 if (confirmation_5 == "y" || confirmation_5 == "yes")
                                 {
-                                  
+
+                                    viewModel.LaunchWork(workToLaunch);
+                                     
                                     Console.WriteLine("Launching the backup work...");
                                     Console.WriteLine("Press any key to continue...");
                                     Console.ReadKey();

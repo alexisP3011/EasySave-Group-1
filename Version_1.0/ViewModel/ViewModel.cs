@@ -136,5 +136,33 @@ namespace Version_1._0.ViewModel
         {
             return _works.Count;
         }
+
+        public void LaunchWork(Model.Work workToLaunch)
+        {
+            if (workToLaunch.state == "inactive")
+            {
+                workToLaunch.state = "active";
+
+                // Vérifier si le répertoire source existe
+                if (Directory.Exists(workToLaunch.source))
+                {
+                    // Créer le répertoire cible s'il n'existe pas
+                    if (!Directory.Exists(workToLaunch.target))
+                    {
+                        Directory.CreateDirectory(workToLaunch.target);
+                    }
+
+                    // Copier tous les fichiers du répertoire source vers le répertoire cible
+                    foreach (var file in Directory.GetFiles(workToLaunch.source))
+                    {
+                        string fileName = Path.GetFileName(file);
+                        string destFile = Path.Combine(workToLaunch.target, fileName);
+                        File.Copy(file, destFile, overwrite: true);
+                    }
+                }
+
+                _works.Remove(workToLaunch);
+            }
+        }
     }
 }
