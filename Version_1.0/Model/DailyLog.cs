@@ -88,19 +88,6 @@ namespace Version_1._0.Model
             };
             logEntries.Add(entry);
         }
-        //public async Task SaveLogsAsync()
-        //{
-        //    if (string.IsNullOrEmpty(saveName))
-        //    {
-        //        createLogFile();
-        //    }
-        //    var options = new JsonSerializerOptions
-        //    {
-        //        WriteIndented = true
-        //    };
-        //    string jsonString = JsonSerializer.Serialize(logEntries, options);
-        //    await File.WriteAllTextAsync(saveName, jsonString);
-        //}
         public void SaveLogs()
         {
             if (string.IsNullOrEmpty(saveName))
