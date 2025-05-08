@@ -10,7 +10,7 @@ namespace Version_1._0
         {
             bool exit = false;
             var view = new View.View();
-            ViewModel.ViewModel? work = null; // Declare the object outside the switch to share it across cases
+            ViewModel.ViewModel? work = null; 
 
             while (!exit)
             {
