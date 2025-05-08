@@ -63,12 +63,20 @@ namespace Version_1._0
                         break;
 
                     case '3':  // Delete a work
-                        var delete = new View.Add();
-                        view.ShowList();
-                        delete.AskSaveName();
-                    
-                        view.AskConfirmation();
-                        string? confirmation_3 = Console.ReadLine();
+                        if (work != null)
+                        {
+                            var delete = new View.Add();
+                            view.ShowList();
+                            delete.AskSaveName();
+
+                            view.AskConfirmation();
+                            string? confirmation_3 = Console.ReadLine();
+                        }
+                        else
+                        {
+                            Console.WriteLine("No work object available. Please create one first.");
+                            Console.ReadKey();
+                        }
                         Console.Clear();
                         break;
 
