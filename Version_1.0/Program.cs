@@ -1,4 +1,7 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Diagnostics;
+using Version_1._0.Model;
 using Version_1._0.View;
 
 namespace Version_1._0
@@ -171,16 +174,30 @@ namespace Version_1._0
                                 view.ShowWork(workToLaunch);
                                 view.AskConfirmation();
                                 string confirmation_5 = Console.ReadLine().ToLower();
-                                
+
+                                Stopwatch chrono = new Stopwatch();
+
                                 if (confirmation_5 == "y" || confirmation_5 == "yes")
                                 {
-
+                                    chrono.Start();
                                     viewModel.LaunchWork(workToLaunch);
-                                     
+                                    chrono.Stop();
+
                                     Console.WriteLine("Launching the backup work...");
                                     Console.WriteLine("Press any key to continue...");
+  
+
+                                    DailyLog logger = DailyLog.getInstance();
+
+                                    logger.createLogFile();
+                                    logger.AddLogEntry(workToLaunch.name, workToLaunch.source, workToLaunch.target, logger.CountFilesInSource(workToLaunch.source), chrono.ElapsedMilliseconds);
+                                    logger.SaveLogs();
+
                                     Console.ReadKey();
                                 }
+
+
+
                             }
                             else
                             {
