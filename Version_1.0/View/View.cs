@@ -9,9 +9,17 @@ namespace Version_1._0.View
 {
     public class View
     {
-        private readonly ViewModel.ViewModel _vm = new ViewModel.ViewModel();
+        private readonly ViewModel.ViewModel _vm;
 
-        public View() { }
+        public View()
+        {
+            _vm = new ViewModel.ViewModel();
+        }
+
+        public View(ViewModel.ViewModel viewModel)
+        {
+            _vm = viewModel;
+        }
 
         public void ShowMenu()
         {
@@ -43,16 +51,58 @@ namespace Version_1._0.View
             Console.WriteLine("Invalid input. Please try again.");
         }
 
-        public void ShowList(ViewModel.ViewModel _vm)
+        public void ShowList(ViewModel.ViewModel viewModel)
         {
-            Console.WriteLine("Here is the list of your backup works: ");
-            Console.WriteLine($"Name: {_vm.GetName()}");
-            Console.WriteLine($"Source: {_vm.GetSource()}");
-            Console.WriteLine($"Target: {_vm.GetTarget()}");
-            Console.WriteLine($"Type: {_vm.GetType()}");
-            Console.WriteLine($"State: {_vm.GetState()}");
+            var works = viewModel.GetAllWorks();
+            if (works.Count == 0)
+            {
+                Console.WriteLine("No backup works available.");
+            }
+            else
+            {
+                Console.WriteLine("Here is the list of your backup works: ");
+                int index = 1;
+                foreach (var work in works)
+                {
+                    Console.WriteLine($"--- Work {index} ---");
+                    Console.WriteLine($"Name: {work.name}");
+                    Console.WriteLine($"Source: {work.source}");
+                    Console.WriteLine($"Target: {work.target}");
+                    Console.WriteLine($"Type: {work.type}");
+                    Console.WriteLine($"State: {work.state}");
+                    Console.WriteLine();
+                    index++;
+                }
+            }
 
+            Console.WriteLine("Press any key to continue...");
             Console.ReadKey();
+        }
+
+        public void ShowWork(Model.Work work)
+        {
+            Console.WriteLine("Here is the work details: ");
+            Console.WriteLine($"Name: {work.name}");
+            Console.WriteLine($"Source: {work.source}");
+            Console.WriteLine($"Target: {work.target}");
+            Console.WriteLine($"Type: {work.type}");
+            Console.WriteLine($"State: {work.state}");
+        }
+
+        public void ShowCurrentWork(ViewModel.ViewModel viewModel)
+        {
+            Console.WriteLine("Current work details:");
+            Console.WriteLine($"Name: {viewModel.GetName()}");
+            Console.WriteLine($"Source: {viewModel.GetSource()}");
+            Console.WriteLine($"Target: {viewModel.GetTarget()}");
+            Console.WriteLine($"Type: {viewModel.GetType()}");
+            Console.WriteLine($"State: {viewModel.GetState()}");
+        }
+
+        public string AskWorkName()
+        {
+            Console.WriteLine("Enter the name of the work:");
+            return Console.ReadLine();
         }
 
         public void ShowLeaveMessage()
@@ -63,6 +113,34 @@ namespace Version_1._0.View
         public void ShowWork()
         {
             Console.WriteLine("Here is the work you selected: ");
+        }
+
+        public void ShowNoWorkAvailable()
+        {
+            Console.WriteLine("No work available with this name.");
+            Console.WriteLine("Press any key to continue...");
+            Console.ReadKey();
+        }
+
+        public void ShowWorkCreatedMessage()
+        {
+            Console.WriteLine("Work created successfully!");
+            Console.WriteLine("Press any key to continue...");
+            Console.ReadKey();
+        }
+
+        public void ShowWorkDeletedMessage()
+        {
+            Console.WriteLine("Work deleted successfully!");
+            Console.WriteLine("Press any key to continue...");
+            Console.ReadKey();
+        }
+
+        public void ShowWorkUpdatedMessage()
+        {
+            Console.WriteLine("Work updated successfully!");
+            Console.WriteLine("Press any key to continue...");
+            Console.ReadKey();
         }
     }
 }
