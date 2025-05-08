@@ -44,15 +44,9 @@ namespace Version_1._0
                     case '2': // Show work details
                         if (work != null) 
                         {
-                            view.ShowList();
+                            view.ShowList(work);
 
-                            Console.WriteLine($"Name: {work.GetName()}");
-                            Console.WriteLine($"Source: {work.GetSource()}");
-                            Console.WriteLine($"Target: {work.GetTarget()}");
-                            Console.WriteLine($"Type: {work.GetType()}");
-                            Console.WriteLine($"State: {work.GetState()}");
 
-                            Console.ReadKey();
                         }
                         else
                         {
@@ -64,7 +58,7 @@ namespace Version_1._0
 
                     case '3':  // Delete a work
                         var delete = new View.Add();
-                        view.ShowList();
+                        view.ShowList(work);
                         delete.AskSaveName();
                     
                         view.AskConfirmation();
@@ -74,7 +68,7 @@ namespace Version_1._0
 
                     case '4': // Update a work
                         var update = new View.Update();
-                        update.ShowList();
+                        update.ShowList(work);
                         update.AskSaveName();
                         string? updateName = Console.ReadLine();
                         update.ShowWork();
@@ -114,7 +108,7 @@ namespace Version_1._0
 
                         break;
                     case '5': // Launch a work
-                        view.ShowList();
+                        view.ShowList(work);
                         view.ShowMessageChoice();
                         string? workToLaunch = Console.ReadLine();
                         view.ShowWork();

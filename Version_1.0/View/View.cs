@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Version_1._0.Model;
 
 namespace Version_1._0.View
 {
@@ -42,9 +43,16 @@ namespace Version_1._0.View
             Console.WriteLine("Invalid input. Please try again.");
         }
 
-        public void ShowList()
+        public void ShowList(ViewModel.ViewModel _vm)
         {
             Console.WriteLine("Here is the list of your backup works: ");
+            Console.WriteLine($"Name: {_vm.GetName()}");
+            Console.WriteLine($"Source: {_vm.GetSource()}");
+            Console.WriteLine($"Target: {_vm.GetTarget()}");
+            Console.WriteLine($"Type: {_vm.GetType()}");
+            Console.WriteLine($"State: {_vm.GetState()}");
+
+            Console.ReadKey();
         }
 
         public void ShowLeaveMessage()
