@@ -81,46 +81,54 @@ namespace Version_1._0
                         break;
 
                     case '4': // Update a work
-                        var update = new View.Update();
-                        update.ShowList();
-                        update.AskSaveName();
-                        string? updateName = Console.ReadLine();
-                        update.ShowWork();
-                        update.AskItemToUpdate();
-
-                        ConsoleKeyInfo itemToUpdate = Console.ReadKey();
-
-                        switch (itemToUpdate.KeyChar)
+                        if (work != null)
                         {
-                            case '1':
-                                update.AskSaveName();
-                                string? newName = Console.ReadLine();
-                                break;
+                            var update = new View.Update();
+                            update.ShowList();
+                            update.AskSaveName();
+                            string? updateName = Console.ReadLine();
+                            update.ShowWork();
+                            update.AskItemToUpdate();
 
-                            case '2':
-                                update.AskSource();
-                                string? newSource = Console.ReadLine();
-                                break;
-                            case '3':
-                                update.AskTarget();
-                                string? newTarget = Console.ReadLine();
-                                break;
-                            case '4':
-                                update.AskType();
-                                string? newType = Console.ReadLine();
-                                break;
-                            case '5':
-                                break;
-                            default:
-                                view.WarnInputError();
-                                break;
+                            ConsoleKeyInfo itemToUpdate = Console.ReadKey();
+
+                            switch (itemToUpdate.KeyChar)
+                            {
+                                case '1':
+                                    update.AskSaveName();
+                                    string? newName = Console.ReadLine();
+                                    break;
+
+                                case '2':
+                                    update.AskSource();
+                                    string? newSource = Console.ReadLine();
+                                    break;
+                                case '3':
+                                    update.AskTarget();
+                                    string? newTarget = Console.ReadLine();
+                                    break;
+                                case '4':
+                                    update.AskType();
+                                    string? newType = Console.ReadLine();
+                                    break;
+                                case '5':
+                                    break;
+                                default:
+                                    view.WarnInputError();
+                                    break;
+                            }
+
+                            update.AskConfirmation();
+                            string? confirmation_4 = Console.ReadLine();
                         }
-
-                        update.AskConfirmation();
-                        string? confirmation_4 = Console.ReadLine();
+                        else
+                        {
+                            Console.WriteLine("No work object available. Please create one first.");
+                            Console.ReadKey();
+                        }
                         Console.Clear();
-
                         break;
+
                     case '5': // Launch a work
                         view.ShowList();
                         view.ShowMessageChoice();
