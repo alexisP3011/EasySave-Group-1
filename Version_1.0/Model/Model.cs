@@ -13,7 +13,7 @@ namespace Version_1._0.Model
             source = "";
             target = "";
             type = "";
-            state = "";     
+            state = "inactive";     
 
         }
 
@@ -28,7 +28,7 @@ namespace Version_1._0.Model
         public string type { get; set; }
         public string state { get; set; }
 
-
+        
 
         
 

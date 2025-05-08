@@ -8,9 +8,9 @@ namespace Version_1._0.ViewModel
 {
     public class ViewModel
     {
-
         private readonly Model.Work _work = new Model.Work();
-        public ViewModel() 
+
+        public ViewModel()
         {
             //input = "";
             //output = "";
@@ -54,8 +54,15 @@ namespace Version_1._0.ViewModel
             _work.type = input;
         }
 
+        public string GetState()
+        {
+            return output = _work.state; 
+        }
 
-
-
+        public string SetState(string input)
+        {
+            _work.state = input;
+            return _work.state;
+        }
     }
 }

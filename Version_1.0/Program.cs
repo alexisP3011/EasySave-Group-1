@@ -20,9 +20,9 @@ namespace Version_1._0
                 Console.Clear();
                 switch (choice.KeyChar)
                 {
-                    case '1':
+                    case '1': // Create a new work
                         var add = new View.Add();
-                        work = new ViewModel.ViewModel(); // Initialize the object 
+                        work = new ViewModel.ViewModel();  
                         add.AskSaveName();
                         work.SetName(Console.ReadLine());
 
@@ -41,7 +41,7 @@ namespace Version_1._0
                         Console.Clear();
                         break;
 
-                    case '2':
+                    case '2': // Show work details
                         if (work != null) 
                         {
                             view.ShowList();
@@ -50,6 +50,7 @@ namespace Version_1._0
                             Console.WriteLine($"Source: {work.GetSource()}");
                             Console.WriteLine($"Target: {work.GetTarget()}");
                             Console.WriteLine($"Type: {work.GetType()}");
+                            Console.WriteLine($"State: {work.GetState()}");
 
                             Console.ReadKey();
                         }
@@ -61,17 +62,17 @@ namespace Version_1._0
                         Console.Clear();
                         break;
 
-                    case '3':
+                    case '3':  // Delete a work
                         var delete = new View.Add();
                         view.ShowList();
                         delete.AskSaveName();
-                        string? deleteName = Console.ReadLine();
+                    
                         view.AskConfirmation();
                         string? confirmation_3 = Console.ReadLine();
                         Console.Clear();
                         break;
 
-                    case '4':
+                    case '4': // Update a work
                         var update = new View.Update();
                         update.ShowList();
                         update.AskSaveName();
@@ -112,7 +113,7 @@ namespace Version_1._0
                         Console.Clear();
 
                         break;
-                    case '5':
+                    case '5': // Launch a work
                         view.ShowList();
                         view.ShowMessageChoice();
                         string? workToLaunch = Console.ReadLine();
@@ -122,7 +123,7 @@ namespace Version_1._0
                         Console.Clear();
 
                         break;
-                    case '6':
+                    case '6': // Change language
                         var language = new View.Language();
                         language.ShowCurrentLanguage();
                         language.ShowAvailableLanguage();
@@ -133,7 +134,9 @@ namespace Version_1._0
                         Console.Clear();
 
                         break;
-                    case '7':
+
+
+                    case '7':// Exit the program
                         view.AskConfirmation();
                         string? confirmation_7 = Console.ReadLine();
 
