@@ -13,3 +13,18 @@ C:\Users\pfrsc\OneDrive - Association Cesi Viacesi mail\A3\Bloc Génie logiciel\
 C:\Users\pfrsc\OneDrive - Association Cesi Viacesi mail\A3\Bloc Génie logiciel\Projet\EasySave-Groupe-1\Version_1.0\obj\Debug\net8.0\Version_1.0.pdb
 C:\Users\pfrsc\OneDrive - Association Cesi Viacesi mail\A3\Bloc Génie logiciel\Projet\EasySave-Groupe-1\Version_1.0\obj\Debug\net8.0\Version_1.0.genruntimeconfig.cache
 C:\Users\pfrsc\OneDrive - Association Cesi Viacesi mail\A3\Bloc Génie logiciel\Projet\EasySave-Groupe-1\Version_1.0\obj\Debug\net8.0\ref\Version_1.0.dll
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_1.0\bin\Debug\net8.0\Version_1.0.exe
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_1.0\bin\Debug\net8.0\Version_1.0.deps.json
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_1.0\bin\Debug\net8.0\Version_1.0.runtimeconfig.json
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_1.0\bin\Debug\net8.0\Version_1.0.dll
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_1.0\bin\Debug\net8.0\Version_1.0.pdb
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_1.0\obj\Debug\net8.0\Version_1.0.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_1.0\obj\Debug\net8.0\Version_1.0.AssemblyInfoInputs.cache
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_1.0\obj\Debug\net8.0\Version_1.0.AssemblyInfo.cs
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_1.0\obj\Debug\net8.0\Version_1.0.csproj.CoreCompileInputs.cache
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_1.0\obj\Debug\net8.0\Version_1.0.sourcelink.json
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_1.0\obj\Debug\net8.0\Version_1.0.dll
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_1.0\obj\Debug\net8.0\refint\Version_1.0.dll
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_1.0\obj\Debug\net8.0\Version_1.0.pdb
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_1.0\obj\Debug\net8.0\Version_1.0.genruntimeconfig.cache
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_1.0\obj\Debug\net8.0\ref\Version_1.0.dll
