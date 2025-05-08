@@ -69,10 +69,10 @@ namespace Version_1._0.ViewModel
             return _currentWork.state;
         }
 
-        // Méthodes pour la gestion de la liste des travaux
+       
         public void AddWork()
         {
-            // Créer une copie du travail actuel et l'ajouter à la liste
+
             Model.Work newWork = new Model.Work
             {
                 name = _currentWork.name,
@@ -84,7 +84,6 @@ namespace Version_1._0.ViewModel
 
             _works.Add(newWork);
 
-            // Réinitialiser le travail actuel
             _currentWork = new Model.Work();
         }
 
@@ -123,11 +122,11 @@ namespace Version_1._0.ViewModel
 
         public void UpdateWork(string name)
         {
-            // Trouver le travail dans la liste
+
             Model.Work workToUpdate = _works.FirstOrDefault(w => w.name == name);
             if (workToUpdate != null)
             {
-                // Mettre à jour avec les valeurs du travail actuel
+
                 int index = _works.IndexOf(workToUpdate);
                 _works[index] = _currentWork;
             }

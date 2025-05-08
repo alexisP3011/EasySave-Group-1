@@ -1,7 +1,6 @@
 ﻿using System;
 using Version_1._0.View;
 
-
 namespace Version_1._0
 {
     class Program
@@ -9,8 +8,8 @@ namespace Version_1._0
         static void Main(string[] args)
         {
             bool exit = false;
-            var view = new View.View();
-            ViewModel.ViewModel? work = null; 
+            var viewModel = new ViewModel.ViewModel();
+            var view = new View.View(viewModel);
 
             while (!exit)
             {
@@ -21,123 +20,203 @@ namespace Version_1._0
                 switch (choice.KeyChar)
                 {
                     case '1': // Create a new work
-                        var add = new View.Add();
-                        work = new ViewModel.ViewModel();  
-                        add.AskSaveName();
-                        work.SetName(Console.ReadLine());
+                        view.ShowList(viewModel);
 
-                        add.AskSource();
-                        work.SetSource(Console.ReadLine());
-
-                        add.AskTarget();
-                        work.SetTarget(Console.ReadLine());
-
-                        add.AskType();
-                        work.SetType(Console.ReadLine());
-
-                        view.AskConfirmation();
-                        string? confirmation = Console.ReadLine();
-
-                        Console.Clear();
-                        break;
-
-                    case '2': // Show work details
-                        if (work != null) 
+                        if (viewModel.GetWorkCount() < 5)
                         {
-                            view.ShowList(work);
 
+                            var add = new View.Add();
 
+                            add.AskSaveName();
+                            viewModel.SetName(Console.ReadLine());
+
+                            add.AskSource();
+                            viewModel.SetSource(Console.ReadLine());
+
+                            add.AskTarget();
+                            viewModel.SetTarget(Console.ReadLine());
+
+                            add.AskType();
+                            viewModel.SetType(Console.ReadLine());
+
+                            view.AskConfirmation();
+                            string confirmation = Console.ReadLine().ToLower();
+
+                            if (confirmation == "y" || confirmation == "yes")
+                            {
+                                viewModel.AddWork();
+                                view.ShowWorkCreatedMessage();
+                            }
+
+                            Console.Clear();
                         }
                         else
                         {
-                            Console.WriteLine("No work object available. Please create one first.");
+                            Console.WriteLine("You have reached the maximum number of backup works (5). Please delete one before creating a new one.");
                             Console.ReadKey();
+                            Console.Clear();
                         }
+                            break;
+
+                    case '2': // Show work details
+                        view.ShowList(viewModel);
                         Console.Clear();
                         break;
 
                     case '3':  // Delete a work
-                        var delete = new View.Add();
-                        view.ShowList(work);
-                        delete.AskSaveName();
-                    
-                        view.AskConfirmation();
-                        string? confirmation_3 = Console.ReadLine();
+                        view.ShowList(viewModel);
+
+                        if (viewModel.GetWorkCount() > 0)
+                        {
+                            string workName = view.AskWorkName();
+                            var workToDelete = viewModel.GetWorkByName(workName);
+
+                            if (workToDelete != null)
+                            {
+                                view.ShowWork(workToDelete);
+                                view.AskConfirmation();
+                                string confirmation_3 = Console.ReadLine().ToLower();
+
+                                if (confirmation_3 == "y" || confirmation_3 == "yes")
+                                {
+                                    viewModel.DeleteWork(workName);
+                                    view.ShowWorkDeletedMessage();
+                                }
+                            }
+                            else
+                            {
+                                view.ShowNoWorkAvailable();
+                            }
+                        }
+
                         Console.Clear();
                         break;
 
                     case '4': // Update a work
                         var update = new View.Update();
-                        update.ShowList(work);
-                        update.AskSaveName();
-                        string? updateName = Console.ReadLine();
-                        update.ShowWork();
-                        update.AskItemToUpdate();
+                        update.ShowList(viewModel);
 
-                        ConsoleKeyInfo itemToUpdate = Console.ReadKey();
-
-                        switch (itemToUpdate.KeyChar)
+                        if (viewModel.GetWorkCount() > 0)
                         {
-                            case '1':
-                                update.AskSaveName();
-                                string? newName = Console.ReadLine();
-                                break;
+                            update.AskSaveName();
+                            string updateName = Console.ReadLine();
 
-                            case '2':
-                                update.AskSource();
-                                string? newSource = Console.ReadLine();
-                                break;
-                            case '3':
-                                update.AskTarget();
-                                string? newTarget = Console.ReadLine();
-                                break;
-                            case '4':
-                                update.AskType();
-                                string? newType = Console.ReadLine();
-                                break;
-                            case '5':
-                                break;
-                            default:
-                                view.WarnInputError();
-                                break;
+                            var workToUpdate = viewModel.GetWorkByName(updateName);
+                            if (workToUpdate != null)
+                            {
+                                viewModel.LoadWorkToCurrent(updateName);
+                                view.ShowCurrentWork(viewModel);
+
+                                update.AskItemToUpdate();
+                                ConsoleKeyInfo itemToUpdate = Console.ReadKey();
+                                Console.WriteLine();
+
+                                switch (itemToUpdate.KeyChar)
+                                {
+                                    case '1':
+                                        update.AskSaveName();
+                                        viewModel.SetName(Console.ReadLine());
+                                        break;
+
+                                    case '2':
+                                        update.AskSource();
+                                        viewModel.SetSource(Console.ReadLine());
+                                        break;
+                                    case '3':
+                                        update.AskTarget();
+                                        viewModel.SetTarget(Console.ReadLine());
+                                        break;
+                                    case '4':
+                                        update.AskType();
+                                        viewModel.SetType(Console.ReadLine());
+                                        break;
+                                    case '5':
+                                        break;
+                                    default:
+                                        view.WarnInputError();
+                                        break;
+                                }
+
+                                if (itemToUpdate.KeyChar >= '1' && itemToUpdate.KeyChar <= '4')
+                                {
+                                    update.AskConfirmation();
+                                    string confirmation_4 = Console.ReadLine().ToLower();
+
+                                    if (confirmation_4 == "y" || confirmation_4 == "yes")
+                                    {
+                                        viewModel.UpdateWork(updateName);
+                                        view.ShowWorkUpdatedMessage();
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                view.ShowNoWorkAvailable();
+                            }
                         }
 
-                        update.AskConfirmation();
-                        string? confirmation_4 = Console.ReadLine();
                         Console.Clear();
-
                         break;
+
                     case '5': // Launch a work
-                        view.ShowList(work);
-                        view.ShowMessageChoice();
-                        string? workToLaunch = Console.ReadLine();
-                        view.ShowWork();
-                        view.AskConfirmation();
-                        string? confirmation_5 = Console.ReadLine();
-                        Console.Clear();
+                        view.ShowList(viewModel);
 
+                        if (viewModel.GetWorkCount() > 0)
+                        {
+                            string workName = view.AskWorkName();
+                            var workToLaunch = viewModel.GetWorkByName(workName);
+
+                            if (workToLaunch != null)
+                            {
+                                view.ShowWork(workToLaunch);
+                                view.AskConfirmation();
+                                string confirmation_5 = Console.ReadLine().ToLower();
+
+                                if (confirmation_5 == "y" || confirmation_5 == "yes")
+                                {
+                                  
+                                    Console.WriteLine("Launching the backup work...");
+                                    Console.WriteLine("Press any key to continue...");
+                                    Console.ReadKey();
+                                }
+                            }
+                            else
+                            {
+                                view.ShowNoWorkAvailable();
+                            }
+                        }
+
+                        Console.Clear();
                         break;
+
                     case '6': // Change language
                         var language = new View.Language();
                         language.ShowCurrentLanguage();
                         language.ShowAvailableLanguage();
                         language.ShowMessageChoice();
-                        string? languageChoice = Console.ReadLine();
+                        string languageChoice = Console.ReadLine();
                         language.AskConfirmation();
-                        string? confirmation_6 = Console.ReadLine();
+                        string confirmation_6 = Console.ReadLine();
                         Console.Clear();
-
                         break;
-
 
                     case '7':// Exit the program
                         view.AskConfirmation();
-                        string? confirmation_7 = Console.ReadLine();
+                        string confirmation_7 = Console.ReadLine().ToLower();
 
-                        exit = true;
+                        if (confirmation_7 == "y" || confirmation_7 == "yes")
+                        {
+                            exit = true;
+                        }
+
+                        Console.Clear();
                         break;
+
                     default:
                         Console.WriteLine("Invalid option. Please try again.");
+                        Console.WriteLine("Press any key to continue...");
+                        Console.ReadKey();
+                        Console.Clear();
                         break;
                 }
             }
