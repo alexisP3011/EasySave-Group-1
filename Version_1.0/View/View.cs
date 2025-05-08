@@ -30,7 +30,7 @@ namespace Version_1._0.View
             Console.WriteLine("3. Delete a backup work");
             Console.WriteLine("4. Update a backup work");
             Console.WriteLine("5. Launch a backup work");
-            Console.WriteLine("6. Change the the application language");
+            Console.WriteLine("6. Change the application language");
             Console.WriteLine("7. Exit");
 
             Console.Write("Enter your choice: ");
@@ -38,11 +38,13 @@ namespace Version_1._0.View
 
         public void ShowMessageChoice()
         {
+            Console.WriteLine();
             Console.WriteLine("Please select an option:");
         }
 
         public void AskConfirmation()
         {
+            Console.WriteLine();
             Console.WriteLine("Are you sure you want to do this operation? (y/n)");
         }
 
@@ -81,6 +83,7 @@ namespace Version_1._0.View
 
         public void ShowWork(Model.Work work)
         {
+            Console.WriteLine();
             Console.WriteLine("Here is the work details: ");
             Console.WriteLine($"Name: {work.name}");
             Console.WriteLine($"Source: {work.source}");
@@ -91,6 +94,7 @@ namespace Version_1._0.View
 
         public void ShowCurrentWork(ViewModel.ViewModel viewModel)
         {
+            Console.WriteLine();
             Console.WriteLine("Current work details:");
             Console.WriteLine($"Name: {viewModel.GetName()}");
             Console.WriteLine($"Source: {viewModel.GetSource()}");
@@ -101,6 +105,7 @@ namespace Version_1._0.View
 
         public string AskWorkName()
         {
+            Console.WriteLine();
             Console.WriteLine("Enter the name of the work:");
             return Console.ReadLine();
         }
@@ -112,6 +117,7 @@ namespace Version_1._0.View
 
         public void ShowWork()
         {
+            Console.WriteLine();
             Console.WriteLine("Here is the work you selected: ");
         }
 
@@ -124,6 +130,7 @@ namespace Version_1._0.View
 
         public void ShowWorkCreatedMessage()
         {
+            Console.WriteLine();
             Console.WriteLine("Work created successfully!");
             Console.WriteLine("Press any key to continue...");
             Console.ReadKey();
@@ -131,6 +138,7 @@ namespace Version_1._0.View
 
         public void ShowWorkDeletedMessage()
         {
+            Console.WriteLine();
             Console.WriteLine("Work deleted successfully!");
             Console.WriteLine("Press any key to continue...");
             Console.ReadKey();
@@ -138,6 +146,7 @@ namespace Version_1._0.View
 
         public void ShowWorkUpdatedMessage()
         {
+            Console.WriteLine();
             Console.WriteLine("Work updated successfully!");
             Console.WriteLine("Press any key to continue...");
             Console.ReadKey();

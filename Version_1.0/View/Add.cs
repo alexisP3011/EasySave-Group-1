@@ -12,20 +12,24 @@ namespace Version_1._0.View
 
         public void AskSaveName()
         {
+            Console.WriteLine();
             Console.WriteLine("Please enter the name of the backup work: ");
         }
 
         public void AskSource()
         {
+            Console.WriteLine();
             Console.WriteLine("Please enter your source: ");
         }
         public void AskTarget()
         {
+            Console.WriteLine();
             Console.WriteLine("Please enter your target: ");
         }
 
         public void AskType()
         {
+            Console.WriteLine();
             Console.WriteLine("Please enter the type of the backup work: ");
         }
 
