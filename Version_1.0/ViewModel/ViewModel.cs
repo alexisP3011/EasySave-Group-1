@@ -143,16 +143,16 @@ namespace Version_1._0.ViewModel
             {
                 workToLaunch.state = "active";
 
-                // Vérifier si le répertoire source existe
+                // Verify if the source directory exists
                 if (Directory.Exists(workToLaunch.source))
                 {
-                    // Créer le répertoire cible s'il n'existe pas
+                    // Create the target directory if it doesn't exist
                     if (!Directory.Exists(workToLaunch.target))
                     {
                         Directory.CreateDirectory(workToLaunch.target);
                     }
 
-                    // Copier tous les fichiers du répertoire source vers le répertoire cible
+                    // Copy all of the files to the new location
                     foreach (var file in Directory.GetFiles(workToLaunch.source))
                     {
                         string fileName = Path.GetFileName(file);
@@ -160,8 +160,9 @@ namespace Version_1._0.ViewModel
                         File.Copy(file, destFile, overwrite: true);
                     }
                 }
+                workToLaunch.state = "finished";
 
-                _works.Remove(workToLaunch);
+                //_works.Remove(workToLaunch);
             }
         }
     }
