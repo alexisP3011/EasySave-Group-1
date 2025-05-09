@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
+using System.Diagnostics;
 using System.Threading.Tasks;
+
 namespace Version_1._0.Model
 {
     public class DailyLog
@@ -11,10 +13,12 @@ namespace Version_1._0.Model
         private static DailyLog instance;
         private string saveName;
         private List<LogEntry> logEntries;
+
         private DailyLog()
         {
             logEntries = new List<LogEntry>();
         }
+
         public static DailyLog getInstance()
         {
             if (instance == null)
@@ -23,19 +27,25 @@ namespace Version_1._0.Model
             }
             return instance;
         }
+
         public void createLogFile(string name = null, string directory = null)
         {
             string directoryPath = string.IsNullOrEmpty(directory)
-                ? Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads" 
+                ? Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads"
                 : directory;
+
             if (!Directory.Exists(directoryPath))
             {
                 Directory.CreateDirectory(directoryPath);
             }
+
             if (string.IsNullOrEmpty(name))
             {
-
                 saveName = Path.Combine(directoryPath, $"{DateTime.Now:yyyy-MM-dd}.json");
+            }
+            else
+            {
+                saveName = Path.Combine(directoryPath, name);
             }
 
             if (!File.Exists(saveName))
@@ -70,8 +80,46 @@ namespace Version_1._0.Model
             }
             catch (Exception ex)
             {
-            
                 return 0;
+            }
+        }
+
+        public double GetFileSizeInKB(string filePath)
+        {
+            if (string.IsNullOrEmpty(filePath) || !File.Exists(filePath))
+            {
+                return 0;
+            }
+
+            try
+            {
+                FileInfo fileInfo = new FileInfo(filePath);
+                return Math.Round((double)fileInfo.Length / 1024, 2);
+            }
+            catch (Exception ex)
+            {
+                return 0;
+            }
+        }
+
+        public List<string> ListAllFiles(string directory, string searchPattern = "*.*", SearchOption searchOption = SearchOption.TopDirectoryOnly)
+        {
+            List<string> filesList = new List<string>();
+
+            if (string.IsNullOrEmpty(directory) || !Directory.Exists(directory))
+            {
+                return filesList;
+            }
+
+            try
+            {
+                string[] files = Directory.GetFiles(directory, searchPattern, searchOption);
+                filesList.AddRange(files);
+                return filesList;
+            }
+            catch (Exception ex)
+            {
+                return filesList;
             }
         }
 
@@ -88,6 +136,7 @@ namespace Version_1._0.Model
             };
             logEntries.Add(entry);
         }
+
         public void SaveLogs()
         {
             if (string.IsNullOrEmpty(saveName))
@@ -102,15 +151,95 @@ namespace Version_1._0.Model
             string jsonString = JsonSerializer.Serialize(logEntries, options);
             File.WriteAllText(saveName, jsonString);
         }
+
         public void ClearLogs()
         {
             logEntries.Clear();
         }
+
         public List<LogEntry> GetLogEntries()
         {
             return logEntries;
         }
+
+        public void TransferFilesWithLogs(string sourcePath, string destinationPath, string saveName, bool recursive = false)
+        {
+            if (!Directory.Exists(sourcePath))
+            {
+                Console.WriteLine($"Source directory {sourcePath} does not exist.");
+                return;
+            }
+
+            if (!Directory.Exists(destinationPath))
+            {
+                Directory.CreateDirectory(destinationPath);
+            }
+
+         
+            SearchOption searchOption = recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
+
+            List<string> files = ListAllFiles(sourcePath, "*.*", searchOption);
+
+            foreach (string file in files)
+            {
+                string relativePath;
+                if (recursive)
+                {
+                    
+                    relativePath = file.Substring(sourcePath.Length).TrimStart('\\', '/');
+                }
+                else
+                {
+                    relativePath = Path.GetFileName(file);
+                }
+
+                string destFile = Path.Combine(destinationPath, relativePath);
+
+                
+                string destDir = Path.GetDirectoryName(destFile);
+                if (!Directory.Exists(destDir))
+                {
+                    Directory.CreateDirectory(destDir);
+                }
+
+                
+                Stopwatch stopwatch = new Stopwatch();
+                stopwatch.Start();
+
+                try
+                {
+                  
+                    File.Copy(file, destFile, true);
+
+                    stopwatch.Stop();
+
+                    
+                    long fileSize = new FileInfo(file).Length;
+
+                    double transferTimeMs = stopwatch.Elapsed.TotalMilliseconds;
+                    double transferTimeSec = Math.Round(transferTimeMs / 1000, 3);
+
+                    AddLogEntry(
+                        saveName,
+                        file,  
+                        destFile,  
+                        fileSize,
+                        transferTimeSec
+                    );
+
+                   
+                    SaveLogs();
+
+                }
+                catch (Exception ex)
+                {
+               
+                }
+            }
+
+        }
     }
+
     public class LogEntry
     {
         public string Name { get; set; }
