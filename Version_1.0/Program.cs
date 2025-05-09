@@ -27,23 +27,29 @@ namespace Version_1._0
                 {
                     case '1': // Create a new work
                         view.ShowList(viewModel);
-
+                        
                         if (viewModel.GetWorkCount() < 5)
                         {
-
+                            
                             var add = new View.Add();
 
+                            add.language = view.language;
+
                             add.AskSaveName();
-                            viewModel.SetName(Console.ReadLine());
+                            viewModel.input = Console.ReadLine();
+                            viewModel.SetName();
 
                             add.AskSource();
-                            viewModel.SetSource(Console.ReadLine());
+                            viewModel.input = Console.ReadLine() ;
+                            viewModel.SetSource();
 
                             add.AskTarget();
-                            viewModel.SetTarget(Console.ReadLine());
+                            viewModel.input = Console.ReadLine();
+                            viewModel.SetTarget();
 
                             add.AskType();
-                            viewModel.SetType(Console.ReadLine());
+                            viewModel.input = Console.ReadLine();
+                            viewModel.SetType();
 
                             view.AskConfirmation();
                             string confirmation = Console.ReadLine().ToLower();
@@ -98,6 +104,8 @@ namespace Version_1._0
 
                     case '4': // Update a work
                         var update = new View.Update();
+                        update.language = view.language;
+
                         update.ShowList(viewModel);
 
                         if (viewModel.GetWorkCount() > 0)
@@ -119,20 +127,24 @@ namespace Version_1._0
                                 {
                                     case '1':
                                         update.AskSaveName();
-                                        viewModel.SetName(Console.ReadLine());
+                                        viewModel.input = Console.ReadLine();
+                                        viewModel.SetName();
                                         break;
 
                                     case '2':
                                         update.AskSource();
-                                        viewModel.SetSource(Console.ReadLine());
+                                        viewModel.input = Console.ReadLine();
+                                        viewModel.SetSource();
                                         break;
                                     case '3':
                                         update.AskTarget();
-                                        viewModel.SetTarget(Console.ReadLine());
+                                        viewModel.input = Console.ReadLine();
+                                        viewModel.SetTarget();
                                         break;
                                     case '4':
                                         update.AskType();
-                                        viewModel.SetType(Console.ReadLine());
+                                        viewModel.input = Console.ReadLine();
+                                        viewModel.SetType();
                                         break;
                                     case '5':
                                         break;
@@ -189,7 +201,7 @@ namespace Version_1._0
                                     DailyLog logger = DailyLog.getInstance();
 
                                     logger.createLogFile();
-                                    logger.AddLogEntry(workToLaunch.name, workToLaunch.source, workToLaunch.target, logger.CountFilesInSource(workToLaunch.source), chrono.ElapsedMilliseconds);
+                                    logger.AddLogEntry(workToLaunch.GetName(), workToLaunch.GetSource(), workToLaunch.GetTarget(), logger.CountFilesInSource(workToLaunch.GetSource()), chrono.ElapsedMilliseconds);
                                     logger.SaveLogs();
 
                                     Console.ReadKey();
@@ -208,7 +220,9 @@ namespace Version_1._0
                         break;
 
                     case '6': // Change language
+                        language.language = view.language;
                         language.ShowAvailableLanguage();
+                        
                         view.ShowMessageChoice();
 
                         ConsoleKeyInfo languageChoice = Console.ReadKey();
@@ -217,6 +231,7 @@ namespace Version_1._0
                             case '1':
                                 if (view.language == "English")
                                 {
+                                    language.WarnCurrrentLanguage();
                                     view.ShowNext();
                                 }
                                 else
@@ -241,6 +256,7 @@ namespace Version_1._0
                             case '2':
                                 if (view.language == "French")
                                 {
+                                    language.WarnCurrrentLanguage();
                                     view.ShowNext();
                                 }
                                 else
@@ -292,3 +308,4 @@ namespace Version_1._0
             Console.Clear();
         }
     }
+}

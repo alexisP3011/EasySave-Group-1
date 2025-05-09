@@ -28,7 +28,7 @@ namespace Version_1._0.ViewModel
             return output = _currentWork.GetName();
         }
 
-        public void SetName(string input)
+        public void SetName()
         {
             _currentWork.SetName(input);
         }
@@ -37,7 +37,7 @@ namespace Version_1._0.ViewModel
         {
             return output = _currentWork.GetSource();
         }
-        public void SetSource(string input)
+        public void SetSource()
         {
             _currentWork.SetSource(input);
         }
@@ -45,7 +45,7 @@ namespace Version_1._0.ViewModel
         {
             return output = _currentWork.GetTarget();
         }
-        public void SetTarget(string input)
+        public void SetTarget()
         {
             _currentWork.SetTarget(input);
         }
@@ -54,7 +54,7 @@ namespace Version_1._0.ViewModel
         {
             return output = _currentWork.GetType();
         }
-        public void SetType(string input)
+        public void SetType()
         {
             _currentWork.SetType(input);
         }
@@ -64,7 +64,7 @@ namespace Version_1._0.ViewModel
             return output = _currentWork.GetState();
         }
 
-        public void SetState(string input)
+        public void SetState()
         {
             _currentWork.SetState(input);
         }

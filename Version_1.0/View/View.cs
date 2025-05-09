@@ -74,11 +74,11 @@ namespace Version_1._0.View
             Console.WriteLine();
             if (language == "English")
             {
-                Console.WriteLine("Are you sure you want to delete this work? (y/n)");
+                Console.WriteLine("Are you sure you want to perform this action? (y/n)");
             }
             else if (language == "French")
             {
-                Console.WriteLine("Êtes-vous sûr de vouloir supprimer ce travail ? (o/n)");
+                Console.WriteLine("Êtes-vous sûr de vouloir réaliser cette action ? (y/n)");
             }
         }
 
@@ -110,11 +110,11 @@ namespace Version_1._0.View
                     foreach (var work in works)
                     {
                         Console.WriteLine($"--- Work {index} ---");
-                        Console.WriteLine($"Name: {work.name}");
-                        Console.WriteLine($"Source: {work.source}");
-                        Console.WriteLine($"Target: {work.target}");
-                        Console.WriteLine($"Type: {work.type}");
-                        Console.WriteLine($"State: {work.state}");
+                        Console.WriteLine($"Name: {work.GetName()}");
+                        Console.WriteLine($"Source: {work.GetSource()}");
+                        Console.WriteLine($"Target: {work.GetTarget()}");
+                        Console.WriteLine($"Type: {work.GetType()}");
+                        Console.WriteLine($"State: {work.GetState()}");
                         Console.WriteLine();
                         index++;
                     }
@@ -133,11 +133,11 @@ namespace Version_1._0.View
                     foreach (var work in works)
                     {
                         Console.WriteLine($"--- Travail n°{index} ---");
-                        Console.WriteLine($"Nom : {work.name}");
-                        Console.WriteLine($"Source : {work.source}");
-                        Console.WriteLine($"Cible : {work.target}");
-                        Console.WriteLine($"Type : {work.type}");
-                        Console.WriteLine($"État : {work.state}");
+                        Console.WriteLine($"Nom : {work.GetName()}");
+                        Console.WriteLine($"Source : {work.GetSource()}");
+                        Console.WriteLine($"Cible : {work.GetTarget()}");
+                        Console.WriteLine($"Type : {work.GetType()}");
+                        Console.WriteLine($"État : {work.GetState()}");
                         Console.WriteLine();
                         index++;
                     }
@@ -145,7 +145,7 @@ namespace Version_1._0.View
             }
 
             ShowNext();
-            Console.ReadKey();
+            
         }
 
         public void ShowWork(Model.Work work)
@@ -154,20 +154,20 @@ namespace Version_1._0.View
             if (language == "English")
             {
                 Console.WriteLine("Here is the work details: ");
-                Console.WriteLine($"Name: {work.name}");
-                Console.WriteLine($"Source: {work.source}");
-                Console.WriteLine($"Target: {work.target}");
-                Console.WriteLine($"Type: {work.type}");
-                Console.WriteLine($"State: {work.state}");
+                Console.WriteLine($"Name: {work.GetName()}");
+                Console.WriteLine($"Source: {work.GetSource()}");
+                Console.WriteLine($"Target: {work.GetTarget()}");
+                Console.WriteLine($"Type: {work.GetType()}");
+                Console.WriteLine($"State: {work.GetState()}");
             }
             else if (language == "French")
             {
                 Console.WriteLine("Voici les détails du travail : ");
-                Console.WriteLine($"Nom : {work.name}");
-                Console.WriteLine($"Source : {work.source}");
-                Console.WriteLine($"Cible : {work.target}");
-                Console.WriteLine($"Type : {work.type}");
-                Console.WriteLine($"État : {work.state}");
+                Console.WriteLine($"Nom : {work.GetName()}");
+                Console.WriteLine($"Source : {work.GetSource()}");
+                Console.WriteLine($"Cible : {work.GetTarget()}");
+                Console.WriteLine($"Type : {work.GetType()}");
+                Console.WriteLine($"État : {work.GetState()}");
             }
         }
 
@@ -218,7 +218,7 @@ namespace Version_1._0.View
             {
                 Console.WriteLine("Merci d'avoir utilisé notre application. Au revoir !");
             }
-            
+
         }
 
         public void ShowWork()
@@ -344,3 +344,4 @@ namespace Version_1._0.View
             ShowNext();
         }
     }
+}
