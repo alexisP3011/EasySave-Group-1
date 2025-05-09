@@ -8,23 +8,23 @@
     "net8.0": []
   },
   "packageFolders": {
-    "C:\\Users\\pfrsc\\.nuget\\packages\\": {},
+    "C:\\Users\\cleme\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\pfrsc\\OneDrive - Association Cesi Viacesi mail\\A3\\Bloc Génie logiciel\\Projet\\EasySave-Groupe-1\\Version_1.0\\Version_1.0.csproj",
+      "projectUniqueName": "C:\\Users\\cleme\\Documents\\CESI\\Génie logiciel\\projets\\EasySave\\EasySave-Groupe-1\\Version_1.0\\Version_1.0.csproj",
       "projectName": "Version_1.0",
-      "projectPath": "C:\\Users\\pfrsc\\OneDrive - Association Cesi Viacesi mail\\A3\\Bloc Génie logiciel\\Projet\\EasySave-Groupe-1\\Version_1.0\\Version_1.0.csproj",
-      "packagesPath": "C:\\Users\\pfrsc\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\pfrsc\\OneDrive - Association Cesi Viacesi mail\\A3\\Bloc Génie logiciel\\Projet\\EasySave-Groupe-1\\Version_1.0\\obj\\",
+      "projectPath": "C:\\Users\\cleme\\Documents\\CESI\\Génie logiciel\\projets\\EasySave\\EasySave-Groupe-1\\Version_1.0\\Version_1.0.csproj",
+      "packagesPath": "C:\\Users\\cleme\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\cleme\\Documents\\CESI\\Génie logiciel\\projets\\EasySave\\EasySave-Groupe-1\\Version_1.0\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\pfrsc\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\cleme\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],

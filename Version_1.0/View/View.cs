@@ -124,32 +124,55 @@ namespace Version_1._0.View
         public void ShowNoWorkAvailable()
         {
             Console.WriteLine("No work available with this name.");
-            Console.WriteLine("Press any key to continue...");
-            Console.ReadKey();
+            ShowNext();
         }
 
         public void ShowWorkCreatedMessage()
         {
             Console.WriteLine();
             Console.WriteLine("Work created successfully!");
-            Console.WriteLine("Press any key to continue...");
-            Console.ReadKey();
+            ShowNext();
         }
 
         public void ShowWorkDeletedMessage()
         {
             Console.WriteLine();
             Console.WriteLine("Work deleted successfully!");
-            Console.WriteLine("Press any key to continue...");
-            Console.ReadKey();
+            ShowNext();
         }
 
         public void ShowWorkUpdatedMessage()
         {
             Console.WriteLine();
             Console.WriteLine("Work updated successfully!");
+            ShowNext();
+        }
+        public void ShowNext()
+        {
+            Console.WriteLine();
             Console.WriteLine("Press any key to continue...");
             Console.ReadKey();
+        }
+
+        public void WarnMaxBackup()
+        {
+            Console.WriteLine();
+            Console.WriteLine("You have reached the maximum number of backup works (5). Please delete one before creating a new one.");
+            Console.ReadKey();
+            Console.Clear();
+        }
+        public void WarnLaunch()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Launching the backup work...");
+            ShowNext();
+        }
+
+        public void WarnInvalidOption()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Invalid option. Please try again.");
+            ShowNext();
         }
     }
 }

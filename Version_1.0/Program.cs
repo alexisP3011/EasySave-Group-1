@@ -55,9 +55,7 @@ namespace Version_1._0
                         }
                         else
                         {
-                            Console.WriteLine("You have reached the maximum number of backup works (5). Please delete one before creating a new one.");
-                            Console.ReadKey();
-                            Console.Clear();
+                            view.WarnMaxBackup();
                         }
                             break;
 
@@ -183,9 +181,7 @@ namespace Version_1._0
                                     viewModel.LaunchWork(workToLaunch);
                                     chrono.Stop();
 
-                                    Console.WriteLine("Launching the backup work...");
-                                    Console.WriteLine("Press any key to continue...");
-  
+                                    view.WarnLaunch();
 
                                     DailyLog logger = DailyLog.getInstance();
 
@@ -232,8 +228,7 @@ namespace Version_1._0
                         break;
 
                     default:
-                        Console.WriteLine("Invalid option. Please try again.");
-                        Console.WriteLine("Press any key to continue...");
+                        view.WarnInvalidOption();
                         Console.ReadKey();
                         Console.Clear();
                         break;
