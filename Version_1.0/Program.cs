@@ -180,48 +180,41 @@ namespace Version_1._0
 
                     case '5': // Launch a work
                         view.ShowList(viewModel);
-
                         if (viewModel.GetWorkCount() > 0)
                         {
                             string workName = view.AskWorkName();
                             viewModel.input = workName;
                             var workToLaunch = viewModel.GetWorkByName();
-
                             if (workToLaunch != null)
                             {
                                 view.ShowWork(workToLaunch);
                                 view.AskConfirmation();
                                 string confirmation_5 = Console.ReadLine().ToLower();
-
-                                Stopwatch chrono = new Stopwatch();
-
                                 if (confirmation_5 == "y" || confirmation_5 == "yes")
                                 {
-                                    chrono.Start();
+                           
+                                    DailyLog logger = DailyLog.getInstance();
+                                    logger.createLogFile();
+
+                        
                                     viewModel._currentWork = workToLaunch;
-                                    viewModel.LaunchWork();
-                                    chrono.Stop();
+
+                      
+                                    logger.TransferFilesWithLogs(
+                                        workToLaunch.GetSource(),  // Source path
+                                        workToLaunch.GetTarget(),  // Destination path
+                                        workToLaunch.GetName()     // Work name
+                                    );
 
                                     view.WarnLaunch();
-
-                                    DailyLog logger = DailyLog.getInstance();
-
-                                    logger.createLogFile();
-                                    logger.AddLogEntry(workToLaunch.GetName(), workToLaunch.GetSource(), workToLaunch.GetTarget(), logger.CountFilesInSource(workToLaunch.GetSource()), chrono.ElapsedMilliseconds);
-                                    logger.SaveLogs();
-
-                                    Console.ReadKey();
+                                    
                                 }
-
-
-
                             }
                             else
                             {
                                 view.ShowNoWorkAvailable();
                             }
                         }
-
                         Console.Clear();
                         break;
 
