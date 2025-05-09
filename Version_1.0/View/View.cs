@@ -67,11 +67,11 @@ namespace Version_1._0.View
                 foreach (var work in works)
                 {
                     Console.WriteLine($"--- Work {index} ---");
-                    Console.WriteLine($"Name: {work.name}");
-                    Console.WriteLine($"Source: {work.source}");
-                    Console.WriteLine($"Target: {work.target}");
-                    Console.WriteLine($"Type: {work.type}");
-                    Console.WriteLine($"State: {work.state}");
+                    Console.WriteLine($"Name: {work.GetName()}");
+                    Console.WriteLine($"Source: {work.GetSource()}");
+                    Console.WriteLine($"Target: {work.GetTarget()}");
+                    Console.WriteLine($"Type: {work.GetType()}");
+                    Console.WriteLine($"State: {work.GetState()}");
                     Console.WriteLine();
                     index++;
                 }
@@ -85,11 +85,11 @@ namespace Version_1._0.View
         {
             Console.WriteLine();
             Console.WriteLine("Here is the work details: ");
-            Console.WriteLine($"Name: {work.name}");
-            Console.WriteLine($"Source: {work.source}");
-            Console.WriteLine($"Target: {work.target}");
-            Console.WriteLine($"Type: {work.type}");
-            Console.WriteLine($"State: {work.state}");
+            Console.WriteLine($"Name: {work.GetName()}");
+            Console.WriteLine($"Source: {work.GetSource()}");
+            Console.WriteLine($"Target: {work.GetTarget()}");
+            Console.WriteLine($"Type: {work.GetType()}");
+            Console.WriteLine($"State: {work.GetState()}");
         }
 
         public void ShowCurrentWork(ViewModel.ViewModel viewModel)

@@ -23,9 +23,9 @@ namespace Version_1._0.ViewModel
         public string output { get; set; }
 
         // Méthodes pour le travail actuel
-        public void GetName()
+        public string GetName()
         {
-            output = _currentWork.GetName();
+            return output = _currentWork.GetName();
         }
 
         public void SetName(string input)
@@ -33,35 +33,35 @@ namespace Version_1._0.ViewModel
             _currentWork.SetName(input);
         }
 
-        public void GetSource()
+        public string GetSource()
         {
-            output = _currentWork.GetSource();
+            return output = _currentWork.GetSource();
         }
         public void SetSource(string input)
         {
             _currentWork.SetSource(input);
         }
-        public void GetTarget()
+        public string GetTarget()
         {
-            output = _currentWork.GetTarget();
+            return output = _currentWork.GetTarget();
         }
         public void SetTarget(string input)
         {
             _currentWork.SetTarget(input);
         }
 
-        public void GetType()
+        public string GetType()
         {
-            output = _currentWork.GetType();
+            return output = _currentWork.GetType();
         }
         public void SetType(string input)
         {
             _currentWork.SetType(input);
         }
 
-        public void GetState()
+        public string GetState()
         {
-            output = _currentWork.GetState();
+            return output = _currentWork.GetState();
         }
 
         public void SetState(string input)

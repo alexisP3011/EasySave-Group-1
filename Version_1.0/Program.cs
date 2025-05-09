@@ -186,7 +186,7 @@ namespace Version_1._0
                                     DailyLog logger = DailyLog.getInstance();
 
                                     logger.createLogFile();
-                                    logger.AddLogEntry(workToLaunch.name, workToLaunch.source, workToLaunch.target, logger.CountFilesInSource(workToLaunch.source), chrono.ElapsedMilliseconds);
+                                    logger.AddLogEntry(workToLaunch.GetName(), workToLaunch.GetSource(), workToLaunch.GetTarget(), logger.CountFilesInSource(workToLaunch.GetSource()), chrono.ElapsedMilliseconds);
                                     logger.SaveLogs();
 
                                     Console.ReadKey();
