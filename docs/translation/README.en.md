@@ -24,4 +24,10 @@ Our project team consists of 4 members, one of whom is the team leader :
 
 ## Expected Deliverables
 
-Deliverables to be added.
+The different deliverables to achieve for this project are :
+
+    - A 1.0 version of the EasySave software along with the corresponding UML diagrams
+
+    - A 2.0 and 1.1 version of the software, also with the diagrams reflecting their evolution
+
+    - A 3.0 version of EasySave with the UML diagrams showing its future development
