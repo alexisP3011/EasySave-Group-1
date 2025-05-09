@@ -13,6 +13,9 @@ namespace Version_1._0
             bool exit = false;
             var viewModel = new ViewModel.ViewModel();
             var view = new View.View(viewModel);
+            var language = new Language();
+            view.language = "English";
+
 
             while (!exit)
             {
@@ -57,7 +60,7 @@ namespace Version_1._0
                         {
                             view.WarnMaxBackup();
                         }
-                            break;
+                        break;
 
                     case '2': // Show work details
                         view.ShowList(viewModel);
@@ -186,7 +189,7 @@ namespace Version_1._0
                                     DailyLog logger = DailyLog.getInstance();
 
                                     logger.createLogFile();
-                                    logger.AddLogEntry(workToLaunch.GetName(), workToLaunch.GetSource(), workToLaunch.GetTarget(), logger.CountFilesInSource(workToLaunch.GetSource()), chrono.ElapsedMilliseconds);
+                                    logger.AddLogEntry(workToLaunch.name, workToLaunch.source, workToLaunch.target, logger.CountFilesInSource(workToLaunch.source), chrono.ElapsedMilliseconds);
                                     logger.SaveLogs();
 
                                     Console.ReadKey();
@@ -205,13 +208,62 @@ namespace Version_1._0
                         break;
 
                     case '6': // Change language
-                        var language = new View.Language();
-                        language.ShowCurrentLanguage();
                         language.ShowAvailableLanguage();
-                        language.ShowMessageChoice();
-                        string languageChoice = Console.ReadLine();
-                        language.AskConfirmation();
-                        string confirmation_6 = Console.ReadLine();
+                        view.ShowMessageChoice();
+
+                        ConsoleKeyInfo languageChoice = Console.ReadKey();
+                        switch (languageChoice.KeyChar)
+                        {
+                            case '1':
+                                if (view.language == "English")
+                                {
+                                    view.ShowNext();
+                                }
+                                else
+                                {
+                                    view.AskConfirmation();
+                                    string confirmation_6 = Console.ReadLine();
+                                    if (confirmation_6 == "y" || confirmation_6 == "yes")
+                                    {
+                                        view.language = "English";
+                                        view.ShowNext();
+                                    }
+                                    else if (confirmation_6 == "n" || confirmation_6 == "no")
+                                    {
+                                        language.ShowAvailableLanguage();
+                                    }
+                                    else
+                                    {
+                                        view.WarnInvalidOption();
+                                    }
+                                }
+                                break;
+                            case '2':
+                                if (view.language == "French")
+                                {
+                                    view.ShowNext();
+                                }
+                                else
+                                {
+                                    view.AskConfirmation();
+                                    string confirmation_6 = Console.ReadLine();
+                                    if (confirmation_6 == "y" || confirmation_6 == "yes")
+                                    {
+                                        view.language = "French";
+                                        view.ShowNext();
+                                    }
+                                    else if (confirmation_6 == "n" || confirmation_6 == "no")
+                                    {
+                                        language.ShowAvailableLanguage();
+                                    }
+                                    else
+                                    {
+                                        view.WarnInvalidOption();
+                                    }
+                                }
+                                break;
+                        }
+
                         Console.Clear();
                         break;
 
@@ -240,4 +292,3 @@ namespace Version_1._0
             Console.Clear();
         }
     }
-}

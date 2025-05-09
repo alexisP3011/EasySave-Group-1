@@ -12,7 +12,14 @@ namespace Version_1._0.View
 
         public void WarnAlreadyInProgress()
         {
-            Console.WriteLine("A backup work is already underway");
+            if (language == "English")
+            {
+                Console.WriteLine("A backup work is already underway");
+            }
+            else if (language == "French")
+            {
+                Console.WriteLine("Un travail de sauvegarde est déjà en cours");
+            }
         }
     }
 }

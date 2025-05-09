@@ -12,27 +12,41 @@ namespace Version_1._0.View
 
         public void WarnCurrrentLanguage()
         {
-            Console.WriteLine("The selected language is already in use.");
+            if (language == "English")
+            {
+                Console.WriteLine("The selected language is already in use.");
+            }
+            else if (language == "French")
+            {
+                Console.WriteLine("La langue sélectionnée est déjà en cours d'usage.");
+            }
         }
         public void ShowAvailableLanguage()
         {
-            Console.WriteLine("Our application is available in these two languages:");
-            Console.WriteLine("1. English");
-            Console.WriteLine("2. French");
-
+            if (language == "English")
+            {
+                Console.WriteLine("Our application is available in these two languages:");
+                Console.WriteLine("1. English");
+                Console.WriteLine("2. French");
+            }
+            else if (language == "French")
+            {
+                Console.WriteLine("Notre application est disponible dans ces deux langues :");
+                Console.WriteLine("1. Anglais");
+                Console.WriteLine("2. Français");
+            }
         }
-
-        public void ShowCurrentLanguage()
-        {
-            Console.WriteLine("The current language is English.");
-        }
-
 
         public void WarnChangedLanguage()
         {
-            Console.WriteLine("The language has been changed successfully.");
+            if (language == "English")
+            {
+                Console.WriteLine("The language has been changed successfully.");
+            }
+            else if (language == "French")
+            {
+                Console.WriteLine("La langue a été changée avec succès.");
+            }
         }
-    }
-    
-    
+    }   
 }
