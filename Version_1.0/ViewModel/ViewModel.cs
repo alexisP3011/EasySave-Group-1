@@ -12,7 +12,7 @@ namespace Version_1._0.ViewModel
         private List<Model.Work> _works = new List<Model.Work>();
 
         // Travail actuel pour les opérations
-        private Model.Work _currentWork = new Model.Work();
+        public Model.Work _currentWork = new Model.Work();
 
         public ViewModel()
         {
@@ -94,14 +94,14 @@ namespace Version_1._0.ViewModel
             return _works;
         }
 
-        public Model.Work GetWorkByName(string name)
+        public Model.Work GetWorkByName()
         {
-            return _works.FirstOrDefault(w => w.GetName() == name);
+            return _works.FirstOrDefault(w => w.GetName() == input);
         }
 
-        public bool DeleteWork(string name)
+        public bool DeleteWork()
         {
-            Model.Work workToDelete = _works.FirstOrDefault(w => w.GetName() == name);
+            Model.Work workToDelete = _works.FirstOrDefault(w => w.GetName() == input);
             if (workToDelete != null)
             {
                 return _works.Remove(workToDelete);
@@ -109,9 +109,9 @@ namespace Version_1._0.ViewModel
             return false;
         }
 
-        public void LoadWorkToCurrent(string name)
+        public void LoadWorkToCurrent()
         {
-            Model.Work work = GetWorkByName(name);
+            Model.Work work = GetWorkByName();
             if (work != null)
             {
                 _currentWork.SetName(work.GetName());
@@ -122,10 +122,10 @@ namespace Version_1._0.ViewModel
             }
         }
 
-        public void UpdateWork(string name)
+        public void UpdateWork()
         {
 
-            Model.Work workToUpdate = _works.FirstOrDefault(w => w.GetName() == name);
+            Model.Work workToUpdate = _works.FirstOrDefault(w => w.GetName() == input);
             if (workToUpdate != null)
             {
 
@@ -139,33 +139,9 @@ namespace Version_1._0.ViewModel
             return _works.Count;
         }
 
-        public void LaunchWork(Model.Work workToLaunch)
+        public void LaunchWork()
         {
-            if (workToLaunch.GetState() == "inactive")
-            {
-                workToLaunch.SetState("active");
-
-                // Verify if the source directory exists
-                if (Directory.Exists(workToLaunch.GetSource()))
-                {
-                    // Create the target directory if it doesn't exist
-                    if (!Directory.Exists(workToLaunch.GetTarget()))
-                    {
-                        Directory.CreateDirectory(workToLaunch.GetTarget());
-                    }
-
-                    // Copy all of the files to the new location
-                    foreach (var file in Directory.GetFiles(workToLaunch.GetSource()))
-                    {
-                        string fileName = Path.GetFileName(file);
-                        string destFile = Path.Combine(workToLaunch.GetTarget(), fileName);
-                        File.Copy(file, destFile, overwrite: true);
-                    }
-                }
-                workToLaunch.SetState("finished");
-
-                //_works.Remove(workToLaunch);
-            }
+            _currentWork.LaunchWork();
         }
     }
 }

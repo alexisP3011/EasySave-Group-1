@@ -79,7 +79,8 @@ namespace Version_1._0
                         if (viewModel.GetWorkCount() > 0)
                         {
                             string workName = view.AskWorkName();
-                            var workToDelete = viewModel.GetWorkByName(workName);
+                            viewModel.input = workName;
+                            var workToDelete = viewModel.GetWorkByName();
 
                             if (workToDelete != null)
                             {
@@ -89,7 +90,8 @@ namespace Version_1._0
 
                                 if (confirmation_3 == "y" || confirmation_3 == "yes")
                                 {
-                                    viewModel.DeleteWork(workName);
+                                    viewModel.input = workName;
+                                    viewModel.DeleteWork();
                                     view.ShowWorkDeletedMessage();
                                 }
                             }
@@ -112,11 +114,12 @@ namespace Version_1._0
                         {
                             update.AskSaveName();
                             string updateName = Console.ReadLine();
-
-                            var workToUpdate = viewModel.GetWorkByName(updateName);
+                            viewModel.input = updateName;
+                            var workToUpdate = viewModel.GetWorkByName();
                             if (workToUpdate != null)
                             {
-                                viewModel.LoadWorkToCurrent(updateName);
+                                viewModel.input = updateName;
+                                viewModel.LoadWorkToCurrent();
                                 view.ShowCurrentWork(viewModel);
 
                                 update.AskItemToUpdate();
@@ -160,7 +163,8 @@ namespace Version_1._0
 
                                     if (confirmation_4 == "y" || confirmation_4 == "yes")
                                     {
-                                        viewModel.UpdateWork(updateName);
+                                        viewModel.input = updateName;
+                                        viewModel.UpdateWork();
                                         view.ShowWorkUpdatedMessage();
                                     }
                                 }
@@ -180,7 +184,8 @@ namespace Version_1._0
                         if (viewModel.GetWorkCount() > 0)
                         {
                             string workName = view.AskWorkName();
-                            var workToLaunch = viewModel.GetWorkByName(workName);
+                            viewModel.input = workName;
+                            var workToLaunch = viewModel.GetWorkByName();
 
                             if (workToLaunch != null)
                             {
@@ -193,7 +198,8 @@ namespace Version_1._0
                                 if (confirmation_5 == "y" || confirmation_5 == "yes")
                                 {
                                     chrono.Start();
-                                    viewModel.LaunchWork(workToLaunch);
+                                    viewModel._currentWork = workToLaunch;
+                                    viewModel.LaunchWork();
                                     chrono.Stop();
 
                                     view.WarnLaunch();
