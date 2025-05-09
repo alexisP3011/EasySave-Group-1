@@ -24,4 +24,10 @@ Notre groupe de projet est composé de 4 membres dont un chef :
 
 ## Livrables attendus
 
-Livrables à venir.
+Les différents livrables à réaliser pour ce projet sont :
+
+    - Une version 1.0 du logiciel EasySave avec les diagrammes UML qui lui correspondent
+
+    - Une version 2.0 et 1.1 du logiciel toujours avec les diagrammes qui le font évoluer
+
+    - Une version 3.0 de EasySave avec les diagrammes UML qui le font évoluer
