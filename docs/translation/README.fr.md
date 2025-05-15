@@ -4,7 +4,7 @@
 
 Ceci est la version française de notre README. Une version anglaise est disponible sous le nom de "README.en", il propose les mêmes présentations et se trouve dans le sous-dossier "translation" du dossier "docs". Ci-dessous la version anglaise disponible :
 
-[![alt text](docs/images/drapeau_en.png)](https://github.com/alexisP3011/EasySave-Group-1/blob/main/docs/translation/README.en.md)
+[![alt text](docs/images/drapeau_en.png)](https://github.com/alexisP3011/EasySave-Group-1/blob/main/README.md)
 
 ## Présentation de notre groupe
 
