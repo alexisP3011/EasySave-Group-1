@@ -8,5 +8,18 @@
             BorderThickness="0"
             Background="Red"
             Foreground="White">
+        <Button.Template>
+            <ControlTemplate TargetType="Button">
+                <Border Background="{TemplateBinding Background}"
+                CornerRadius="8">
+                    <TextBlock Text="Cancel"
+                      Foreground="{TemplateBinding Foreground}"
+                      FontSize="{TemplateBinding FontSize}"
+                      FontWeight="{TemplateBinding FontWeight}"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center"/>
+                </Border>
+            </ControlTemplate>
+        </Button.Template>
     </Button>
 </UserControl>
