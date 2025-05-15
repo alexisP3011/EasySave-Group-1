@@ -1,0 +1,88 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\elraz\\Projet EasySave\\EasySave-Group-1\\Version_2.0\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{DEE017C8-2094-91F9-2A10-023D8AC8909F}|Version_2.0.csproj|c:\\users\\elraz\\projet easysave\\easysave-group-1\\version_2.0\\view\\button\\confirmbutton.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{DEE017C8-2094-91F9-2A10-023D8AC8909F}|Version_2.0.csproj|solutionrelative:view\\button\\confirmbutton.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEE017C8-2094-91F9-2A10-023D8AC8909F}|Version_2.0.csproj|c:\\users\\elraz\\projet easysave\\easysave-group-1\\version_2.0\\view\\button\\cancelbutton.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{DEE017C8-2094-91F9-2A10-023D8AC8909F}|Version_2.0.csproj|solutionrelative:view\\button\\cancelbutton.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEE017C8-2094-91F9-2A10-023D8AC8909F}|Version_2.0.csproj|c:\\users\\elraz\\projet easysave\\easysave-group-1\\version_2.0\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{DEE017C8-2094-91F9-2A10-023D8AC8909F}|Version_2.0.csproj|solutionrelative:mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ConfirmButton.xaml",
+              "DocumentMoniker": "C:\\Users\\elraz\\Projet EasySave\\EasySave-Group-1\\Version_2.0\\View\\Button\\ConfirmButton.xaml",
+              "RelativeDocumentMoniker": "View\\Button\\ConfirmButton.xaml",
+              "ToolTip": "C:\\Users\\elraz\\Projet EasySave\\EasySave-Group-1\\Version_2.0\\View\\Button\\ConfirmButton.xaml",
+              "RelativeToolTip": "View\\Button\\ConfirmButton.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-05-15T12:44:26.339Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:131:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "CancelButton.xaml",
+              "DocumentMoniker": "C:\\Users\\elraz\\Projet EasySave\\EasySave-Group-1\\Version_2.0\\View\\Button\\CancelButton.xaml",
+              "RelativeDocumentMoniker": "View\\Button\\CancelButton.xaml",
+              "ToolTip": "C:\\Users\\elraz\\Projet EasySave\\EasySave-Group-1\\Version_2.0\\View\\Button\\CancelButton.xaml",
+              "RelativeToolTip": "View\\Button\\CancelButton.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-05-15T12:22:24.243Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "MainWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\elraz\\Projet EasySave\\EasySave-Group-1\\Version_2.0\\MainWindow.xaml",
+              "RelativeDocumentMoniker": "MainWindow.xaml",
+              "ToolTip": "C:\\Users\\elraz\\Projet EasySave\\EasySave-Group-1\\Version_2.0\\MainWindow.xaml",
+              "RelativeToolTip": "MainWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-05-15T12:21:36.758Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

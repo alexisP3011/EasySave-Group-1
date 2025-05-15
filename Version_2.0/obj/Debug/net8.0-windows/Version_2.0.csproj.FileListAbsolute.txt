@@ -1,0 +1,14 @@
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_2.0\obj\Debug\net8.0-windows\MainWindow.g.cs
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_2.0\obj\Debug\net8.0-windows\View\Button\CreateButton.g.cs
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_2.0\obj\Debug\net8.0-windows\View\Button\DeleteButton.g.cs
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_2.0\obj\Debug\net8.0-windows\View\Button\LaunchButton.g.cs
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_2.0\obj\Debug\net8.0-windows\View\Button\UpdateButton.g.cs
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_2.0\obj\Debug\net8.0-windows\View\PopUp\ConfirmationPopUp.g.cs
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_2.0\obj\Debug\net8.0-windows\View\PopUp\CreateWorkPopUp.g.cs
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_2.0\obj\Debug\net8.0-windows\View\PopUp\SettingsPopUp.g.cs
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_2.0\obj\Debug\net8.0-windows\App.g.cs
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_2.0\obj\Debug\net8.0-windows\Version_2.0_MarkupCompile.cache
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_2.0\obj\Debug\net8.0-windows\Version_2.0_MarkupCompile.lref
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_2.0\obj\Debug\net8.0-windows\View\Button\CancelButton.baml
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_2.0\obj\Debug\net8.0-windows\View\Button\CancelButton.g.cs
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_2.0\obj\Debug\net8.0-windows\View\Button\ConfirmButton.g.cs
