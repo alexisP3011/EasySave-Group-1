@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup />
+  <ItemGroup>
+    <Compile Update="View\Button\CancelButton.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\Button\ConfirmButton.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\Button\CreateButton.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\Button\DeleteButton.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\Button\LaunchButton.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\Button\UpdateButton.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\PopUp\ConfirmationPopUp.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\PopUp\CreateWorkPopUp.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\PopUp\SettingsPopup.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+</Project>
