@@ -31,3 +31,9 @@ Les différents livrables à réaliser pour ce projet sont :
     - Une version 2.0 et 1.1 du logiciel toujours avec les diagrammes qui le font évoluer
 
     - Une version 3.0 de EasySave avec les diagrammes UML qui le font évoluer
+
+## Mock-up
+
+Pour avoir une idée du design de notre application, des mock-ups ont été réalisé : un pour l'application de manière générale, un pour la confirmation, un pour les paramètres et un pour la création et édition des travaux de sauvegarde. Ci-dessous le lien de ceux-ci en un document :
+
+    https://www.figma.com/design/mF6QdLJERaRxIspwt3JM0Y/Mockups---G%C3%A9nie-logiciel?node-id=0-1&t=NF5VH2sy4X5RcmG0-1

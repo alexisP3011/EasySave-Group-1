@@ -31,3 +31,9 @@ The different deliverables to achieve for this project are :
     - A 2.0 and 1.1 version of the software, also with the diagrams reflecting their evolution
 
     - A 3.0 version of EasySave with the UML diagrams showing its future development
+
+## Mock-up
+
+To get an idea of our application's design, several mock-ups have been created: one for the general application interface, one for the confirmation screen, one for the settings, and one for the creation and editing of backup tasks. Below is the link to these mock-ups compiled in a single document:
+
+    https://www.figma.com/design/mF6QdLJERaRxIspwt3JM0Y/Mockups---G%C3%A9nie-logiciel?node-id=0-1&t=NF5VH2sy4X5RcmG0-1
