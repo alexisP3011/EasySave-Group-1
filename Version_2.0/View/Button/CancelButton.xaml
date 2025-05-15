@@ -6,7 +6,7 @@
             FontSize="16"
             FontWeight="Bold"
             BorderThickness="0"
-            Background="Red"
+            Background="Crimson"
             Foreground="White">
         <Button.Template>
             <ControlTemplate TargetType="Button">
