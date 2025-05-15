@@ -1,11 +1,11 @@
-﻿<UserControl x:Class="Version_2._0.View.Buttons.CancelButton"
+﻿<UserControl x:Class="Version_2._0.View.Buttons.ConfirmButton"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Button Height="50" Width="80"
             FontSize="16"
             FontWeight="Bold"
             BorderThickness="0"
-            Background="Green"
+            Background="LimeGreen"
             Foreground="White"
             Padding="10,5">
         <Button.Template>
