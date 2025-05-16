@@ -13,7 +13,7 @@
             BorderThickness="0"
             Background="Green"
             Foreground="White"
-            Padding="10,5">
+            Padding="10,5" Click="Button_Click">
             <Button.Template>
                 <ControlTemplate TargetType="Button">
                     <Border Background="{TemplateBinding Background}"

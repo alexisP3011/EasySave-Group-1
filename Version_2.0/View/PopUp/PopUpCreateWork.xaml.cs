@@ -12,14 +12,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace Version_2._0.View
+namespace Version_2._0.View.PopUp
 {
     /// <summary>
-    /// Logique d'interaction pour CreateWork.xaml
+    /// Logique d'interaction pour PopUpCreateWork.xaml
     /// </summary>
-    public partial class CreateWork : Window
+    public partial class PopUpCreateWork : Window
     {
-        public CreateWork()
+        public PopUpCreateWork()
         {
             InitializeComponent();
         }

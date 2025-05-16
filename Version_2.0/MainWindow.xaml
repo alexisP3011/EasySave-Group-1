@@ -13,6 +13,6 @@
             <buttons:DeleteButton Margin="6,233,646,106"/>
             <buttons:LaunchButton Margin="22,328,662,10"/>
             <buttons:UpdateButton Margin="3,139,643,217"/>
-     
+
     </Grid>
 </Window>

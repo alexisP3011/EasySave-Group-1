@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Version_2._0.View.PopUp;
 
 namespace Version_2._0.View.Button
 {
@@ -23,6 +24,13 @@ namespace Version_2._0.View.Button
         public CreateButton()
         {
             InitializeComponent();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+            var popup = new PopUpCreateWork();
+            popup.Show();
         }
     }
 }

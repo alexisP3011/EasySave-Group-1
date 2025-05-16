@@ -8,6 +8,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Version_2._0.View;
+using Version_2._0.View.PopUp;
 
 namespace Version_2._0
 {
@@ -20,5 +22,7 @@ namespace Version_2._0
         {
             InitializeComponent();
         }
+
+
     }
 }
