@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Version_2._0.View
+namespace Version_2._0.View.Button
 {
     /// <summary>
     /// Logique d'interaction pour ConfirmButton.xaml
