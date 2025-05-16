@@ -10,14 +10,15 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Version_2._0.View
+namespace Version_2._0.View.Button
 {
     /// <summary>
     /// Logique d'interaction pour CreateButton.xaml
     /// </summary>
-    public partial class CreateButton : Window
+    public partial class CreateButton : Page
     {
         public CreateButton()
         {
