@@ -7,6 +7,54 @@
         mc:Ignorable="d"
         Title="CreateWork" Height="450" Width="800">
     <Grid>
-        
+        <Grid>
+            <Grid Background="Black" Opacity=".75" Panel.ZIndex="10" />
+            <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Panel.ZIndex="11" Width="350">
+                <Border Padding="16" CornerRadius="16">
+                    <StackPanel>
+                        <TextBlock
+                            FontSize="20"
+                            FontWeight="Bold"
+                            Margin="0,0,0,16"
+                            Text="Create backup" />
+
+                        <TextBlock
+                            Visibility="Collapsed"
+                            TextWrapping="Wrap"
+                            x:Name="ErrorMessageTextBlock"
+                            Margin="0,0,0,16"
+                            Foreground="Red" />
+
+                        <TextBlock Margin="0,0,0,4" Text="Name :" />
+                        <TextBox x:Name="JobNameTextBox"
+                                 Margin="0,0,0,16" />
+
+                        <TextBlock Margin="0,0,0,4" Text="Source of the folder :" />
+                        <TextBox x:Name="SourcePathTextBox"
+                                 Margin="0,0,0,16" />
+
+                        <TextBlock Margin="0,0,0,4" Text="Target :" />
+                        <TextBox x:Name="TargetPathTextBox"
+                                 Margin="0,0,0,16" />
+
+                        <TextBlock Margin="0,0,0,4" Text="Type of work :" />
+                        <ComboBox Margin="0,0,0,16" x:Name="JobTypeComboBox">
+                            <ComboBoxItem Content="Type 1" />
+                            <ComboBoxItem Content="Type 2" />
+                            <ComboBoxItem Content="Type 3" />
+                        </ComboBox>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Button Grid.Column="0" Content="Créer" Margin="0,0,8,0" />
+                            <Button Grid.Column="1" Content="Annuler" />
+                        </Grid>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Grid>
     </Grid>
 </Window>
