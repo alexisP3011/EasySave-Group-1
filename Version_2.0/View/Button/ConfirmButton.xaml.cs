@@ -18,7 +18,7 @@ namespace Version_2._0.View.Button
     /// <summary>
     /// Logique d'interaction pour ConfirmButton.xaml
     /// </summary>
-    public partial class ConfirmButton : Page
+    public partial class ConfirmButton : UserControl
     {
         public ConfirmButton()
         {
