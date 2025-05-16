@@ -18,7 +18,7 @@ namespace Version_2._0.View.Button
     /// <summary>
     /// Logique d'interaction pour UpdateButton.xaml
     /// </summary>
-    public partial class UpdateButton : Page
+    public partial class UpdateButton : UserControl
     {
         public UpdateButton()
         {

@@ -18,7 +18,7 @@ namespace Version_2._0.View.Button
     /// <summary>
     /// Logique d'interaction pour CreateButton.xaml
     /// </summary>
-    public partial class CreateButton : Page
+    public partial class CreateButton : UserControl
     {
         public CreateButton()
         {
