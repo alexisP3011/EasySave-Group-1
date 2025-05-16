@@ -14,8 +14,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-
-
 namespace Version_2._0.View.PopUp
 {
     /// <summary>
@@ -23,6 +21,10 @@ namespace Version_2._0.View.PopUp
     /// </summary>
     public partial class PopUpCreateWork : Window
     {
+
+        public delegate void WorkCreatedEventHandler(Work newWork);
+        public event WorkCreatedEventHandler WorkCreated;
+
         public PopUpCreateWork()
         {
             InitializeComponent();
@@ -34,29 +36,25 @@ namespace Version_2._0.View.PopUp
             string sourcePath = SourcePathTextBox.Text;
             string targetPath = TargetPathTextBox.Text;
 
-               string jobType = null;
+            string jobType = null;
             if (JobTypeComboBox.SelectedItem is ComboBoxItem selectedItem)
             {
                 jobType = selectedItem.Content.ToString();
             }
 
 
-            //MessageBox.Show($"Job Name: {jobName}\nSource: {sourcePath}\nTarget: {targetPath}\nType: {jobType}");
-            Work work = new Work();
-            work.Name = jobName;
-            work.Source = sourcePath;
-            work.Target = targetPath;
-            work.Type = jobType;
- 
+            Work work = new Work
+            {
+                Name = jobName,
+                Source = sourcePath,
+                Target = targetPath,
+                Type = jobType
+            };
+
+
+            WorkCreated?.Invoke(work);
 
             this.Close();
- 
-
-
-
         }
-
-
-
     }
 }

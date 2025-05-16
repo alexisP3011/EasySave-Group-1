@@ -7,32 +7,67 @@
         xmlns:buttons="clr-namespace:Version_2._0.View.Button"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid Background="#f3f3f3" >
+    <Grid Background="#f3f3f3">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-        <buttons:CreateButton Margin="26,42,666,300"/>
-        <buttons:DeleteButton Margin="6,233,646,106"/>
-        <buttons:LaunchButton Margin="22,328,662,10"/>
-        <buttons:UpdateButton Margin="3,139,643,217"/>
 
-        <StackPanel Orientation="Vertical" Margin="200,40,126,0" Background="White" VerticalAlignment="Top" Height="94">
-            <TextBlock Margin="0,0,0,8">
-        <Run Text="Backup name : "/>
-        <Run Text="{Binding Name}" />
-            </TextBlock>
-            <TextBlock Margin="0,0,0,4">
-        <Run Text="Source : "/>
-        <Run Text="{Binding Source}" />
-            </TextBlock>
-            <TextBlock Margin="0,0,0,4">
-        <Run Text="Target : "/>
-        <Run Text="{Binding Target}" />
-            </TextBlock>
-            <TextBlock Margin="0,0,0,4">
-        <Run Text="Type : "/>
-        <Run Text="{Binding Type}" />
-            </TextBlock>
+        <StackPanel Grid.Column="0" Background="#e0e0e0">
+            <buttons:CreateButton Margin="26,42,26,20" />
+            <buttons:UpdateButton Margin="3,20,3,20"/>
+            <buttons:DeleteButton Margin="6,20,6,20"/>
+            <buttons:LaunchButton Margin="22,20,22,20"/>
         </StackPanel>
 
 
+        <Grid Grid.Column="1" Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+
+            <TextBlock Grid.Row="0" Text="Liste des travaux" FontSize="18" FontWeight="Bold" Margin="0,0,0,10"/>
+
+
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                <ItemsControl ItemsSource="{Binding Works}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderBrush="#ccc" BorderThickness="1" Margin="0,0,0,10" Padding="10" Background="White">
+                                <StackPanel>
+                                    <TextBlock FontWeight="Bold" FontSize="14" Margin="0,0,0,5" Text="{Binding Name}"/>
+                                    <StackPanel Orientation="Vertical">
+                                        <TextBlock Margin="0,0,0,4">
+                                            <Run Text="Source : "/>
+                                            <Run Text="{Binding Source}" />
+                                        </TextBlock>
+                                        <TextBlock Margin="0,0,0,4">
+                                            <Run Text="Target : "/>
+                                            <Run Text="{Binding Target}" />
+                                        </TextBlock>
+                                        <TextBlock Margin="0,0,0,4">
+                                            <Run Text="Type : "/>
+                                            <Run Text="{Binding Type}" />
+                                        </TextBlock>
+                                        <TextBlock Margin="0,0,0,4">
+                                            <Run Text="État : "/>
+                                            <Run Text="{Binding State}" />
+                                        </TextBlock>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,5,0,0">
+
+                                        <Button Content="Delete" Margin="0,0,5,0" Padding="5,2" Tag="{Binding}" Click="DeleteButton_Click"/>
+                              
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Grid>
     </Grid>
 </Window>
