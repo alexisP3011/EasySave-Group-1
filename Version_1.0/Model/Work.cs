@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.Json;
+using System.IO;
+using System.Runtime.CompilerServices;
 
 namespace Version_1._0.Model
 {
@@ -53,6 +56,20 @@ namespace Version_1._0.Model
         public void SetState(string input)
         {
             this.state = input;
+        }
+
+        public void SaveWorkToJson()
+        {
+            string directoryPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            string filePath = Path.Combine(directoryPath, "EasySave", "works.json");
+
+            if (!Directory.Exists(Path.GetDirectoryName(filePath)))
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+            }
+
+            var options = new JsonSerializerOptions { WriteIndented = true };
+            File.WriteAllText(filePath, JsonSerializer.Serialize(this, options));
         }
 
         public void LaunchWork()

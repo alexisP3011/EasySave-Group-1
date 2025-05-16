@@ -57,6 +57,7 @@ namespace Version_1._0
                             if (confirmation == "y" || confirmation == "yes")
                             {
                                 viewModel.AddWork();
+                                
                                 view.ShowWorkCreatedMessage();
                             }
 
@@ -75,7 +76,6 @@ namespace Version_1._0
 
                     case '3':  // Delete a work
                         view.ShowList(viewModel);
-
                         if (viewModel.GetWorkCount() > 0)
                         {
                             string workName = view.AskWorkName();
