@@ -8,6 +8,11 @@
         mc:Ignorable="d"
         Title="ConfirmationPopUp" Height="450" Width="800">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
         <Label
             HorizontalAlignment="Center"
             VerticalAlignment="Center" 
@@ -16,8 +21,12 @@
             FontWeight="Bold"
             HorizontalContentAlignment="Center"
             VerticalContentAlignment="Center">
-        <Run Language="en-gb" Text="Are you sure to perform this action ?"/>
+            <Run Language="en-gb" Text="Are you sure to perform this action ?"/>
         </Label>
 
+        <StackPanel Grid.Row="1">
+            <buttons:CancelButton Margin="0,0,8,0" HorizontalAlignment="Left"/>
+            <buttons:ConfirmButton Margin="8,0,0,0" HorizontalAlignment="Right"/>
+        </StackPanel>
     </Grid>
 </Window>
