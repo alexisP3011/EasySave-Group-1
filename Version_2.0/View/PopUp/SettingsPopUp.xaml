@@ -32,6 +32,32 @@
                             <ComboBoxItem Content="English" IsSelected="True"/>
                             <ComboBoxItem Content="French" />
                         </ComboBox>
+
+                        <TextBlock Margin="0,0,0,4" Text="Middleware:"/>
+                        <Border BorderBrush="LightSlateGray" BorderThickness="2" CornerRadius="4" Margin="0,0,0,16">
+                            <TextBox x:Name="MiddlewareTextBox" BorderThickness="0"/>
+                        </Border>
+
+                        <TextBlock Margin="0,0,0,4" Text="Extension to encrypt:"/>
+                        <Border BorderBrush="LightSlateGray" BorderThickness="2" CornerRadius="4" Margin="0,0,0,16">
+                            <TextBox x:Name="EncryptionTextBox" BorderThickness="0"/>
+                        </Border>
+
+                        <TextBlock Margin="0,0,0,4" Text="Log file extension:"/>
+                        <ComboBox Margin="0,0,0,16" x:Name="LogFileComboBox">
+                            <ComboBoxItem Content=".JSON" IsSelected="True"/>
+                            <ComboBoxItem Content=".XML" />
+                        </ComboBox>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <buttons:CancelButton Grid.Column="1" Margin="0,0,8,0"/>
+                            <!-- <buttons:ConfirmButton Grid.Column="0" Margin="8,0,0,0"/> -->
+                        </Grid>
                     </StackPanel>
                 </Border>
             </Grid>
