@@ -52,7 +52,7 @@ namespace Version_2._0.View.Buttons {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/Version_2.0;V1.0.0.0;component/view/button/cancelbutton.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/Version_2.0;component/view/button/cancelbutton.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\..\View\Button\CancelButton.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);
