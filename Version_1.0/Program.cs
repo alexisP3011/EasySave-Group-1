@@ -193,19 +193,10 @@ namespace Version_1._0
                                 if (confirmation_5 == "y" || confirmation_5 == "yes")
                                 {
                            
-                                    DailyLog logger = DailyLog.getInstance();
-                                    logger.createLogFile();
-
-                        
                                     viewModel._currentWork = workToLaunch;
 
-                      
-                                    logger.TransferFilesWithLogs(
-                                        workToLaunch.GetSource(),  // Source path
-                                        workToLaunch.GetTarget(),  // Destination path
-                                        workToLaunch.GetName()     // Work name
-                                    );
-
+                                    viewModel.LaunchWork();
+                                    
                                     view.WarnLaunch();
                                     
                                 }
