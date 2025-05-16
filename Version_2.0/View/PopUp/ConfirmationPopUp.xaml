@@ -4,9 +4,20 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Version_2._0.View.PopUp"
+        xmlns:buttons="clr-namespace:Version_2._0.View.Button"
         mc:Ignorable="d"
         Title="ConfirmationPopUp" Height="450" Width="800">
     <Grid>
-        
+        <Label
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center" 
+            Height="70" Width="515"
+            FontSize="26"
+            FontWeight="Bold"
+            HorizontalContentAlignment="Center"
+            VerticalContentAlignment="Center">
+        <Run Language="en-gb" Text="Are you sure to perform this action ?"/>
+        </Label>
+
     </Grid>
 </Window>
