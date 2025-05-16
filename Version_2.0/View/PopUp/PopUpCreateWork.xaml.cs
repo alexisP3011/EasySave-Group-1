@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +14,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
+
+
 namespace Version_2._0.View.PopUp
 {
     /// <summary>
@@ -23,5 +27,36 @@ namespace Version_2._0.View.PopUp
         {
             InitializeComponent();
         }
+
+        private void ConfirmButton_Click(object sender, RoutedEventArgs e)
+        {
+            string jobName = JobNameTextBox.Text;
+            string sourcePath = SourcePathTextBox.Text;
+            string targetPath = TargetPathTextBox.Text;
+
+               string jobType = null;
+            if (JobTypeComboBox.SelectedItem is ComboBoxItem selectedItem)
+            {
+                jobType = selectedItem.Content.ToString();
+            }
+
+
+            //MessageBox.Show($"Job Name: {jobName}\nSource: {sourcePath}\nTarget: {targetPath}\nType: {jobType}");
+            Work work = new Work();
+            work.Name = jobName;
+            work.Source = sourcePath;
+            work.Target = targetPath;
+            work.Type = jobType;
+ 
+
+            this.Close();
+ 
+
+
+
+        }
+
+
+
     }
 }

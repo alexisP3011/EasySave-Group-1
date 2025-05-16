@@ -43,10 +43,10 @@
                                 <TextBox x:Name="SourcePathTextBox" Grid.Column="0" BorderThickness="0"/>
                             </Border>
 
-                            <Button Grid.Column="1" 
-                                    Content="..." 
+                            <Button x:Name="_3DotSource" Grid.Column="1" 
+                                     
                                     Width="32" 
-                                    Margin="4,0,0,0">
+                                    Margin="4,0,0,0"  ToolTip="Browse for folder">>
                                 <Button.Template>
                                     <ControlTemplate TargetType="Button">
                                         <Border Background="{TemplateBinding Background}"
@@ -89,7 +89,7 @@
 
                         <TextBlock Margin="0,0,0,4" Text="Type of work:" />
                         <ComboBox Margin="0,0,0,16" x:Name="JobTypeComboBox">
-                            <ComboBoxItem Content="Complete" />
+                            <ComboBoxItem Content="Complete"  IsSelected="True"/>
                             <ComboBoxItem Content="Differential" />
                         </ComboBox>
 
@@ -100,10 +100,10 @@
                             </Grid.ColumnDefinitions>
 
                             <buttons:CancelButton Grid.Column="1" Margin="0,0,8,0"/>
-                            <buttons:ConfirmButton Grid.Column="0" Margin="8,0,0,0"/>
+                            <buttons:ConfirmButton Grid.Column="0" Margin="8,0,0,0" Click="ConfirmButton_Click"/>
                         </Grid>
                     </StackPanel>
-                </Border>
+                </Border>   
             </Grid>
         </Grid>
     </Grid>

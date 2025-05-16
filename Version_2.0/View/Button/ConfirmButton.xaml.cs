@@ -20,9 +20,24 @@ namespace Version_2._0.View.Button
     /// </summary>
     public partial class ConfirmButton : UserControl
     {
+        public event RoutedEventHandler Click;
+
         public ConfirmButton()
         {
             InitializeComponent();
         }
+
+        private void InnerButton_Click(object sender, RoutedEventArgs e)
+        {
+            Click?.Invoke(this, e); // On propage le clic
+        }
+
+
+        public void InternalButton_Click(object sender, RoutedEventArgs e)
+        {
+            // On propage l'événement Click aux utilisateurs du contrôle
+            Click?.Invoke(this, e);
+        }
     }
+
 }

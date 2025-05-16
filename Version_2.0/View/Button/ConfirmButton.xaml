@@ -8,26 +8,28 @@
      d:DesignHeight="450" d:DesignWidth="800">
 
     <Grid>
-        <Button Height="50" Width="80"
-           Content="Confirm"
-           FontSize="16"
-           FontWeight="Bold"
-           BorderThickness="0"
-           Background="LimeGreen"
-           Foreground="White">
+        <Button x:Name="InternalButton"
+            Height="50" Width="80"
+            Content="Confirm"
+            FontSize="16"
+            FontWeight="Bold"
+            BorderThickness="0"
+            Background="LimeGreen"
+            Foreground="White"
+            Click="InternalButton_Click">
             <Button.Template>
                 <ControlTemplate TargetType="Button">
-                    <Border Background="{TemplateBinding Background}"
-                CornerRadius="8">
+                    <Border Background="{TemplateBinding Background}" CornerRadius="8">
                         <TextBlock Text="Confirm"
-                      Foreground="{TemplateBinding Foreground}"
-                      FontSize="{TemplateBinding FontSize}"
-                      FontWeight="{TemplateBinding FontWeight}"
-                      HorizontalAlignment="Center"
-                      VerticalAlignment="Center"/>
+                               Foreground="{TemplateBinding Foreground}"
+                               FontSize="{TemplateBinding FontSize}"
+                               FontWeight="{TemplateBinding FontWeight}"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
                     </Border>
                 </ControlTemplate>
             </Button.Template>
         </Button>
     </Grid>
+
 </UserControl>

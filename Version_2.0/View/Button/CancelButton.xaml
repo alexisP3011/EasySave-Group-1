@@ -14,7 +14,7 @@
            FontWeight="Bold"
            BorderThickness="0"
            Background="OrangeRed"
-           Foreground="White">
+           Foreground="White" Click="Button_Click">
             <Button.Template>
                 <ControlTemplate TargetType="Button">
                     <Border Background="{TemplateBinding Background}"

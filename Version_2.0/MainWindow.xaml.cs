@@ -25,16 +25,16 @@ namespace Version_2._0
         {
             InitializeComponent();
 
-            Work work = new Work
-            {
-                Name = "Test",
-                Source = @"C:\Users\andre\Desktop\test",
-                Target = @"C:\Users\andre\Desktop\test2",
-                Type = "copy",
-                State = "inactive"
-            };
+            //Work work = new Work
+            //{
+            //    Name = "Test",
+            //    Source = @"C:\Users\andre\Desktop\test",
+            //    Target = @"C:\Users\andre\Desktop\test2",
+            //    Type = "copy",
+            //    State = "inactive"
+            //};
 
-            this.DataContext = work;
+            //this.DataContext = work;
         }
     }
 

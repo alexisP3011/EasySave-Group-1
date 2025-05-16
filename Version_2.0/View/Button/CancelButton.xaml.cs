@@ -24,5 +24,15 @@ namespace Version_2._0.View.Button
         {
             InitializeComponent();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            // Recherche la fenêtre parente et la ferme si elle existe
+            Window parentWindow = Window.GetWindow(this);
+            if (parentWindow != null)
+            {
+                parentWindow.Close();
+            }
+        }
     }
 }
