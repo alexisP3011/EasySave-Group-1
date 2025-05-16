@@ -8,6 +8,13 @@
         mc:Ignorable="d"
         Title="SettingsPopup" Height="450" Width="800">
     <Grid>
-        
+        <Grid>
+            <Grid Background="White" Opacity=".75" Panel.ZIndex="10"/>
+            <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Panel.ZIndex="11" Width="350">
+                <Border Padding="16">
+                    <StackPanel></StackPanel>
+                </Border>
+            </Grid>
+        </Grid>
     </Grid>
 </Window>
