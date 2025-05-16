@@ -9,10 +9,30 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid Background="#f3f3f3" >
 
-            <buttons:CreateButton Margin="26,42,666,300"/>
-            <buttons:DeleteButton Margin="6,233,646,106"/>
-            <buttons:LaunchButton Margin="22,328,662,10"/>
-            <buttons:UpdateButton Margin="3,139,643,217"/>
+        <buttons:CreateButton Margin="26,42,666,300"/>
+        <buttons:DeleteButton Margin="6,233,646,106"/>
+        <buttons:LaunchButton Margin="22,328,662,10"/>
+        <buttons:UpdateButton Margin="3,139,643,217"/>
+
+        <StackPanel Orientation="Vertical" Margin="200,40,126,0" Background="White" VerticalAlignment="Top" Height="94">
+            <TextBlock Margin="0,0,0,8">
+        <Run Text="Nom de la sauvegarde : "/>
+        <Run Text="{Binding Name}" />
+            </TextBlock>
+            <TextBlock Margin="0,0,0,4">
+        <Run Text="Source : "/>
+        <Run Text="{Binding Source}" />
+            </TextBlock>
+            <TextBlock Margin="0,0,0,4">
+        <Run Text="Destination : "/>
+        <Run Text="{Binding Target}" />
+            </TextBlock>
+            <TextBlock Margin="0,0,0,4">
+        <Run Text="Type : "/>
+        <Run Text="{Binding Type}" />
+            </TextBlock>
+        </StackPanel>
+
 
     </Grid>
 </Window>
