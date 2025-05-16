@@ -89,7 +89,7 @@
 
                         <TextBlock Margin="0,0,0,4" Text="Type of work:" />
                         <ComboBox Margin="0,0,0,16" x:Name="JobTypeComboBox">
-                            <ComboBoxItem Content="Complete" />
+                            <ComboBoxItem Content="Complete" IsSelected="True"/>
                             <ComboBoxItem Content="Differential" />
                         </ComboBox>
 
