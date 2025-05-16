@@ -18,11 +18,13 @@ namespace Version_2._0.View.Button
     /// <summary>
     /// Logique d'interaction pour LaunchButton.xaml
     /// </summary>
-    public partial class LaunchButton : Page
+    public partial class LaunchButton : UserControl
     {
         public LaunchButton()
         {
             InitializeComponent();
         }
+
+
     }
 }

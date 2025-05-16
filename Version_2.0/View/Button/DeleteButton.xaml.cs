@@ -18,7 +18,7 @@ namespace Version_2._0.View.Button
     /// <summary>
     /// Logique d'interaction pour DeleteButton.xaml
     /// </summary>
-    public partial class DeleteButton : Page
+    public partial class DeleteButton : UserControl
     {
         public DeleteButton()
         {
