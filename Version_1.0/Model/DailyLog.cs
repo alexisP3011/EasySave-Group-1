@@ -32,7 +32,7 @@ namespace Version_1._0.Model
         {
             string directoryPath = string.IsNullOrEmpty(directory)
                 ? Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData): directory;
-            directoryPath = Path.Combine(directoryPath, "EasySave");
+            directoryPath = Path.Combine(directoryPath, "EasySave", "logs");
 
             if (!Directory.Exists(directoryPath))
             {
