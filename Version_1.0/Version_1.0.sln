@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35931.197 d17.13
+VisualStudioVersion = 17.13.35931.197
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Version_1.0", "Version_1.0.csproj", "{AD2CB89D-CAEA-4FAF-AE69-31EE7BC081E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoSoft", "..\..\..\..\..\..\OneDrive\Documents\CryptoSoft\CryptoSoft.csproj", "{3A44ACB8-4965-D77D-BCCA-070AB6EE2651}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{AD2CB89D-CAEA-4FAF-AE69-31EE7BC081E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD2CB89D-CAEA-4FAF-AE69-31EE7BC081E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD2CB89D-CAEA-4FAF-AE69-31EE7BC081E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A44ACB8-4965-D77D-BCCA-070AB6EE2651}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A44ACB8-4965-D77D-BCCA-070AB6EE2651}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A44ACB8-4965-D77D-BCCA-070AB6EE2651}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A44ACB8-4965-D77D-BCCA-070AB6EE2651}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
