@@ -4,14 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Version_2._0.View"
-        xmlns:btn="clr-namespace:Version_2._0.View.Button"
+        xmlns:buttons="clr-namespace:Version_2._0.View.Button"
         mc:Ignorable="d"
-        Title="CreateWork" Height="450" Width="800">
+        Title="CreateWork" Height="350" Width="400">
     <Grid>
         <Grid>
-            <Grid Background="White" Opacity=".75" Panel.ZIndex="10" />
+            <Grid Background="White" Opacity=".75" Panel.ZIndex="10"/>
             <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Panel.ZIndex="11" Width="350">
-                <Border Padding="16" CornerRadius="16">
+                <Border Padding="16">
                     <StackPanel>
                         <TextBlock
                             TextAlignment="Center"
@@ -28,8 +28,9 @@
                             Foreground="Red" />
 
                         <TextBlock Margin="0,0,0,4" Text="Name:" />
-                        <TextBox x:Name="JobNameTextBox"
-                                 Margin="0,0,0,16"/>
+                        <Border BorderBrush="LightSlateGray" BorderThickness="2" CornerRadius="4" Margin="0,0,0,16">
+                            <TextBox x:Name="JobNameTextBox" BorderThickness="0"/>
+                        </Border>
 
                         <TextBlock Margin="0,0,0,4" Text="Source of the folder:" />
                         <Grid Margin="0,0,0,16">
@@ -37,8 +38,26 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <TextBox x:Name="SourcePathTextBox" Grid.Column="0" />
-                            <Button Grid.Column="1" Content="..." Width="32" Margin="4,0,0,0"/>
+
+                            <Border BorderBrush="LightSlateGray" BorderThickness="2" CornerRadius="4">
+                                <TextBox x:Name="SourcePathTextBox" Grid.Column="0" BorderThickness="0"/>
+                            </Border>
+
+                            <Button Grid.Column="1" 
+                                    Content="..." 
+                                    Width="32" 
+                                    Margin="4,0,0,0">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}"
+                                                CornerRadius="8">
+                                            <TextBlock Text="..."
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
                         </Grid>
 
                         <TextBlock Margin="0,0,0,4" Text="Target:" />
@@ -47,8 +66,25 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <TextBox x:Name="TargetPathTextBox" Grid.Column="0" />
-                            <Button Grid.Column="1" Content="..." Width="32" Margin="4,0,0,0"/>
+
+                            <Border BorderBrush="LightSlateGray" BorderThickness="2" CornerRadius="4">
+                                <TextBox x:Name="TargetPathTextBox" Grid.Column="0" BorderThickness="0"/>
+                            </Border>
+
+                            <Button Grid.Column="1"
+                                    Width="32" 
+                                    Margin="4,0,0,0">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}"
+                                                CornerRadius="8">
+                                            <TextBlock Text="..."
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
                         </Grid>
 
                         <TextBlock Margin="0,0,0,4" Text="Type of work:" />
@@ -62,7 +98,8 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <btn:CancelButton Grid.Column="1" Margin="0,0,8,0"/>
+
+                            <buttons:CancelButton Grid.Column="1" Margin="0,0,8,0"/>
                             <local:ConfirmButton Grid.Column="0" Margin="0,0,8,0"/>
                         </Grid>
                     </StackPanel>
