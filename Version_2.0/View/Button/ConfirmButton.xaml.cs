@@ -13,12 +13,12 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Version_2._0.View
+namespace Version_2._0.View.Button
 {
     /// <summary>
     /// Logique d'interaction pour ConfirmButton.xaml
     /// </summary>
-    public partial class ConfirmButton : Page
+    public partial class ConfirmButton : UserControl
     {
         public ConfirmButton()
         {

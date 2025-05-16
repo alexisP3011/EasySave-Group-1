@@ -18,7 +18,7 @@ namespace Version_2._0.View.Button
     /// <summary>
     /// Logique d'interaction pour CancelButton.xaml
     /// </summary>
-    public partial class CancelButton : Page
+    public partial class CancelButton : UserControl
     {
         public CancelButton()
         {

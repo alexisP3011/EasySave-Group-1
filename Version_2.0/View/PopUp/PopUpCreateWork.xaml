@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Version_2._0.View.PopUp"
+        xmlns:buttons="clr-namespace:Version_2._0.View.Button"
         mc:Ignorable="d"
         Title="PopUpCreateWork" Height="450" Width="800">
     <Grid>
@@ -98,11 +99,12 @@
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
 
+                            <buttons:CancelButton Grid.Column="1" Margin="0,0,8,0"/>
+                            <buttons:ConfirmButton Grid.Column="0" Margin="8,0,0,0"/>
                         </Grid>
                     </StackPanel>
                 </Border>
             </Grid>
         </Grid>
     </Grid>
-
 </Window>
