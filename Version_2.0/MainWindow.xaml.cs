@@ -1,5 +1,4 @@
-﻿
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Windows;
 using System.Collections.ObjectModel;
 using Version_2._0.View.PopUp;
@@ -31,11 +30,30 @@ namespace Version_2._0
             }
         }
 
+        private bool _areAllWorksSelected;
+        public bool AreAllWorksSelected
+        {
+            get => _areAllWorksSelected;
+            set
+            {
+                _areAllWorksSelected = value;
+                OnPropertyChanged(nameof(AreAllWorksSelected));
+
+                // Mettre à jour toutes les checkboxes individuelles
+                if (Works != null)
+                {
+                    foreach (var work in Works)
+                    {
+                        work.IsSelected = value;
+                    }
+                }
+            }
+        }
+
         public MainWindow()
         {
             InitializeComponent();
 
-        
             Works = new ObservableCollection<Work>();
             Works.Add(new Work { Name = "Work 1", Source = "Source 1", Target = "Target 1", Type = "Type 1", State = "inactive" });
             Works.Add(new Work { Name = "Work 2", Source = "Source 2", Target = "Target 2", Type = "Type 2", State = "inactive" });
@@ -43,11 +61,9 @@ namespace Version_2._0
             Works.Add(new Work { Name = "Work 4", Source = "Source 4", Target = "Target 4", Type = "Type 4", State = "inactive" });
             Works.Add(new Work { Name = "Work 5", Source = "Source 5", Target = "Target 5", Type = "Type 5", State = "inactive" });
 
-  
             if (Works.Count > 0)
                 CurrentWork = Works[0];
 
-       
             this.DataContext = this;
         }
 
@@ -74,7 +90,6 @@ namespace Version_2._0
         {
             if (sender is Button button && button.Tag is Work workToUpdate)
             {
-
                 workToUpdate.State = workToUpdate.State == "active" ? "inactive" : "active";
             }
         }
@@ -100,11 +115,51 @@ namespace Version_2._0
             }
         }
 
-
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void List_Works_Checked(object sender, RoutedEventArgs e)
+        {
+            AreAllWorksSelected = true;
+        }
+
+        private void List_Works_Unchecked(object sender, RoutedEventArgs e)
+        {
+            AreAllWorksSelected = false;
+        }
+
+        private void WorkCheckbox_Checked(object sender, RoutedEventArgs e)
+        {
+            // Vérifier si toutes les checkboxes individuelles sont cochées
+            UpdateMasterCheckboxState();
+        }
+
+        private void WorkCheckbox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            // Si une checkbox individuelle est décochée, décocher la checkbox maître
+            List_Works.IsChecked = false;
+        }
+
+        private void UpdateMasterCheckboxState()
+        {
+            bool allChecked = true;
+            foreach (var work in Works)
+            {
+                if (!work.IsSelected)
+                {
+                    allChecked = false;
+                    break;
+                }
+            }
+
+            // Mettre à jour la checkbox maître sans déclencher l'événement
+            if (List_Works.IsChecked != allChecked)
+            {
+                List_Works.IsChecked = allChecked;
+            }
         }
     }
 
@@ -115,6 +170,7 @@ namespace Version_2._0
         private string target;
         private string type;
         private string state;
+        private bool isSelected;
 
         public string Name
         {
@@ -166,6 +222,16 @@ namespace Version_2._0
             }
         }
 
+        public bool IsSelected
+        {
+            get => isSelected;
+            set
+            {
+                isSelected = value;
+                OnPropertyChanged(nameof(IsSelected));
+            }
+        }
+
         public Work()
         {
             Name = "";
@@ -173,6 +239,7 @@ namespace Version_2._0
             Target = "";
             Type = "";
             State = "inactive";
+            IsSelected = false;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
