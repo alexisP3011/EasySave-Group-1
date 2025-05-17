@@ -36,7 +36,9 @@ namespace Version_2._0.View.Button
         public void InternalButton_Click(object sender, RoutedEventArgs e)
         {
             // On propage l'événement Click aux utilisateurs du contrôle
-            Click?.Invoke(this, e);
+            //Click?.Invoke(this, e);
+
+
         }
     }
 

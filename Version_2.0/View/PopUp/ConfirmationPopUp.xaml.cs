@@ -23,5 +23,9 @@ namespace Version_2._0.View.PopUp
         {
             InitializeComponent();
         }
+        private void ConfirmButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

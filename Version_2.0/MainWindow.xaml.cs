@@ -3,6 +3,7 @@ using System.Windows;
 using System.Collections.ObjectModel;
 using Version_2._0.View.PopUp;
 using System.Windows.Controls;
+using System.Linq;
 
 namespace Version_2._0
 {
@@ -96,12 +97,66 @@ namespace Version_2._0
 
         public void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
+
             if (sender is Button button && button.Tag is Work workToDelete)
             {
-                if (MessageBox.Show($"sur ?? '{workToDelete.Name}' ?", //mettre la pop up de confirmation ici 
+                if (MessageBox.Show($"Are you sure you want to delete '{workToDelete.Name}'?", // confirmation pop-up here
                     "Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
                     Works.Remove(workToDelete);
+                }
+            }
+
+            else if (AreAllWorksSelected)
+            {
+
+                string message = Works.Count > 1
+                    ? $"Are you sure you want to delete all {Works.Count} selected works?"
+                    : "Are you sure you want to delete the selected work?";
+
+                if (MessageBox.Show(message, "Multiple Deletion Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+
+                    for (int i = Works.Count - 1; i >= 0; i--)
+                    {
+                        if (Works[i].IsSelected)
+                        {
+                            Works.RemoveAt(i);
+                        }
+                    }
+
+
+                    AreAllWorksSelected = false;
+                }
+            }
+
+            else
+            {
+
+                var selectedWorks = Works.Where(w => w.IsSelected).ToList();
+                int selectedCount = selectedWorks.Count;
+
+                if (selectedCount > 0)
+                {
+                    string message = selectedCount > 1
+                        ? $"Are you sure you want to delete the {selectedCount} selected works?"
+                        : $"Are you sure you want to delete the work '{selectedWorks[0].Name}'?";
+
+                    if (MessageBox.Show(message, "Deletion Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                    {
+
+                        for (int i = Works.Count - 1; i >= 0; i--)
+                        {
+                            if (Works[i].IsSelected)
+                            {
+                                Works.RemoveAt(i);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("No work is selected for deletion.", "Information");
                 }
             }
         }

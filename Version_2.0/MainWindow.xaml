@@ -15,7 +15,29 @@
         <StackPanel Grid.Column="0" Background="#e0e0e0">
             <buttons:CreateButton Margin="26,42,26,20" />
             <buttons:UpdateButton Margin="3,20,3,20"/>
-            <buttons:DeleteButton Margin="6,20,6,20"/>
+            
+
+            <Button Height="50" Width="80"
+FontSize="16"
+FontWeight="Bold"
+BorderThickness="0"
+Background="Red"
+Foreground="White"
+Padding="10,5" Click="DeleteButton_Click">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+            CornerRadius="8">
+                            <TextBlock Text="Delete"
+                  Foreground="{TemplateBinding Foreground}"
+                  FontSize="{TemplateBinding FontSize}"
+                  FontWeight="{TemplateBinding FontWeight}"
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
             <buttons:LaunchButton Margin="22,20,22,20"/>
         </StackPanel>
         <Grid Grid.Column="1" Margin="10">
@@ -54,7 +76,6 @@
                                         </TextBlock>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,5,0,0">
-                                        <Button Content="Delete" Margin="0,0,5,0" Padding="5,2" Tag="{Binding}" Click="DeleteButton_Click"/>
 
                                     </StackPanel>
                                 </StackPanel>
