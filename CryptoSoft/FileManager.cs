@@ -5,37 +5,51 @@ namespace CryptoSoft;
 
 /// <summary>
 /// File manager class
-/// This class is used to encrypt and decrypt files
+/// This class is used to encrypt files
 /// </summary>
 public class FileManager(string path, string key)
 {
     private string FilePath { get; } = path;
     private string Key { get; } = key;
 
-    /// <summary>
-    /// check if the file exists
-    /// </summary>
-    private bool CheckFile()
-    {
-        if (File.Exists(FilePath))
-            return true;
+    private const string Signature = "CryptoSoft";
 
-        Console.WriteLine("File not found.");
-        Thread.Sleep(1000);
-        return false;
+    /// <summary>
+    /// Detects if the file has already been encrypted by checking for the header
+    /// </summary>
+    private bool IsEncrypted()
+    {
+        using FileStream fs = new(FilePath, FileMode.Open, FileAccess.Read); 
+        byte[] header = new byte[Signature.Length];
+        fs.Read(header, 0, header.Length);
+        string headerText = Encoding.UTF8.GetString(header);
+        return headerText == Signature;
     }
 
     /// <summary>
-    /// Encrypts the file with xor encryption
+    /// Encrypts the file with xor encryption and add a signature to prevents re-encryption
     /// </summary>
     public int TransformFile()
     {
-        if (!CheckFile()) return -1;
+        if (IsEncrypted())
+        {
+            Console.WriteLine("The file is already encrypted.");
+            return 0;
+        }
+
         Stopwatch stopwatch = Stopwatch.StartNew();
-        var fileBytes = File.ReadAllBytes(FilePath);
-        var keyBytes = ConvertToByte(Key);
-        fileBytes = XorMethod(fileBytes, keyBytes);
-        File.WriteAllBytes(FilePath, fileBytes);
+
+        byte[] fileBytes = File.ReadAllBytes(FilePath);
+        byte[] keyBytes = ConvertToByte(Key);
+        byte[] encryptedBytes = XorMethod(fileBytes, keyBytes);
+
+        byte[] header = Encoding.UTF8.GetBytes(Signature);
+        byte[] result = new byte[header.Length + encryptedBytes.Length];
+        Buffer.BlockCopy(header, 0, result, 0, header.Length);
+        Buffer.BlockCopy(encryptedBytes, 0, result, header.Length, encryptedBytes.Length);
+
+        File.WriteAllBytes(FilePath, result);
+
         stopwatch.Stop();
         return (int)stopwatch.ElapsedMilliseconds;
     }

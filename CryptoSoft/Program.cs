@@ -14,7 +14,7 @@ public static class Program
         {
             try
             {
-                Console.Write("Enter the path of the file to encrypt/decrypt: ");
+                Console.Write("Enter the path of the file to encrypt: ");
                 string filePath = Console.ReadLine()?.Trim() ?? "";
 
                 Console.Write("Enter your secret key: ");
@@ -36,14 +36,21 @@ public static class Program
 
                 if (!allowedExtensions.Contains(extension))
                 {
-                    Console.WriteLine($"The file type ({extension}) is not supported. Allowed types are: {string.Join(", ", allowedExtensions)}.\n");
+                    Console.WriteLine($"The file type {extension} is not supported. Allowed types are: {string.Join(", ", allowedExtensions)}.\n");
                     continue;
                 }
 
                 var fileManager = new FileManager(filePath, key);
                 int elapsedTime = fileManager.TransformFile();
 
-                Console.WriteLine($"File transformed in {elapsedTime} ms.\n");  
+                if (elapsedTime > 0)
+                {
+                    Console.WriteLine($"File '{Path.GetFileName(filePath)}' has been encrypted successfully in {elapsedTime} ms.\n");
+                }
+                else
+                {
+                    Console.WriteLine("The file is already encrypted.\n");
+                }
             }
             catch (Exception e)
             {
