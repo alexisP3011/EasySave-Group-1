@@ -193,13 +193,25 @@ namespace Version_2._0
                 {
                     work.State = "active";
 
-    
+                    DailyLog logger = DailyLog.getInstance();
+                    logger.createLogFile();
+
+                    logger.TransferFilesWithLogs(
+                        work.Source,  // Source path
+                        work.Target,  // Destination path
+                        work.Name);    // Work name
+
+
                     if (Directory.Exists(work.Source))
                     {
      
                         if (!Directory.Exists(work.Target))
                         {
                             Directory.CreateDirectory(work.Target);
+
+
+
+                          
                         }
 
 
