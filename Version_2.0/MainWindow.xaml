@@ -13,17 +13,37 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="0" Background="#e0e0e0">
-            <buttons:CreateButton Margin="26,42,26,20" />
+            <Button Height="50" Width="80"
+    FontSize="16"
+    FontWeight="Bold"
+    BorderThickness="0"
+    Background="Green"
+    Foreground="White"
+    Padding="10,5" Click="Button_Click">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                CornerRadius="8">
+                            <TextBlock Text="Create"
+                      Foreground="{TemplateBinding Foreground}"
+                      FontSize="{TemplateBinding FontSize}"
+                      FontWeight="{TemplateBinding FontWeight}"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
             <buttons:UpdateButton Margin="3,20,3,20"/>
             
 
             <Button Height="50" Width="80"
-FontSize="16"
-FontWeight="Bold"
-BorderThickness="0"
-Background="Red"
-Foreground="White"
-Padding="10,5" Click="DeleteButton_Click">
+                FontSize="16"
+                FontWeight="Bold"
+                BorderThickness="0"
+                Background="Red"
+                Foreground="White"
+                Padding="10,5" Click="DeleteButton_Click">
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
                         <Border Background="{TemplateBinding Background}"
@@ -38,7 +58,27 @@ Padding="10,5" Click="DeleteButton_Click">
                     </ControlTemplate>
                 </Button.Template>
             </Button>
-            <buttons:LaunchButton Margin="22,20,22,20"/>
+            <Button Height="50" Width="80"
+                FontSize="16"
+                FontWeight="Bold"
+                BorderThickness="0"
+                Background="LightSeaGreen"
+                Foreground="White"
+                Padding="10,5" Click="LaunchButton_Click">
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}"
+                CornerRadius="8">
+                            <TextBlock Text="Launch"
+                      Foreground="{TemplateBinding Foreground}"
+                      FontSize="{TemplateBinding FontSize}"
+                      FontWeight="{TemplateBinding FontWeight}"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
         </StackPanel>
         <Grid Grid.Column="1" Margin="10">
             <Grid.RowDefinitions>

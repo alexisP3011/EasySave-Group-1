@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using Version_2._0.View.PopUp;
 using System.Windows.Controls;
 using System.Linq;
+using System.IO;
 
 namespace Version_2._0
 {
@@ -56,11 +57,12 @@ namespace Version_2._0
             InitializeComponent();
 
             Works = new ObservableCollection<Work>();
-            Works.Add(new Work { Name = "Work 1", Source = "Source 1", Target = "Target 1", Type = "Type 1", State = "inactive" });
+
+          
+            Works.Add(new Work { Name = "Work 1", Source = "C:\\Users\\pfrsc\\OneDrive - Association Cesi Viacesi mail\\Bus", Target = "C:\\Users\\pfrsc\\OneDrive - Association Cesi Viacesi mail\\Python", Type = "Type 1", State = "inactive" });
             Works.Add(new Work { Name = "Work 2", Source = "Source 2", Target = "Target 2", Type = "Type 2", State = "inactive" });
             Works.Add(new Work { Name = "Work 3", Source = "Source 3", Target = "Target 3", Type = "Type 3", State = "inactive" });
             Works.Add(new Work { Name = "Work 4", Source = "Source 4", Target = "Target 4", Type = "Type 4", State = "inactive" });
-            Works.Add(new Work { Name = "Work 5", Source = "Source 5", Target = "Target 5", Type = "Type 5", State = "inactive" });
 
             if (Works.Count > 0)
                 CurrentWork = Works[0];
@@ -163,10 +165,37 @@ namespace Version_2._0
 
         public void LaunchButton_Click(object sender, RoutedEventArgs e)
         {
+
             if (sender is Button button && button.Tag is Work workToLaunch)
             {
                 workToLaunch.State = "active";
                 MessageBox.Show($"Le travail '{workToLaunch.Name}' a été lancé.", "Information");
+
+                if (workToLaunch.State == "inactive")
+                {
+                    workToLaunch.State = "active";
+
+                    // Verify if the source directory exists
+                    if (Directory.Exists(workToLaunch.Source))
+                    {
+                        // Create the target directory if it doesn't exist
+                        if (!Directory.Exists(workToLaunch.Target))
+                        {
+                            Directory.CreateDirectory(workToLaunch.Target);
+                        }
+
+                        // Copy all of the files to the new location
+                        foreach (var file in Directory.GetFiles(workToLaunch.Source))
+                        {
+                            string fileName = Path.GetFileName(file);
+                            string destFile = Path.Combine(workToLaunch.Target, fileName);
+                            File.Copy(file, destFile, overwrite: true);
+                        }
+                    }
+                    workToLaunch.State = "finished";
+
+                    //_works.Remove(workToLaunch);
+                }
             }
         }
 
@@ -215,6 +244,14 @@ namespace Version_2._0
             {
                 List_Works.IsChecked = allChecked;
             }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var popup = new PopUpCreateWork();
+            popup.WorkCreated += OnWorkCreated;
+            popup.Owner = this;
+            popup.Show();
         }
     }
 

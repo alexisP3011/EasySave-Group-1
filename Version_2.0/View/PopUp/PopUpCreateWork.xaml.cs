@@ -1,19 +1,9 @@
 ﻿using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-
+//using System.Windows.Forms;
+using MessageBox = System.Windows.MessageBox;
 namespace Version_2._0.View.PopUp
 {
     /// <summary>
@@ -21,38 +11,60 @@ namespace Version_2._0.View.PopUp
     /// </summary>
     public partial class PopUpCreateWork : Window
     {
-
         public delegate void WorkCreatedEventHandler(Work newWork);
         public event WorkCreatedEventHandler WorkCreated;
-
         public PopUpCreateWork()
         {
             InitializeComponent();
         }
-
         private void ConfirmButton_Click(object sender, RoutedEventArgs e)
         {
+            // Valider les entrées
+            if (string.IsNullOrWhiteSpace(JobNameTextBox.Text))
+            {
+                ErrorMessageTextBlock.Text = "Please enter a name for the job.";
+                ErrorMessageTextBlock.Visibility = Visibility.Visible;
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(SourcePathTextBox.Text))
+            {
+                ErrorMessageTextBlock.Text = "Please select a source folder.";
+                ErrorMessageTextBlock.Visibility = Visibility.Visible;
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(TargetPathTextBox.Text))
+            {
+                ErrorMessageTextBlock.Text = "Please select a target folder.";
+                ErrorMessageTextBlock.Visibility = Visibility.Visible;
+                return;
+            }
             string jobName = JobNameTextBox.Text;
             string sourcePath = SourcePathTextBox.Text;
             string targetPath = TargetPathTextBox.Text;
-
-            string jobType = null;
+            string jobType = "Complete";
             if (JobTypeComboBox.SelectedItem is ComboBoxItem selectedItem)
             {
                 jobType = selectedItem.Content.ToString();
             }
 
-
-            Work work = new Work
+            Work newWork = new Work
             {
                 Name = jobName,
                 Source = sourcePath,
                 Target = targetPath,
-                Type = jobType
+                Type = jobType,
+                State = "inactive"
             };
 
-
-            WorkCreated?.Invoke(work);
+            WorkCreated?.Invoke(newWork);
+            MessageBox.Show("The job has been created successfully." + newWork.Name, "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            this.Close();
+        }
+        private void ConfirmButton_Loaded(object sender, RoutedEventArgs e)
+        {
+        }
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
 
             this.Close();
         }
