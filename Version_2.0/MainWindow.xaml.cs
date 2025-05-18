@@ -256,10 +256,45 @@ namespace Version_2._0
 
         private void Button_Click_Update(object sender, RoutedEventArgs e)
         {
-            var popup = new PopUpUpdateWork();
-            //popup.WorkCreated += OnWorkCreated;
-            //popup.Owner = this;
-            popup.Show();
+            
+            var selectedWorks = Works.Where(w => w.IsSelected).ToList();
+
+            if (selectedWorks.Count == 0)
+            {
+                MessageBox.Show("Please select a work to update.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            if (selectedWorks.Count > 1)
+            {
+                MessageBox.Show("Please select only one work to update.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            // Récupérer le travail sélectionné
+            Work workToUpdate = selectedWorks.First();
+
+            // Créer et configurer la popup
+            var popup = new PopUpUpdateWork(workToUpdate);
+            popup.WorkUpdated += OnWorkUpdated;
+            popup.Owner = this;
+            popup.ShowDialog();
+        }
+
+        private void OnWorkUpdated(Work originalWork, Work updatedWork)
+        {
+     
+            int index = Works.IndexOf(originalWork);
+
+            if (index != -1)
+            {
+              
+                Works[index].Source = updatedWork.Source;
+                Works[index].Target = updatedWork.Target;
+                Works[index].Type = updatedWork.Type;
+
+                MessageBox.Show($"Le travail '{updatedWork.Name}' a été mis à jour avec succès.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
     }
 

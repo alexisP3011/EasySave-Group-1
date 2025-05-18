@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Version_2._0.View.PopUp"
         mc:Ignorable="d"
-        Title="PopUpUpdateWork" Height="450" Width="800">
+        Title="Update Work" Height="450" Width="800" WindowStartupLocation="CenterOwner">
     <Grid>
         <Grid>
             <Grid Background="White" Opacity=".75" Panel.ZIndex="10" Margin="124,0,124,10"/>
@@ -28,7 +28,7 @@
 
                         <TextBlock Margin="0,0,0,4" Text="Name:" />
                         <Border BorderBrush="LightSlateGray" BorderThickness="2" CornerRadius="4" Margin="0,0,0,16">
-                            <TextBox x:Name="JobNameTextBox" BorderThickness="0"/>
+                            <TextBox x:Name="JobNameTextBox" BorderThickness="0" IsReadOnly="True"/>
                         </Border>
 
                         <TextBlock Margin="0,0,0,4" Text="Source :" />
@@ -43,7 +43,6 @@
                             </Border>
 
                             <Button x:Name="_3DotSource" Grid.Column="1" 
-                                 
                                 Width="32" 
                                 Margin="4,0,0,0"  ToolTip="Parcourir">
                                 <Button.Template>
@@ -118,7 +117,7 @@
                                     <ControlTemplate TargetType="Button">
                                         <Border Background="{TemplateBinding Background}"
                                             CornerRadius="8">
-                                            <TextBlock Text="Create"
+                                            <TextBlock x:Name="ConfirmButtonText" Text="Update"
                                                    Foreground="White"
                                                    HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"/>
