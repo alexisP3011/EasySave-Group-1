@@ -7,7 +7,6 @@ public static class Program
         Console.WriteLine("=== CryptoSoft ===\n");
 
         string[] allowedExtensions = { ".txt", ".csv", ".json", ".xml", ".log" };
-
         bool keep = true;
 
         while (keep)
@@ -43,14 +42,7 @@ public static class Program
                 var fileManager = new FileManager(filePath, key);
                 int elapsedTime = fileManager.TransformFile();
 
-                if (elapsedTime > 0)
-                {
-                    Console.WriteLine($"File '{Path.GetFileName(filePath)}' has been encrypted successfully in {elapsedTime} ms.\n");
-                }
-                else
-                {
-                    Console.WriteLine("The file is already encrypted.\n");
-                }
+                Console.WriteLine($"File '{Path.GetFileName(filePath)}' has been encrypted successfully in {elapsedTime} ms.\n");  
             }
             catch (Exception e)
             {
