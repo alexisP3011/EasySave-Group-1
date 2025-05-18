@@ -13,6 +13,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="0" Background="#e0e0e0">
+            <!--Button Create-->
             <Button Height="50" Width="80"
     FontSize="16"
     FontWeight="Bold"
@@ -34,9 +35,31 @@
                     </ControlTemplate>
                 </Button.Template>
             </Button>
-            <buttons:UpdateButton Margin="3,20,3,20"/>
             
+            <!--Button update-->
+            <Button Height="50" Width="80"
+    FontSize="16"
+    FontWeight="Bold"
+    BorderThickness="0"
+    Background="DarkOrange"
+    Foreground="White"
+    Padding="10,5" Click="Button_Click_Update">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                CornerRadius="8">
+                            <TextBlock Text="Update"
+                      Foreground="{TemplateBinding Foreground}"
+                      FontSize="{TemplateBinding FontSize}"
+                      FontWeight="{TemplateBinding FontWeight}"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
 
+            <!--button delete-->
             <Button Height="50" Width="80"
                 FontSize="16"
                 FontWeight="Bold"
@@ -58,6 +81,8 @@
                     </ControlTemplate>
                 </Button.Template>
             </Button>
+            
+            <!--button launch-->
             <Button Height="50" Width="80"
                 FontSize="16"
                 FontWeight="Bold"

@@ -57,7 +57,8 @@ namespace Version_2._0.View.PopUp
             };
 
             WorkCreated?.Invoke(newWork);
-            MessageBox.Show("The job has been created successfully." + newWork.Name, "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show("The work " + newWork.Name +  " has been created successfully." , "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            
             this.Close();
         }
         private void ConfirmButton_Loaded(object sender, RoutedEventArgs e)

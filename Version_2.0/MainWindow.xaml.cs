@@ -253,6 +253,14 @@ namespace Version_2._0
             popup.Owner = this;
             popup.Show();
         }
+
+        private void Button_Click_Update(object sender, RoutedEventArgs e)
+        {
+            var popup = new PopUpUpdateWork();
+            //popup.WorkCreated += OnWorkCreated;
+            //popup.Owner = this;
+            popup.Show();
+        }
     }
 
     public class Work : INotifyPropertyChanged
