@@ -2,33 +2,51 @@
 
 public static class Program
 {
-    public static void Main(string[] args)
+    public static void Main()
     {
-        try
+        Console.WriteLine("=== CryptoSoft ===\n");
+
+        bool continuer = true;
+
+        while (continuer)
         {
-            Console.WriteLine("=== CryptoSoft===");
-            Console.Write("Enter the path of the file to encrypt: ");
-            string filePath = Console.ReadLine()?.Trim() ?? "";
-
-            Console.Write("Enter your secret key: ");
-            string key = Console.ReadLine()?.Trim() ?? "";
-
-            if (string.IsNullOrWhiteSpace(filePath) || string.IsNullOrWhiteSpace(key))
+            try
             {
-                Console.WriteLine("Error: the file path and the key must be provided.");
-                Environment.Exit(-1);
+                Console.Write("Enter the path of the file to encrypt/decrypt: ");
+                string filePath = Console.ReadLine()?.Trim() ?? "";
+
+                Console.Write("Enter your secret key: ");
+                string key = Console.ReadLine()?.Trim() ?? "";
+
+                if (string.IsNullOrWhiteSpace(filePath) || string.IsNullOrWhiteSpace(key))
+                {
+                    Console.WriteLine("Error: the file path and the key must be provided.\n");
+                    continue;
+                }
+
+                if (!File.Exists(filePath))
+                {
+                    Console.WriteLine($"Error: File not found at '{Path.GetFullPath(filePath)}'\n");
+                    continue;
+                }
+
+                var fileManager = new FileManager(filePath, key);
+                int elapsedTime = fileManager.TransformFile();
+
+                Console.WriteLine($"File transformed in {elapsedTime} ms.\n");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error: " + e.Message + "\n");
             }
 
-            var fileManager = new FileManager(filePath, key);
-            int ElapsedTime = fileManager.TransformFile();
+            Console.Write("Do you want to encrypt/decrypt another file? (y/n): ");
+            string? answer = Console.ReadLine()?.Trim();
 
-            Console.WriteLine($"File transformed in {ElapsedTime} ms.");
-            Environment.Exit(ElapsedTime);
+            continuer = answer == "y";
+            Console.WriteLine();
         }
-        catch (Exception e)
-        {
-            Console.WriteLine("Error: " + e.Message);
-            Environment.Exit(-99);
-        }
+
+        Console.WriteLine("Thank you for using CryptoSoft!");
     }
 }
