@@ -59,7 +59,9 @@ namespace Version_2._0
             Works = new ObservableCollection<Work>();
 
           
-            Works.Add(new Work { Name = "Work 1", Source = "C:\\Users\\pfrsc\\OneDrive - Association Cesi Viacesi mail\\Bus", Target = "C:\\Users\\pfrsc\\OneDrive - Association Cesi Viacesi mail\\Python", Type = "Type 1", State = "inactive" });
+            Works.Add(new Work { Name = "Work 1", Source = "C:\\Users\\pfrsc\\OneDrive - Association Cesi Viacesi mail\\Bus", Target = "C:\\Users\\pfrsc\\OneDrive - Association Cesi Viacesi mail\\Python\\end", Type = "Type 1", State = "inactive" });
+            Works.Add(new Work { Name = "Work 5", Source = "C:\\Users\\pfrsc\\OneDrive - Association Cesi Viacesi mail\\Bus", Target = "C:\\Users\\pfrsc\\OneDrive - Association Cesi Viacesi mail\\Python\\end2", Type = "Type 1", State = "inactive" });
+
             Works.Add(new Work { Name = "Work 2", Source = "Source 2", Target = "Target 2", Type = "Type 2", State = "inactive" });
             Works.Add(new Work { Name = "Work 3", Source = "Source 3", Target = "Target 3", Type = "Type 3", State = "inactive" });
             Works.Add(new Work { Name = "Work 4", Source = "Source 4", Target = "Target 4", Type = "Type 4", State = "inactive" });
@@ -165,39 +167,58 @@ namespace Version_2._0
 
         public void LaunchButton_Click(object sender, RoutedEventArgs e)
         {
+            var selectedWorks = Works.Where(w => w.IsSelected).ToList();
 
-            if (sender is Button button && button.Tag is Work workToLaunch)
+            if (selectedWorks.Count == 0)
             {
-                workToLaunch.State = "active";
-                MessageBox.Show($"Le travail '{workToLaunch.Name}' a été lancé.", "Information");
+                MessageBox.Show("Please select a work to launch.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
 
-                if (workToLaunch.State == "inactive")
+
+            string confirmationMessage = selectedWorks.Count == 1
+                ? "Are you sure you want to launch the selected work?"
+                : $"Are you sure you want to launch the {selectedWorks.Count} selected works?";
+
+            var result = MessageBox.Show(confirmationMessage, "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            if (result != MessageBoxResult.Yes)
+            {
+                return;
+            }
+
+            foreach (var work in selectedWorks)
+            {
+                if (work.State == "inactive")
                 {
-                    workToLaunch.State = "active";
+                    work.State = "active";
 
-                    // Verify if the source directory exists
-                    if (Directory.Exists(workToLaunch.Source))
+    
+                    if (Directory.Exists(work.Source))
                     {
-                        // Create the target directory if it doesn't exist
-                        if (!Directory.Exists(workToLaunch.Target))
+     
+                        if (!Directory.Exists(work.Target))
                         {
-                            Directory.CreateDirectory(workToLaunch.Target);
+                            Directory.CreateDirectory(work.Target);
                         }
 
-                        // Copy all of the files to the new location
-                        foreach (var file in Directory.GetFiles(workToLaunch.Source))
+
+                        foreach (var file in Directory.GetFiles(work.Source))
                         {
                             string fileName = Path.GetFileName(file);
-                            string destFile = Path.Combine(workToLaunch.Target, fileName);
+                            string destFile = Path.Combine(work.Target, fileName);
                             File.Copy(file, destFile, overwrite: true);
                         }
                     }
-                    workToLaunch.State = "finished";
 
-                    //_works.Remove(workToLaunch);
+                    work.State = "finished";
                 }
             }
         }
+
+
+
+
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string propertyName)

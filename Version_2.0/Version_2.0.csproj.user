@@ -8,22 +8,10 @@
     <Compile Update="View\Button\ConfirmButton.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="View\Button\CreateButton.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="View\Button\DeleteButton.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="View\Button\LaunchButton.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="View\Button\UpdateButton.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="View\PopUp\ConfirmationPopUp.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="View\PopUp\CreateWorkPopUp.xaml.cs">
+    <Compile Update="View\PopUp\PopUpUpdateWork.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="View\PopUp\SettingsPopup.xaml.cs">
