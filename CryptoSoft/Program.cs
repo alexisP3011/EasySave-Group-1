@@ -6,6 +6,8 @@ public static class Program
     {
         Console.WriteLine("=== CryptoSoft ===\n");
 
+        string[] allowedExtensions = { ".txt", ".csv", ".json", ".xml", ".log" };
+
         bool keep = true;
 
         while (keep)
@@ -31,17 +33,17 @@ public static class Program
                 }
 
                 string extension = Path.GetExtension(filePath).ToLower();
-                Console.WriteLine($"Detected file type: {extension}");
 
-                if (extension != ".txt")
+                if (!allowedExtensions.Contains(extension))
                 {
-                    Console.WriteLine("Warning: Encrypting non-text files may make them unusable unless properly decrypted.\n");
+                    Console.WriteLine($"The file type ({extension}) is not supported. Allowed types are: {string.Join(", ", allowedExtensions)}.\n");
+                    continue;
                 }
 
                 var fileManager = new FileManager(filePath, key);
                 int elapsedTime = fileManager.TransformFile();
 
-                Console.WriteLine($"File transformed in {elapsedTime} ms.\n");
+                Console.WriteLine($"File transformed in {elapsedTime} ms.\n");  
             }
             catch (Exception e)
             {
