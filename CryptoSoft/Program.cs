@@ -6,9 +6,9 @@ public static class Program
     {
         Console.WriteLine("=== CryptoSoft ===\n");
 
-        bool continuer = true;
+        bool keep = true;
 
-        while (continuer)
+        while (keep)
         {
             try
             {
@@ -30,6 +30,14 @@ public static class Program
                     continue;
                 }
 
+                string extension = Path.GetExtension(filePath).ToLower();
+                Console.WriteLine($"Detected file type: {extension}");
+
+                if (extension != ".txt")
+                {
+                    Console.WriteLine("Warning: Encrypting non-text files may make them unusable unless properly decrypted.\n");
+                }
+
                 var fileManager = new FileManager(filePath, key);
                 int elapsedTime = fileManager.TransformFile();
 
@@ -43,7 +51,7 @@ public static class Program
             Console.Write("Do you want to encrypt/decrypt another file? (y/n): ");
             string? answer = Console.ReadLine()?.Trim();
 
-            continuer = answer == "y";
+            keep = answer == "y";
             Console.WriteLine();
         }
 
