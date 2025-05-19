@@ -118,6 +118,9 @@ namespace Version_1._0.ViewModel
             {
                 storage.DeleteWorkEntry(workToDelete.GetName());
             }
+
+            realTimeLog.DeleteRealTimeLogEntry(workToDelete.GetName());
+
         }
 
         public void LoadWorkToCurrent()
@@ -165,6 +168,8 @@ namespace Version_1._0.ViewModel
                     );
                 }
             }
+            // Update the real-time log
+            UpdateRealTimeLog();
         }
 
         public int GetWorkCount()

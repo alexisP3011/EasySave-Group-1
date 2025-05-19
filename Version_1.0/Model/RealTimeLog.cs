@@ -139,6 +139,18 @@ namespace Version_1._0.Model
             File.WriteAllText(filePath, "[]");
         }
 
+        public void DeleteRealTimeLogEntry(string name)
+        {
+            var allLogs = LoadRealTimeLog();
+            var logToDelete = allLogs.FirstOrDefault(log => log.Name == name);
+            if (logToDelete != null)
+            {
+                allLogs.Remove(logToDelete);
+                var options = new JsonSerializerOptions { WriteIndented = true };
+                File.WriteAllText(filePath, JsonSerializer.Serialize(allLogs, options));
+            }
+        }
+
         public long TotalFilesToCopy(string source, string state)
         {
             if (Directory.Exists(source) && (state == "active" || state == "inactive"))
