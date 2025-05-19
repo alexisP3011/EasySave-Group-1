@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Linq;
 using System.IO;
 using Version_2._0.View.Popup;
+using System.Diagnostics;
 
 namespace Version_2._0
 {
@@ -170,19 +171,24 @@ namespace Version_2._0
         {
             var selectedWorks = Works.Where(w => w.IsSelected).ToList();
 
+      
+            if (Process.GetProcessesByName("mspaint").Length > 0)
+            {
+                MessageBox.Show("La calculatrice est déjà ouverte. Veuillez la fermer avant de continuer.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
             if (selectedWorks.Count == 0)
             {
                 MessageBox.Show("Please select a work to launch.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
 
-
             string confirmationMessage = selectedWorks.Count == 1
                 ? "Are you sure you want to launch the selected work?"
                 : $"Are you sure you want to launch the {selectedWorks.Count} selected works?";
 
             var result = MessageBox.Show(confirmationMessage, "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
-
             if (result != MessageBoxResult.Yes)
             {
                 return;
@@ -193,29 +199,19 @@ namespace Version_2._0
                 if (work.State == "inactive")
                 {
                     work.State = "active";
-
                     DailyLog logger = DailyLog.getInstance();
                     logger.createLogFile();
-
                     logger.TransferFilesWithLogs(
                         work.Source,  // Source path
                         work.Target,  // Destination path
                         work.Name);    // Work name
 
-
                     if (Directory.Exists(work.Source))
                     {
-     
                         if (!Directory.Exists(work.Target))
                         {
                             Directory.CreateDirectory(work.Target);
-
-
-
-                          
                         }
-
-
                         foreach (var file in Directory.GetFiles(work.Source))
                         {
                             string fileName = Path.GetFileName(file);
@@ -223,13 +219,10 @@ namespace Version_2._0
                             File.Copy(file, destFile, overwrite: true);
                         }
                     }
-
                     work.State = "finished";
                 }
             }
         }
-
-
 
 
 
