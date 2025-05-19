@@ -137,7 +137,7 @@ namespace Version_2._0
                             
                             storage.DeleteWorkEntry(Works[i].Name);
                             Works.RemoveAt(i);
-                            storage.LoadAllWorks();
+                            //storage.LoadAllWorks();
 
 
                         }
@@ -162,14 +162,10 @@ namespace Version_2._0
 
                     if (MessageBox.Show(message, "Deletion Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                     {
-
-                        for (int i = Works.Count - 1; i >= 0; i--)
+                        foreach (var work in selectedWorks)
                         {
-                            if (Works[i].IsSelected)
-                            {
-                                Works.RemoveAt(i);
-                                storage.DeleteWorkEntry(selectedWorks[i].Name);
-                            }
+                            storage.DeleteWorkEntry(work.Name);
+                            Works.Remove(work);
                         }
                     }
                 }
