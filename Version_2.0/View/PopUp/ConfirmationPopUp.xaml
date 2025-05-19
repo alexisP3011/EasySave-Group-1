@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Version_2._0.View.PopUp"
         xmlns:buttons="clr-namespace:Version_2._0.View.Button"
         mc:Ignorable="d"
-        Title="ConfirmationPopUp" Height="450" Width="800">
+        Title="Confirmation" Height="450" Width="800">
     <Grid Background="#cae9ff">
         <Grid.RowDefinitions>
             <RowDefinition Height="250"/>
