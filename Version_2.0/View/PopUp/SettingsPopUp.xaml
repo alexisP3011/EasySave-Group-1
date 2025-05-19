@@ -62,7 +62,7 @@
                                     <ControlTemplate TargetType="Button">
                                         <Border Background="{TemplateBinding Background}"
                     CornerRadius="8">
-                                            <TextBlock Text="Create"
+                                            <TextBlock Text="Confirm"
                            Foreground="White"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"/>

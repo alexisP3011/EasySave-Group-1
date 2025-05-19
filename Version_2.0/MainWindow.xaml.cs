@@ -170,12 +170,23 @@ namespace Version_2._0
         public void LaunchButton_Click(object sender, RoutedEventArgs e)
         {
             var selectedWorks = Works.Where(w => w.IsSelected).ToList();
+
             SettingsPopup settingsPopup = new SettingsPopup();
             string software = settingsPopup.Software;
+
+            DailyLog logger = DailyLog.getInstance();
+            logger.createLogFile();
 
             if (Process.GetProcessesByName(software).Length > 0)
             {
                 MessageBox.Show("Please close the software to continue.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                foreach (var work in selectedWorks)
+                {
+                    logger.LogSaveError(work.Name,software);
+                }
+
+
                 return;
             }
 
@@ -200,26 +211,12 @@ namespace Version_2._0
                 if (work.State == "inactive")
                 {
                     work.State = "active";
-                    DailyLog logger = DailyLog.getInstance();
-                    logger.createLogFile();
+
                     logger.TransferFilesWithLogs(
                         work.Source,  // Source path
                         work.Target,  // Destination path
                         work.Name);    // Work name
 
-                    if (Directory.Exists(work.Source))
-                    {
-                        if (!Directory.Exists(work.Target))
-                        {
-                            Directory.CreateDirectory(work.Target);
-                        }
-                        foreach (var file in Directory.GetFiles(work.Source))
-                        {
-                            string fileName = Path.GetFileName(file);
-                            string destFile = Path.Combine(work.Target, fileName);
-                            File.Copy(file, destFile, overwrite: true);
-                        }
-                    }
                     work.State = "finished";
                 }
             }
@@ -245,13 +242,13 @@ namespace Version_2._0
 
         private void WorkCheckbox_Checked(object sender, RoutedEventArgs e)
         {
-            // Vérifier si toutes les checkboxes individuelles sont cochées
+
             UpdateMasterCheckboxState();
         }
 
         private void WorkCheckbox_Unchecked(object sender, RoutedEventArgs e)
         {
-            // Si une checkbox individuelle est décochée, décocher la checkbox maître
+
             List_Works.IsChecked = false;
         }
 
