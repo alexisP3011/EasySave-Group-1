@@ -120,16 +120,7 @@ namespace Version_2._0
         public void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
 
-            if (sender is Button button && button.Tag is Work workToDelete)
-            {
-                if (MessageBox.Show($"Are you sure you want to delete '{workToDelete.Name}'?", // confirmation pop-up here
-                    "Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-                {
-                    Works.Remove(workToDelete);
-                }
-            }
-
-            else if (AreAllWorksSelected)
+            if (AreAllWorksSelected)
             {
 
                 string message = Works.Count > 1
@@ -143,7 +134,12 @@ namespace Version_2._0
                     {
                         if (Works[i].IsSelected)
                         {
+                            
+                            storage.DeleteWorkEntry(Works[i].Name);
                             Works.RemoveAt(i);
+                            storage.LoadAllWorks();
+
+
                         }
                     }
 
@@ -172,6 +168,7 @@ namespace Version_2._0
                             if (Works[i].IsSelected)
                             {
                                 Works.RemoveAt(i);
+                                storage.DeleteWorkEntry(selectedWorks[i].Name);
                             }
                         }
                     }
