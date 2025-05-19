@@ -326,6 +326,8 @@ namespace Version_2._0
                 Works[index].Source = updatedWork.Source;
                 Works[index].Target = updatedWork.Target;
                 Works[index].Type = updatedWork.Type;
+                storage.DeleteWorkEntry(updatedWork.Name);
+                storage.AddWorkEntry(updatedWork.Name, updatedWork.Source, updatedWork.Target, updatedWork.Type, updatedWork.State);
 
                 MessageBox.Show($"The work '{updatedWork.Name}' has been successfully updated.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
             }
