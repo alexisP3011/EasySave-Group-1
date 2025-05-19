@@ -18,6 +18,39 @@
 
 
         <StackPanel Grid.Column="0" Background="#e0e0e0" RenderTransformOrigin="0.473,0.899">
+
+            <!--Button settings-->
+            <Button Height="67" Width="76"
+   FontSize="16"
+   FontWeight="Bold"
+   BorderThickness="55"
+   Margin="0,50,0,25"
+   Padding="10,5" Click="Button_Settings" >
+
+                <Button.Background>
+                    <ImageBrush ImageSource="/settings.png"/>
+                </Button.Background>
+                <Button Height="50" Width="80"
+                   FontSize="16"
+                   FontWeight="Bold"
+                   BorderThickness="55"
+                   Background="Green"
+                   Foreground="White"
+       
+                   Padding="10,5">
+
+                </Button>
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+               CornerRadius="8">
+    
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            
+            
             <!--Button Create-->
             <Button Height="50" Width="80"
     FontSize="16"

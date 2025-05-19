@@ -39,8 +39,8 @@ namespace Version_2._0
         public void createLogFile(string name = null, string directory = null)
         {
             string directoryPath = string.IsNullOrEmpty(directory)
-                ? Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads"
-                : directory;
+            ? Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) : directory;
+                        directoryPath = Path.Combine(directoryPath, "EasySave", "logs");
 
             if (!Directory.Exists(directoryPath))
             {

@@ -5,6 +5,7 @@ using Version_2._0.View.PopUp;
 using System.Windows.Controls;
 using System.Linq;
 using System.IO;
+using Version_2._0.View.Popup;
 
 namespace Version_2._0
 {
@@ -328,6 +329,13 @@ namespace Version_2._0
 
                 MessageBox.Show($"Le travail '{updatedWork.Name}' a été mis à jour avec succès.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
             }
+        }
+
+        private void Button_Settings(object sender, RoutedEventArgs e)
+        {
+            var popup = new SettingsPopup();
+            popup.Owner = this;
+            popup.ShowDialog();
         }
     }
 
