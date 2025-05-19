@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Version_1._0.Model;
 
 namespace Version_1._0.ViewModel
 {
@@ -15,6 +16,8 @@ namespace Version_1._0.ViewModel
         public Model.Work _currentWork = new Model.Work();
 
         Model.WorkStorage storage = Model.WorkStorage.getInstance();
+
+        Model.RealTimeLog realTimeLog = Model.RealTimeLog.getInstance();
 
         public ViewModel()
         {
@@ -83,7 +86,17 @@ namespace Version_1._0.ViewModel
                 _currentWork.GetType(),
                 _currentWork.GetState()
             );
-
+            realTimeLog.CreateLogFile();
+            realTimeLog.AddLogEntry(
+                _currentWork.GetName(),
+                _currentWork.GetSource(),
+                _currentWork.GetTarget(),
+                _currentWork.GetState(),
+                realTimeLog.TotalFilesToCopy(_currentWork.GetSource(), _currentWork.GetState()),
+                realTimeLog.TotalFilesSize(_currentWork.GetSource(), _currentWork.GetState()),
+                realTimeLog.NbFilesLeftToDo(_currentWork.GetSource(), _currentWork.GetTarget(), _currentWork.GetState()),
+                realTimeLog.Progression(_currentWork.GetSource(), _currentWork.GetTarget())
+                );
         }
 
         public List<Model.Work> GetAllWorks()
@@ -105,6 +118,9 @@ namespace Version_1._0.ViewModel
             {
                 storage.DeleteWorkEntry(workToDelete.GetName());
             }
+
+            realTimeLog.DeleteRealTimeLogEntry(workToDelete.GetName());
+
         }
 
         public void LoadWorkToCurrent()
@@ -152,6 +168,8 @@ namespace Version_1._0.ViewModel
                     );
                 }
             }
+            // Update the real-time log
+            UpdateRealTimeLog();
         }
 
         public int GetWorkCount()
@@ -161,10 +179,38 @@ namespace Version_1._0.ViewModel
 
         public void LaunchWork()
         {
+            
             _currentWork.LaunchWork();
 
-            // Update the work state to "Finished"
             UpdateWork();
+
+            UpdateRealTimeLog();
+
+        }
+        public void UpdateRealTimeLog()
+        {
+
+            var allLogs = realTimeLog.LoadRealTimeLog();
+
+            int indexToUpdate = allLogs.FindIndex(l => l.Name == input);
+            if (indexToUpdate != -1)
+            {
+                allLogs[indexToUpdate].Name = _currentWork.GetName();
+                allLogs[indexToUpdate].Source = _currentWork.GetSource();
+                allLogs[indexToUpdate].Target = _currentWork.GetTarget();
+                allLogs[indexToUpdate].State = _currentWork.GetState();
+                allLogs[indexToUpdate].TotalFilesToCopy = realTimeLog.TotalFilesToCopy(_currentWork.GetSource(), _currentWork.GetState());
+                allLogs[indexToUpdate].TotalFilesSize = realTimeLog.TotalFilesSize(_currentWork.GetSource(), _currentWork.GetState());
+                allLogs[indexToUpdate].NbFilesLeftToDo = realTimeLog.NbFilesLeftToDo(_currentWork.GetSource(), _currentWork.GetTarget(), _currentWork.GetState());
+                allLogs[indexToUpdate].Progression = realTimeLog.Progression(_currentWork.GetSource(), _currentWork.GetTarget());
+
+                realTimeLog.DeleteRealTimeLog();
+
+                foreach (var log in allLogs)
+                {
+                    realTimeLog.SaveEntry(log);
+                }
+            }
         }
     }
 }

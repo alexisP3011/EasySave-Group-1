@@ -110,6 +110,7 @@ namespace Version_1._0.Model
                 Type = type,
                 State = state
             };
+            // Save the work entry to the JSON file
             SaveWork(entry);
         }
 
