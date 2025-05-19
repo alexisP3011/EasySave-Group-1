@@ -170,11 +170,12 @@ namespace Version_2._0
         public void LaunchButton_Click(object sender, RoutedEventArgs e)
         {
             var selectedWorks = Works.Where(w => w.IsSelected).ToList();
+            SettingsPopup settingsPopup = new SettingsPopup();
+            string software = settingsPopup.Software;
 
-      
-            if (Process.GetProcessesByName("mspaint").Length > 0)
+            if (Process.GetProcessesByName(software).Length > 0)
             {
-                MessageBox.Show("La calculatrice est déjà ouverte. Veuillez la fermer avant de continuer.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Please close the software to continue.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
 
@@ -320,7 +321,7 @@ namespace Version_2._0
                 Works[index].Target = updatedWork.Target;
                 Works[index].Type = updatedWork.Type;
 
-                MessageBox.Show($"Le travail '{updatedWork.Name}' a été mis à jour avec succès.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show($"The work '{updatedWork.Name}' has been successfully updated.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 

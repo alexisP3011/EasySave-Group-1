@@ -33,9 +33,9 @@
                             <ComboBoxItem Content="French" />
                         </ComboBox>
 
-                        <TextBlock Margin="0,0,0,4" Text="Middleware:"/>
+                        <TextBlock Margin="0,0,0,4" Text="Middleware:" />
                         <Border BorderBrush="LightSlateGray" BorderThickness="2" CornerRadius="4" Margin="0,0,0,16">
-                            <TextBox x:Name="MiddlewareTextBox" BorderThickness="0"/>
+                            <TextBox x:Name="MiddlewareTextBox" BorderThickness="0" Text="" />
                         </Border>
 
                         <TextBlock Margin="0,0,0,4" Text="Extension to encrypt:"/>
@@ -56,7 +56,20 @@
                             </Grid.ColumnDefinitions>
 
                             <buttons:CancelButton Grid.Column="1" Margin="0,0,8,0"/>
-                            <buttons:ConfirmButton Grid.Column="0" Margin="8,0,0,0"/>
+                            <Button x:Name="ConfirmButton" Grid.Column="0" Click="ConfirmButton_Click" Margin="0,0,8,0"
+        Height="40" Background="#4CAF50" Foreground="White" BorderThickness="0">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}"
+                    CornerRadius="8">
+                                            <TextBlock Text="Create"
+                           Foreground="White"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
                         </Grid>
                     </StackPanel>
                 </Border>
