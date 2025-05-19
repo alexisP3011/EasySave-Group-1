@@ -23,7 +23,6 @@ namespace Version_2._0.Model
             get => _instance ??= new Settings().Load();
         }
 
-        // Charger les paramètres depuis le fichier de configuration
         public Settings Load()
         {
             if (File.Exists(_configPath))
@@ -38,15 +37,11 @@ namespace Version_2._0.Model
                         EncryptionKey = settings.EncryptionKey;
                     }
                 }
-                catch
-                {
-                    // En cas d'erreur, utiliser les valeurs par défaut
-                }
+                catch { }
             }
             return this;
         }
 
-        // Sauvegarder les paramètres dans le fichier de configuration
         public void Save()
         {
             string json = JsonSerializer.Serialize(this, new JsonSerializerOptions { WriteIndented = true });
