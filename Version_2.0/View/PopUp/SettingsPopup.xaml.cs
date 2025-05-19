@@ -15,6 +15,7 @@ namespace Version_2._0.View.Popup
     public partial class SettingsPopup : Window
     {
         private readonly string SETTINGS_FILE;
+        private readonly Settings _settings;
 
         public SettingsPopup()
         {
