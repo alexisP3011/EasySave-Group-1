@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Version_2._0.View.Popup"
         xmlns:buttons="clr-namespace:Version_2._0.View.Button"
         mc:Ignorable="d"
-        Title="SettingsPopup" Height="450" Width="800">
+        Title="SettingsPopup" Height="500" Width="800">
     <Grid>
         <Grid>
             <Grid Background="White" Opacity=".75" Panel.ZIndex="10"/>
@@ -42,6 +42,40 @@
                         <Border BorderBrush="LightSlateGray" BorderThickness="2" CornerRadius="4" Margin="0,0,0,16">
                             <TextBox x:Name="EncryptionTextBox" BorderThickness="0"/>
                         </Border>
+
+                        <TextBlock Margin="0,0,0,4" Text="Encryption Key:" />
+                        <Border BorderBrush="LightSlateGray" BorderThickness="2" CornerRadius="4" Margin="0,0,0,16">
+                            <TextBox x:Name="KeyTextBox" BorderThickness="0"/>
+                        </Border>
+
+                        <TextBlock Margin="0,0,0,4" Text="Encryption Path:" />
+                        <Grid Margin="0,0,0,16">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <Border BorderBrush="LightSlateGray" BorderThickness="2" CornerRadius="4">
+                                <TextBox x:Name="ExtensionPathTextBox" Grid.Column="0" BorderThickness="0"/>
+                            </Border>
+
+                            <Button x:Name="_3DotSource"
+                                    Grid.Column="1"
+                                    Width="32" 
+                                    Margin="4,0,0,0"
+                                    ToolTip="Browse">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}"
+                                                CornerRadius="8">
+                                            <TextBlock Text="..."
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </Grid>
 
                         <TextBlock Margin="0,0,0,4" Text="Log file extension:"/>
                         <ComboBox Margin="0,0,0,16" x:Name="LogFileComboBox">
