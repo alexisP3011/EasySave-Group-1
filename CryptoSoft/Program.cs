@@ -4,7 +4,7 @@ public static class Program
 {
     public static void Main()
     {
-        Console.WriteLine("=== CryptoSoft ===\n");
+        Console.WriteLine("=== CryptoSoft ===");
 
         string[] allowedExtensions = { ".txt", ".csv", ".json", ".xml", ".log" };
         bool keep = true;
@@ -21,13 +21,13 @@ public static class Program
 
                 if (string.IsNullOrWhiteSpace(filePath) || string.IsNullOrWhiteSpace(key))
                 {
-                    Console.WriteLine("Error: the file path and the key must be provided.\n");
+                    Console.WriteLine("Error: the file path and the key must be provided.");
                     continue;
                 }
 
                 if (!File.Exists(filePath))
                 {
-                    Console.WriteLine($"Error: File not found at '{Path.GetFullPath(filePath)}'\n");
+                    Console.WriteLine($"Error: File not found at {Path.GetFullPath(filePath)}");
                     continue;
                 }
 
@@ -35,18 +35,18 @@ public static class Program
 
                 if (!allowedExtensions.Contains(extension))
                 {
-                    Console.WriteLine($"The file type {extension} is not supported. Allowed types are: {string.Join(", ", allowedExtensions)}.\n");
+                    Console.WriteLine($"The file type {extension} is not supported. Allowed types are: {string.Join(", ", allowedExtensions)}.");
                     continue;
                 }
 
                 var fileManager = new FileManager(filePath, key);
                 int elapsedTime = fileManager.TransformFile();
 
-                Console.WriteLine($"File '{Path.GetFileName(filePath)}' has been encrypted successfully in {elapsedTime} ms.\n");  
+                Console.WriteLine($"File '{Path.GetFileName(filePath)}' has been encrypted successfully in {elapsedTime} ms.");  
             }
             catch (Exception e)
             {
-                Console.WriteLine("Error: " + e.Message + "\n");
+                Console.WriteLine("Error: " + e.Message);
             }
 
             Console.Write("Do you want to encrypt/decrypt another file? (y/n): ");
