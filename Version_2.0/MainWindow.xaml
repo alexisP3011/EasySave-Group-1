@@ -6,9 +6,9 @@
         xmlns:local="clr-namespace:Version_2._0"
         xmlns:buttons="clr-namespace:Version_2._0.View.Button"
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="800">
+        Title="EasySave" Height="500" Width="800">
 
-    <Grid Background="#f3f3f3" Margin="0,0,0,-35">
+    <Grid Background="#cae9ff" Margin="0,0,0,-35">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="150"/>
             <ColumnDefinition/>
@@ -17,15 +17,15 @@
 
 
 
-        <StackPanel Grid.Column="0" Background="#e0e0e0" RenderTransformOrigin="0.473,0.899">
+        <StackPanel Grid.Column="0" Background="#62b6cb" RenderTransformOrigin="0.473,0.899">
 
             <!--Button settings-->
             <Button Height="67" Width="76"
-   FontSize="16"
-   FontWeight="Bold"
-   BorderThickness="55"
-   Margin="0,25,0,0"
-   Padding="10,5" Click="Button_Settings" >
+                    FontSize="16"
+                    FontWeight="Bold"
+                    BorderThickness="55"
+                    Margin="0,25,0,0"
+                    Padding="10,5" Click="Button_Settings" >
 
                 <Button.Background>
                     <ImageBrush ImageSource="/settings.png"/>
@@ -33,7 +33,7 @@
                 <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Border Background="{TemplateBinding Background}"
-               CornerRadius="8"/>
+                                CornerRadius="8"/>
                     </ControlTemplate>
                 </Button.Template>
                 <Button Height="50" Width="80"
@@ -52,7 +52,7 @@
     FontSize="16"
     FontWeight="Bold"
     BorderThickness="55"
-    Background="Green"
+    Background="#29ae6e"
     Foreground="White"
     Margin="0,30,0,15"
     Padding="10,5" Click="Button_Click">
@@ -98,7 +98,7 @@
     FontSize="16"
     FontWeight="Bold"
     BorderThickness="0"
-    Background="DarkOrange"
+    Background="#ffb600"
     Foreground="White"
                     Margin="0,25,0,15"
     Padding="10,5" Click="Button_Click_Update">
@@ -122,7 +122,7 @@
                 FontSize="16"
                 FontWeight="Bold"
                 BorderThickness="0"
-                Background="Red"
+                Background="#ff5400"
                 Foreground="White"
                 Margin="0,25,0,15"
                 Padding="10,5" Click="DeleteButton_Click">
@@ -146,7 +146,7 @@
                 FontSize="16"
                 FontWeight="Bold"
                 BorderThickness="0"
-                Background="LightSeaGreen"
+                Background="#1e96fc"
                 Foreground="White"
                 Margin="0,25,0,25"
                 Padding="10,5" Click="LaunchButton_Click">
@@ -172,8 +172,8 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <TextBlock Grid.Row="0" Text="      List of Works" FontSize="18" FontWeight="Bold" Margin="0,0,0,10"/>
-            <CheckBox Name="List_Works" Checked="List_Works_Checked" Unchecked="List_Works_Unchecked" IsChecked="{Binding AreAllWorksSelected}"/>
+            <TextBlock Grid.Row="0" Text="List of Works" FontSize="28" FontWeight="Bold" Margin="0,0,0,10" TextAlignment="Center"/>
+            <CheckBox Name="List_Works" Checked="List_Works_Checked" Unchecked="List_Works_Unchecked" IsChecked="{Binding AreAllWorksSelected}" Margin="189,14,-11,14"/>
             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
                 <ItemsControl ItemsSource="{Binding Works}">
                     <ItemsControl.ItemTemplate>
@@ -184,19 +184,19 @@
                                     <TextBlock FontWeight="Bold" FontSize="14" Margin="0,0,0,5" Text="{Binding Name}"/>
                                     <StackPanel Orientation="Vertical">
                                         <TextBlock Margin="0,0,0,4">
-                                            <Run Text="Source : "/>
+                                            <Run Text="Source: "/>
                                             <Run Text="{Binding Source}" />
                                         </TextBlock>
                                         <TextBlock Margin="0,0,0,4">
-                                            <Run Text="Target : "/>
+                                            <Run Text="Target: "/>
                                             <Run Text="{Binding Target}" />
                                         </TextBlock>
                                         <TextBlock Margin="0,0,0,4">
-                                            <Run Text="Type : "/>
+                                            <Run Text="Type: "/>
                                             <Run Text="{Binding Type}" />
                                         </TextBlock>
                                         <TextBlock Margin="0,0,0,4">
-                                            <Run Text="État : "/>
+                                            <Run Text="State: "/>
                                             <Run Text="{Binding State}" />
                                         </TextBlock>
                                     </StackPanel>
