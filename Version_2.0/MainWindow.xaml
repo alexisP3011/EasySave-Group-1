@@ -6,9 +6,9 @@
         xmlns:local="clr-namespace:Version_2._0"
         xmlns:buttons="clr-namespace:Version_2._0.View.Button"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="500" Width="800">
 
-    <Grid Background="#f3f3f3">
+    <Grid Background="#f3f3f3" Margin="0,0,0,-35">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="150"/>
             <ColumnDefinition/>
@@ -24,12 +24,18 @@
    FontSize="16"
    FontWeight="Bold"
    BorderThickness="55"
-   Margin="0,50,0,25"
+   Margin="0,25,0,0"
    Padding="10,5" Click="Button_Settings" >
 
                 <Button.Background>
                     <ImageBrush ImageSource="/settings.png"/>
                 </Button.Background>
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}"
+               CornerRadius="8"/>
+                    </ControlTemplate>
+                </Button.Template>
                 <Button Height="50" Width="80"
                    FontSize="16"
                    FontWeight="Bold"
@@ -37,20 +43,10 @@
                    Background="Green"
                    Foreground="White"
        
-                   Padding="10,5">
-
-                </Button>
-                <Button.Template>
-                    <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}"
-               CornerRadius="8">
-    
-                        </Border>
-                    </ControlTemplate>
-                </Button.Template>
+                   Padding="10,5"/>
             </Button>
-            
-            
+
+
             <!--Button Create-->
             <Button Height="50" Width="80"
     FontSize="16"
@@ -58,8 +54,21 @@
     BorderThickness="55"
     Background="Green"
     Foreground="White"
-    Margin="0,50,0,25"
+    Margin="0,30,0,15"
     Padding="10,5" Click="Button_Click">
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}"
+                CornerRadius="8">
+                            <TextBlock Text="Create"
+                      Foreground="{TemplateBinding Foreground}"
+                      FontSize="{TemplateBinding FontSize}"
+                      FontWeight="{TemplateBinding FontWeight}"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
                 <Button Height="50" Width="80"
                     FontSize="16"
                     FontWeight="Bold"
@@ -69,7 +78,7 @@
         
                     Padding="10,5" Click="Button_Click">
                     <Button.Template>
-                        <ControlTemplate TargetType="Button">
+                        <ControlTemplate TargetType="{x:Type Button}">
                             <Border Background="{TemplateBinding Background}"
                                 CornerRadius="8">
                                 <TextBlock Text="Create"
@@ -82,19 +91,6 @@
                         </ControlTemplate>
                     </Button.Template>
                 </Button>
-                <Button.Template>
-                    <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}"
-                CornerRadius="8">
-                            <TextBlock Text="Create"
-                      Foreground="{TemplateBinding Foreground}"
-                      FontSize="{TemplateBinding FontSize}"
-                      FontWeight="{TemplateBinding FontWeight}"
-                      HorizontalAlignment="Center"
-                      VerticalAlignment="Center"/>
-                        </Border>
-                    </ControlTemplate>
-                </Button.Template>
             </Button>
 
             <!--Button update-->
@@ -104,10 +100,10 @@
     BorderThickness="0"
     Background="DarkOrange"
     Foreground="White"
-                    Margin="0,25,0,25"
+                    Margin="0,25,0,15"
     Padding="10,5" Click="Button_Click_Update">
                 <Button.Template>
-                    <ControlTemplate TargetType="Button">
+                    <ControlTemplate TargetType="{x:Type Button}">
                         <Border Background="{TemplateBinding Background}"
                 CornerRadius="8">
                             <TextBlock Text="Update"
@@ -128,10 +124,10 @@
                 BorderThickness="0"
                 Background="Red"
                 Foreground="White"
-                Margin="0,25,0,25"
+                Margin="0,25,0,15"
                 Padding="10,5" Click="DeleteButton_Click">
                 <Button.Template>
-                    <ControlTemplate TargetType="Button">
+                    <ControlTemplate TargetType="{x:Type Button}">
                         <Border Background="{TemplateBinding Background}"
             CornerRadius="8">
                             <TextBlock Text="Delete"
