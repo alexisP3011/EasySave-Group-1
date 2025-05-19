@@ -172,7 +172,7 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <TextBlock Grid.Row="0" Text="List of Works" FontSize="28" FontWeight="Bold" Margin="0,0,0,10" TextAlignment="Center"/>
+            <TextBlock Grid.Row="0" Text="List of Works" FontSize="28" Foreground="#1b4965" FontWeight="Bold" Margin="0,0,0,10" TextAlignment="Center"/>
             <CheckBox Name="List_Works" Checked="List_Works_Checked" Unchecked="List_Works_Unchecked" IsChecked="{Binding AreAllWorksSelected}" Margin="10,14,168,14"/>
             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
                 <ItemsControl ItemsSource="{Binding Works}">
