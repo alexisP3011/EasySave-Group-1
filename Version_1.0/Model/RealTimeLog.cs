@@ -213,7 +213,6 @@ namespace Version_1._0.Model
             public long TotalFilesSize { get; set; }
             public long NbFilesLeftToDo { get; set; }
             public int Progression { get; set; }
-            public string Time { get; set; }
         }
     }
 }
