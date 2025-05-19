@@ -12,6 +12,8 @@ namespace Version_2._0
 {
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
+        WorkStorage storage = WorkStorage.getInstance();
+
         private ObservableCollection<Work> works;
         public ObservableCollection<Work> Works
         {
@@ -43,7 +45,7 @@ namespace Version_2._0
                 _areAllWorksSelected = value;
                 OnPropertyChanged(nameof(AreAllWorksSelected));
 
-                // Mettre à jour toutes les checkboxes individuelles
+             
                 if (Works != null)
                 {
                     foreach (var work in Works)
@@ -60,13 +62,24 @@ namespace Version_2._0
 
             Works = new ObservableCollection<Work>();
 
-          
-            Works.Add(new Work { Name = "Work 1", Source = "C:\\Users\\pfrsc\\OneDrive - Association Cesi Viacesi mail\\Bus", Target = "C:\\Users\\pfrsc\\OneDrive - Association Cesi Viacesi mail\\Python\\end", Type = "Type 1", State = "inactive" });
-            Works.Add(new Work { Name = "Work 5", Source = "C:\\Users\\pfrsc\\OneDrive - Association Cesi Viacesi mail\\Bus", Target = "C:\\Users\\pfrsc\\OneDrive - Association Cesi Viacesi mail\\Python\\end2", Type = "Type 1", State = "inactive" });
+            storage.LoadAllWorks();
+            foreach (var workEntry in storage.LoadAllWorks())
+            {
+                Works.Add(new Work
+                {
+                    Name = workEntry.Name,
+                    Source = workEntry.Source,
+                    Target = workEntry.Target,
+                    Type = workEntry.Type,
+                    State = workEntry.State
+                });
+            }
+            //Works.Add(new Work { Name = "Work 1", Source = "C:\\Users\\pfrsc\\OneDrive - Association Cesi Viacesi mail\\Bus", Target = "C:\\Users\\pfrsc\\OneDrive - Association Cesi Viacesi mail\\Python\\end", Type = "Type 1", State = "inactive" });
+            //Works.Add(new Work { Name = "Work 5", Source = "C:\\Users\\pfrsc\\OneDrive - Association Cesi Viacesi mail\\Bus", Target = "C:\\Users\\pfrsc\\OneDrive - Association Cesi Viacesi mail\\Python\\end2", Type = "Type 1", State = "inactive" });
 
-            Works.Add(new Work { Name = "Work 2", Source = "Source 2", Target = "Target 2", Type = "Type 2", State = "inactive" });
-            Works.Add(new Work { Name = "Work 3", Source = "Source 3", Target = "Target 3", Type = "Type 3", State = "inactive" });
-            Works.Add(new Work { Name = "Work 4", Source = "Source 4", Target = "Target 4", Type = "Type 4", State = "inactive" });
+            //Works.Add(new Work { Name = "Work 2", Source = "Source 2", Target = "Target 2", Type = "Type 2", State = "inactive" });
+            //Works.Add(new Work { Name = "Work 3", Source = "Source 3", Target = "Target 3", Type = "Type 3", State = "inactive" });
+            //Works.Add(new Work { Name = "Work 4", Source = "Source 4", Target = "Target 4", Type = "Type 4", State = "inactive" });
 
             if (Works.Count > 0)
                 CurrentWork = Works[0];
@@ -86,6 +99,9 @@ namespace Version_2._0
         {
             Works.Add(newWork);
             CurrentWork = newWork;
+            storage.AddWorkEntry(newWork.Name, newWork.Source, newWork.Target, newWork.Type, newWork.State);
+
+
         }
 
         public void CreateWorkButton_Click(object sender, RoutedEventArgs e)
