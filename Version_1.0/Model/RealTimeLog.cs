@@ -38,7 +38,7 @@ namespace Version_1._0.Model
             return instance;
         }
 
-        public void createLogFile()
+        public void CreateLogFile()
         {
             string directoryPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             directoryPath = Path.Combine(directoryPath, "EasySave", "logs");
@@ -55,7 +55,7 @@ namespace Version_1._0.Model
             }                
         }
 
-        public void SaveEntry(RealTimeLogEntry? newEntry)
+        public void SaveEntry(RealTimeLogEntry newEntry)
         {
             List<RealTimeLogEntry> existingLogs = new List<RealTimeLogEntry>();
 
@@ -66,6 +66,12 @@ namespace Version_1._0.Model
                 {
                     existingLogs = JsonSerializer.Deserialize<List<RealTimeLogEntry>>(json) ?? new List<RealTimeLogEntry>();
                 }
+            }
+
+            else
+            {
+                File.WriteAllText(filePath, "[]");
+                existingLogs = new List<RealTimeLogEntry>();
             }
 
             existingLogs.Add(newEntry);
@@ -93,6 +99,44 @@ namespace Version_1._0.Model
             };
             
             SaveEntry(entry);
+        }
+
+        public List<RealTimeLogEntry> LoadRealTimeLog()
+        {
+            var realTimeLogs = new List<RealTimeLogEntry>();
+
+            if (!File.Exists(filePath))
+            {
+                return realTimeLogs;
+            }
+
+            string json = File.ReadAllText(filePath);
+            if (string.IsNullOrWhiteSpace(json))
+            {
+                return realTimeLogs;
+            }
+
+            // Deserialize to RealTimeLogEntry directly
+            List<RealTimeLogEntry> entries = JsonSerializer.Deserialize<List<RealTimeLogEntry>>(json);
+
+            if (entries != null)
+            {
+                foreach (var entry in entries)
+                {
+                    realTimeLogs.Add(entry);
+                }
+            }
+
+            return realTimeLogs;
+        }
+
+        public void DeleteRealTimeLog()
+        {
+            if (!File.Exists(filePath))
+                return;
+
+            // Écrase le fichier avec un tableau JSON vide
+            File.WriteAllText(filePath, "[]");
         }
 
         public long TotalFilesToCopy(string source, string state)
@@ -132,6 +176,19 @@ namespace Version_1._0.Model
             var filesSource = Directory.GetFiles(source, "*", SearchOption.AllDirectories);
             var filesTarget = Directory.GetFiles(target, "*", SearchOption.AllDirectories);
             return filesTarget.Length / filesSource.Length *100;
+        }
+
+        public void UpdateStateFile(Work currentwork)
+        {
+            string name = currentwork.GetName();
+            string source = currentwork.GetSource();
+            string target = currentwork.GetTarget();
+            string state = currentwork.GetState();
+            long totalFilesToCopy = TotalFilesToCopy(source, state);
+            long totalFilesSize = TotalFilesSize(source, state);
+            long nbFilesLeftToDo = NbFilesLeftToDo(source, target, state);
+            int progression = Progression(source, target);
+            AddLogEntry(name, source, target, state, totalFilesToCopy, totalFilesSize, nbFilesLeftToDo, progression);
         }
 
         public class RealTimeLogEntry
