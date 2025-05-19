@@ -17,7 +17,7 @@
 
 
 
-        <StackPanel Grid.Column="0" Background="#62b6cb" RenderTransformOrigin="0.473,0.899">
+        <StackPanel Grid.Column="0" Background="#bee9e8" RenderTransformOrigin="0.473,0.899">
 
             <!--Button settings-->
             <Button Height="67" Width="76"
@@ -173,7 +173,7 @@
             </Grid.RowDefinitions>
 
             <TextBlock Grid.Row="0" Text="List of Works" FontSize="28" FontWeight="Bold" Margin="0,0,0,10" TextAlignment="Center"/>
-            <CheckBox Name="List_Works" Checked="List_Works_Checked" Unchecked="List_Works_Unchecked" IsChecked="{Binding AreAllWorksSelected}" Margin="189,14,-11,14"/>
+            <CheckBox Name="List_Works" Checked="List_Works_Checked" Unchecked="List_Works_Unchecked" IsChecked="{Binding AreAllWorksSelected}" Margin="10,14,168,14"/>
             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
                 <ItemsControl ItemsSource="{Binding Works}">
                     <ItemsControl.ItemTemplate>
