@@ -11,6 +11,9 @@
     <Compile Update="View\PopUp\ConfirmationPopUp.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="View\PopUp\PopUpUpdateWork.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="View\PopUp\SettingsPopup.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

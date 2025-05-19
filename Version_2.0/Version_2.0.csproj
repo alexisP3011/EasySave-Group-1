@@ -9,4 +9,16 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="settings.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="View\Asset\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="settings.png" />
+  </ItemGroup>
+
 </Project>
