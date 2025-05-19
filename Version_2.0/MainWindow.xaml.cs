@@ -1,57 +1,52 @@
-﻿using System.ComponentModel;
-using System.Windows;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Version_2._0.View.PopUp;
-using System.Windows.Controls;
+using System.ComponentModel;
 using System.Linq;
-using System.IO;
-using Version_2._0.View.Popup;
-using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace Version_2._0
 {
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
-        WorkStorage storage = WorkStorage.getInstance();
+        private ObservableCollection<Work> _works;
+        private ObservableCollection<Work> _filteredWorks;
+        private bool _areAllWorksSelected;
+        private string _searchText = "";
 
-        private ObservableCollection<Work> works;
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public ObservableCollection<Work> Works
         {
-            get => works;
+            get { return _works; }
             set
             {
-                works = value;
-                OnPropertyChanged(nameof(Works));
+                _works = value;
+                OnPropertyChanged();
             }
         }
 
-        private Work currentWork;
-        public Work CurrentWork
+        public ObservableCollection<Work> FilteredWorks
         {
-            get => currentWork;
+            get { return _filteredWorks; }
             set
             {
-                currentWork = value;
-                OnPropertyChanged(nameof(CurrentWork));
+                _filteredWorks = value;
+                OnPropertyChanged();
             }
         }
 
-        private bool _areAllWorksSelected;
         public bool AreAllWorksSelected
         {
-            get => _areAllWorksSelected;
+            get { return _areAllWorksSelected; }
             set
             {
-                _areAllWorksSelected = value;
-                OnPropertyChanged(nameof(AreAllWorksSelected));
-
-             
-                if (Works != null)
+                if (_areAllWorksSelected != value)
                 {
-                    foreach (var work in Works)
-                    {
-                        work.IsSelected = value;
-                    }
+                    _areAllWorksSelected = value;
+                    OnPropertyChanged();
                 }
             }
         }
@@ -59,371 +54,150 @@ namespace Version_2._0
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = this;
 
-            Works = new ObservableCollection<Work>();
-
-            storage.LoadAllWorks();
-            foreach (var workEntry in storage.LoadAllWorks())
+            // Exemple de données
+            Works = new ObservableCollection<Work>
             {
-                Works.Add(new Work
-                {
-                    Name = workEntry.Name,
-                    Source = workEntry.Source,
-                    Target = workEntry.Target,
-                    Type = workEntry.Type,
-                    State = workEntry.State
-                });
-            }
-            //Works.Add(new Work { Name = "Work 1", Source = "C:\\Users\\pfrsc\\OneDrive - Association Cesi Viacesi mail\\Bus", Target = "C:\\Users\\pfrsc\\OneDrive - Association Cesi Viacesi mail\\Python\\end", Type = "Type 1", State = "inactive" });
-            //Works.Add(new Work { Name = "Work 5", Source = "C:\\Users\\pfrsc\\OneDrive - Association Cesi Viacesi mail\\Bus", Target = "C:\\Users\\pfrsc\\OneDrive - Association Cesi Viacesi mail\\Python\\end2", Type = "Type 1", State = "inactive" });
+                new Work { Name = "Backup 1", Source = "C:\\Documents", Target = "D:\\Backup", Type = "Full", State = "Inactive", IsSelected = false },
+                new Work { Name = "Backup 2", Source = "C:\\Photos", Target = "D:\\Backup", Type = "Differential", State = "Inactive", IsSelected = false },
+                // Ajoutez plus d'éléments selon vos besoins
+            };
 
-            //Works.Add(new Work { Name = "Work 2", Source = "Source 2", Target = "Target 2", Type = "Type 2", State = "inactive" });
-            //Works.Add(new Work { Name = "Work 3", Source = "Source 3", Target = "Target 3", Type = "Type 3", State = "inactive" });
-            //Works.Add(new Work { Name = "Work 4", Source = "Source 4", Target = "Target 4", Type = "Type 4", State = "inactive" });
-
-            if (Works.Count > 0)
-                CurrentWork = Works[0];
-
-            this.DataContext = this;
+            // Initialiser la liste filtrée avec tous les éléments
+            FilteredWorks = new ObservableCollection<Work>(Works);
         }
 
-        public void OpenCreateWorkPopUp()
+        protected void OnPropertyChanged([CallerMemberName] string name = null)
         {
-            PopUpCreateWork popup = new PopUpCreateWork();
-            popup.WorkCreated += OnWorkCreated;
-            popup.Owner = this;
-            popup.ShowDialog();
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
-        private void OnWorkCreated(Work newWork)
+        // Gestionnaire d'événements pour les boutons
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Works.Add(newWork);
-            CurrentWork = newWork;
-            storage.AddWorkEntry(newWork.Name, newWork.Source, newWork.Target, newWork.Type, newWork.State);
-
-
+            // Logique pour le bouton Create
         }
 
-        public void CreateWorkButton_Click(object sender, RoutedEventArgs e)
+        private void Button_Click_Update(object sender, RoutedEventArgs e)
         {
-            OpenCreateWorkPopUp();
+            // Logique pour le bouton Update
         }
 
-        public void UpdateButton_Click(object sender, RoutedEventArgs e)
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is Button button && button.Tag is Work workToUpdate)
-            {
-                workToUpdate.State = workToUpdate.State == "active" ? "inactive" : "active";
-            }
+            // Logique pour le bouton Delete
         }
 
-        public void DeleteButton_Click(object sender, RoutedEventArgs e)
+        private void LaunchButton_Click(object sender, RoutedEventArgs e)
         {
-
-            if (AreAllWorksSelected)
-            {
-
-                string message = Works.Count > 1
-                    ? $"Are you sure you want to delete all {Works.Count} selected works?"
-                    : "Are you sure you want to delete the selected work?";
-
-                if (MessageBox.Show(message, "Multiple Deletion Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-                {
-
-                    for (int i = Works.Count - 1; i >= 0; i--)
-                    {
-                        if (Works[i].IsSelected)
-                        {
-                            
-                            storage.DeleteWorkEntry(Works[i].Name);
-                            Works.RemoveAt(i);
-                            //storage.LoadAllWorks();
-
-
-                        }
-                    }
-
-
-                    AreAllWorksSelected = false;
-                }
-            }
-
-            else
-            {
-
-                var selectedWorks = Works.Where(w => w.IsSelected).ToList();
-                int selectedCount = selectedWorks.Count;
-
-                if (selectedCount > 0)
-                {
-                    string message = selectedCount > 1
-                        ? $"Are you sure you want to delete the {selectedCount} selected works?"
-                        : $"Are you sure you want to delete the work '{selectedWorks[0].Name}'?";
-
-                    if (MessageBox.Show(message, "Deletion Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-                    {
-                        foreach (var work in selectedWorks)
-                        {
-                            storage.DeleteWorkEntry(work.Name);
-                            Works.Remove(work);
-                        }
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("No work is selected for deletion.", "Information");
-                }
-            }
+            // Logique pour le bouton Launch
         }
 
-        public void LaunchButton_Click(object sender, RoutedEventArgs e)
+        private void Button_Settings(object sender, RoutedEventArgs e)
         {
-            var selectedWorks = Works.Where(w => w.IsSelected).ToList();
-
-            SettingsPopup settingsPopup = new SettingsPopup();
-            string software = settingsPopup.Software;
-
-            DailyLog logger = DailyLog.getInstance();
-            logger.createLogFile();
-
-            if (Process.GetProcessesByName(software).Length > 0)
-            {
-                MessageBox.Show("Please close the software to continue.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
-
-                foreach (var work in selectedWorks)
-                {
-                    logger.LogSaveError(work.Name,software);
-                }
-
-
-                return;
-            }
-
-            if (selectedWorks.Count == 0)
-            {
-                MessageBox.Show("Please select a work to launch.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
-                return;
-            }
-
-            string confirmationMessage = selectedWorks.Count == 1
-                ? "Are you sure you want to launch the selected work?"
-                : $"Are you sure you want to launch the {selectedWorks.Count} selected works?";
-
-            var result = MessageBox.Show(confirmationMessage, "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
-            if (result != MessageBoxResult.Yes)
-            {
-                return;
-            }
-
-            foreach (var work in selectedWorks)
-            {
-                if (work.State == "inactive")
-                {
-                    work.State = "active";
-
-                    logger.TransferFilesWithLogs(
-                        work.Source,  // Source path
-                        work.Target,  // Destination path
-                        work.Name);    // Work name
-
-                    work.State = "finished";
-                }
-            }
-        }
-
-
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            // Logique pour le bouton Settings
         }
 
         private void List_Works_Checked(object sender, RoutedEventArgs e)
         {
             AreAllWorksSelected = true;
+            foreach (var work in FilteredWorks)
+            {
+                work.IsSelected = true;
+            }
         }
 
         private void List_Works_Unchecked(object sender, RoutedEventArgs e)
         {
             AreAllWorksSelected = false;
+            foreach (var work in FilteredWorks)
+            {
+                work.IsSelected = false;
+            }
         }
 
         private void WorkCheckbox_Checked(object sender, RoutedEventArgs e)
         {
-
-            UpdateMasterCheckboxState();
+            UpdateAllWorkSelectionStatus();
         }
 
         private void WorkCheckbox_Unchecked(object sender, RoutedEventArgs e)
         {
-
-            List_Works.IsChecked = false;
+            AreAllWorksSelected = false;
         }
 
-        private void UpdateMasterCheckboxState()
+        private void UpdateAllWorkSelectionStatus()
         {
-            bool allChecked = true;
-            foreach (var work in Works)
-            {
-                if (!work.IsSelected)
-                {
-                    allChecked = false;
-                    break;
-                }
-            }
-
-            // Mettre à jour la checkbox maître sans déclencher l'événement
-            if (List_Works.IsChecked != allChecked)
-            {
-                List_Works.IsChecked = allChecked;
-            }
+            AreAllWorksSelected = FilteredWorks.All(w => w.IsSelected);
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        // Nouveaux gestionnaires pour la recherche
+        private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            var popup = new PopUpCreateWork();
-            popup.WorkCreated += OnWorkCreated;
-            popup.Owner = this;
-            popup.Show();
+            _searchText = SearchBox.Text.ToLower();
+            ApplyFilter();
         }
 
-        private void Button_Click_Update(object sender, RoutedEventArgs e)
+        private void ClearSearchButton_Click(object sender, RoutedEventArgs e)
         {
-            
-            var selectedWorks = Works.Where(w => w.IsSelected).ToList();
-
-            if (selectedWorks.Count == 0)
-            {
-                MessageBox.Show("Please select a work to update.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
-                return;
-            }
-
-            if (selectedWorks.Count > 1)
-            {
-                MessageBox.Show("Please select only one work to update.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
-                return;
-            }
-
-            // Récupérer le travail sélectionné
-            Work workToUpdate = selectedWorks.First();
-
-            // Créer et configurer la popup
-            var popup = new PopUpUpdateWork(workToUpdate);
-            popup.WorkUpdated += OnWorkUpdated;
-            popup.Owner = this;
-            popup.ShowDialog();
+            SearchBox.Clear();
         }
 
-        private void OnWorkUpdated(Work originalWork, Work updatedWork)
+        private void ApplyFilter()
         {
-     
-            int index = Works.IndexOf(originalWork);
-
-            if (index != -1)
+            if (string.IsNullOrWhiteSpace(_searchText))
             {
-              
-                Works[index].Source = updatedWork.Source;
-                Works[index].Target = updatedWork.Target;
-                Works[index].Type = updatedWork.Type;
-                storage.DeleteWorkEntry(updatedWork.Name);
-                storage.AddWorkEntry(updatedWork.Name, updatedWork.Source, updatedWork.Target, updatedWork.Type, updatedWork.State);
-
-                MessageBox.Show($"The work '{updatedWork.Name}' has been successfully updated.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                // Si la recherche est vide, afficher tous les éléments
+                FilteredWorks = new ObservableCollection<Work>(Works);
             }
-        }
+            else
+            {
+                // Filtrer les éléments selon le texte de recherche
+                var filtered = Works.Where(w =>
+                    w.Name.ToLower().Contains(_searchText) ||
+                    w.Source.ToLower().Contains(_searchText) ||
+                    w.Target.ToLower().Contains(_searchText) ||
+                    w.Type.ToLower().Contains(_searchText) ||
+                    w.State.ToLower().Contains(_searchText)
+                ).ToList();
 
-        private void Button_Settings(object sender, RoutedEventArgs e)
-        {
-            var popup = new SettingsPopup();
-            popup.Owner = this;
-            popup.ShowDialog();
+                FilteredWorks = new ObservableCollection<Work>(filtered);
+            }
+
+            // Mettre à jour l'état de la case à cocher "Tous sélectionner"
+            UpdateAllWorkSelectionStatus();
         }
     }
 
     public class Work : INotifyPropertyChanged
     {
-        private string name;
-        private string source;
-        private string target;
-        private string type;
-        private string state;
-        private bool isSelected;
+        private bool _isSelected;
 
-        public string Name
-        {
-            get => name;
-            set
-            {
-                name = value;
-                OnPropertyChanged(nameof(Name));
-            }
-        }
-
-        public string Source
-        {
-            get => source;
-            set
-            {
-                source = value;
-                OnPropertyChanged(nameof(Source));
-            }
-        }
-
-        public string Target
-        {
-            get => target;
-            set
-            {
-                target = value;
-                OnPropertyChanged(nameof(Target));
-            }
-        }
-
-        public string Type
-        {
-            get => type;
-            set
-            {
-                type = value;
-                OnPropertyChanged(nameof(Type));
-            }
-        }
-
-        public string State
-        {
-            get => state;
-            set
-            {
-                state = value;
-                OnPropertyChanged(nameof(State));
-            }
-        }
+        public string Name { get; set; }
+        public string Source { get; set; }
+        public string Target { get; set; }
+        public string Type { get; set; }
+        public string State { get; set; }
 
         public bool IsSelected
         {
-            get => isSelected;
+            get { return _isSelected; }
             set
             {
-                isSelected = value;
-                OnPropertyChanged(nameof(IsSelected));
+                if (_isSelected != value)
+                {
+                    _isSelected = value;
+                    OnPropertyChanged();
+                }
             }
         }
 
-        public Work()
-        {
-            Name = "";
-            Source = "";
-            Target = "";
-            Type = "";
-            State = "inactive";
-            IsSelected = false;
-        }
-
         public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string propertyName)
+
+        protected void OnPropertyChanged([CallerMemberName] string name = null)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
     }
 }

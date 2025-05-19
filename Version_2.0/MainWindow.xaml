@@ -14,9 +14,6 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-
-
-
         <StackPanel Grid.Column="0" Background="#bee9e8" RenderTransformOrigin="0.473,0.899">
 
             <!--Button settings-->
@@ -169,46 +166,102 @@
         <Grid Grid.Column="1" Margin="10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
             <TextBlock Grid.Row="0" Text="List of Works" FontSize="28" Foreground="#1b4965" FontWeight="Bold" Margin="0,0,0,10" TextAlignment="Center"/>
-            <CheckBox Name="List_Works" Checked="List_Works_Checked" Unchecked="List_Works_Unchecked" IsChecked="{Binding AreAllWorksSelected}" Margin="10,14,168,14"/>
-            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-                <ItemsControl ItemsSource="{Binding Works}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border BorderBrush="#ccc" BorderThickness="1" Margin="0,0,0,10" Padding="10" Background="White">
-                                <StackPanel>
-                                    <CheckBox Name="WorkCheckbox" IsChecked="{Binding IsSelected}" Checked="WorkCheckbox_Checked" Unchecked="WorkCheckbox_Unchecked"/>
-                                    <TextBlock FontWeight="Bold" FontSize="14" Margin="0,0,0,5" Text="{Binding Name}"/>
-                                    <StackPanel Orientation="Vertical">
-                                        <TextBlock Margin="0,0,0,4">
-                                            <Run Text="Source: "/>
-                                            <Run Text="{Binding Source}" />
-                                        </TextBlock>
-                                        <TextBlock Margin="0,0,0,4">
-                                            <Run Text="Target: "/>
-                                            <Run Text="{Binding Target}" />
-                                        </TextBlock>
-                                        <TextBlock Margin="0,0,0,4">
-                                            <Run Text="Type: "/>
-                                            <Run Text="{Binding Type}" />
-                                        </TextBlock>
-                                        <TextBlock Margin="0,0,0,4">
-                                            <Run Text="State: "/>
-                                            <Run Text="{Binding State}" />
-                                        </TextBlock>
-                                    </StackPanel>
-                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,5,0,0">
 
-                                    </StackPanel>
-                                </StackPanel>
+            <!-- Barre de recherche -->
+            <Grid Grid.Row="1" Margin="0,0,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0" BorderBrush="#ccc" BorderThickness="1" CornerRadius="5" Background="White">
+                    <TextBox x:Name="SearchBox" Height="30" Padding="5" BorderThickness="0" 
+                         VerticalContentAlignment="Center" TextChanged="SearchBox_TextChanged"
+                         FontSize="14" Background="Transparent">
+                        <TextBox.Resources>
+                            <Style TargetType="{x:Type TextBox}">
+                                <Style.Triggers>
+                                    <Trigger Property="Text" Value="">
+                                        <Setter Property="Background">
+                                            <Setter.Value>
+                                                <VisualBrush Stretch="None" AlignmentX="Left" AlignmentY="Center">
+                                                    <VisualBrush.Visual>
+                                                        <TextBlock Text="Search..." Foreground="Gray" FontStyle="Italic"/>
+                                                    </VisualBrush.Visual>
+                                                </VisualBrush>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBox.Resources>
+                    </TextBox>
+                </Border>
+
+                <Button Grid.Column="1" x:Name="ClearSearchButton" Width="30" Height="30" Margin="5,0,0,0" 
+                    Background="#1e96fc" Foreground="White" Click="ClearSearchButton_Click" 
+                    ToolTip="Clear search">
+                    <Button.Template>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border Background="{TemplateBinding Background}" CornerRadius="5">
+                                <TextBlock Text="✕" FontWeight="Bold" HorizontalAlignment="Center" 
+                                       VerticalAlignment="Center" Foreground="White"/>
                             </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </ScrollViewer>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </Grid>
+
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <CheckBox Grid.Column="0" Name="List_Works" Checked="List_Works_Checked" Unchecked="List_Works_Unchecked" 
+                      IsChecked="{Binding AreAllWorksSelected}" Margin="5,0,5,0" VerticalAlignment="Top"/>
+
+                <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto">
+                    <ItemsControl ItemsSource="{Binding FilteredWorks}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderBrush="#ccc" BorderThickness="1" Margin="0,0,0,10" Padding="10" Background="White">
+                                    <StackPanel>
+                                        <CheckBox Name="WorkCheckbox" IsChecked="{Binding IsSelected}" Checked="WorkCheckbox_Checked" Unchecked="WorkCheckbox_Unchecked"/>
+                                        <TextBlock FontWeight="Bold" FontSize="14" Margin="0,0,0,5" Text="{Binding Name}"/>
+                                        <StackPanel Orientation="Vertical">
+                                            <TextBlock Margin="0,0,0,4">
+                                                <Run Text="Source: "/>
+                                                <Run Text="{Binding Source}" />
+                                            </TextBlock>
+                                            <TextBlock Margin="0,0,0,4">
+                                                <Run Text="Target: "/>
+                                                <Run Text="{Binding Target}" />
+                                            </TextBlock>
+                                            <TextBlock Margin="0,0,0,4">
+                                                <Run Text="Type: "/>
+                                                <Run Text="{Binding Type}" />
+                                            </TextBlock>
+                                            <TextBlock Margin="0,0,0,4">
+                                                <Run Text="State: "/>
+                                                <Run Text="{Binding State}" />
+                                            </TextBlock>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,5,0,0">
+
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </Grid>
         </Grid>
 
 
