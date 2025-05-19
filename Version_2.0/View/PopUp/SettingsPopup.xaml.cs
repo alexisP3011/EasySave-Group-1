@@ -4,6 +4,8 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using Version_2._0.Model;
+using System.IO;
+using System.Text.Json;
 
 namespace Version_2._0.View.Popup
 {
@@ -12,50 +14,94 @@ namespace Version_2._0.View.Popup
     /// </summary>
     public partial class SettingsPopup : Window
     {
-        private readonly Settings _settings;
+        private readonly string SETTINGS_FILE;
 
         public SettingsPopup()
         {
             InitializeComponent();
-            _settings = Settings.Instance;
+            string settings_folder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            settings_folder = Path.Combine(settings_folder, "EasySave");
+
+
+            SETTINGS_FILE = Path.Combine(settings_folder, "Settings_Easy_Save.json");
+
             LoadSettings();
         }
 
         private void LoadSettings()
         {
-            // Charger les extensions autorisées
-            EncryptionTextBox.Text = string.Join(", ", _settings.AllowedExtensions);
+            try
+            {
+                if (File.Exists(SETTINGS_FILE))
+                {
+                    string jsonString = File.ReadAllText(SETTINGS_FILE);
+                    var settings = JsonSerializer.Deserialize<Dictionary<string, string>>(jsonString);
 
-            // Charger la clé de cryptage
-            KeyTextBox.Text = _settings.EncryptionKey;
+                    // Charger les extensions autorisées
+                    EncryptionTextBox.Text = string.Join(", ", _settings.AllowedExtensions);
+
+                    // Charger la clé de cryptage
+                    KeyTextBox.Text = _settings.EncryptionKey;
+
+                    if (settings != null && settings.TryGetValue("Middleware", out string middlewareValue))
+                    {
+                        MiddlewareTextBox.Text = middlewareValue;
+                        Software = middlewareValue;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading settings: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
-        private void BtnSave_Click(object sender, RoutedEventArgs e)
+        public string Software { get; set; }
+
+        private void ConfirmButton_Click(object sender, RoutedEventArgs e)
         {
-            // Récupérer et valider les extensions
-            List<string> extensions = EncryptionTextBox.Text
-                .Split(',')
-                .Select(ext => ext.Trim())
-                .Where(ext => !string.IsNullOrWhiteSpace(ext))
-                .Select(ext => ext.StartsWith(".") ? ext : "." + ext)
-                .ToList();
-
-            // Mettre à jour les paramètres
-            _settings.AllowedExtensions = extensions;
-            _settings.EncryptionKey = KeyTextBox.Text;
-
-            // Sauvegarder les paramètres
-            _settings.Save();
-
-            MessageBox.Show("Paramètres sauvegardés avec succès !", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
-            DialogResult = true;
-            Close();
+            Software = MiddlewareTextBox.Text;
+            SaveSettings();
+            this.Close();
         }
 
-        private void BtnCancel_Click(object sender, RoutedEventArgs e)
+        
+
+        private void SaveSettings()
         {
-            DialogResult = false;
-            Close();
+            try
+            {
+                Dictionary<string, string> settings;
+
+                if (File.Exists(SETTINGS_FILE))
+                {
+                    string jsonString = File.ReadAllText(SETTINGS_FILE);
+                    settings = JsonSerializer.Deserialize<Dictionary<string, string>>(jsonString) ?? new Dictionary<string, string>();
+                }
+                else
+                {
+                    settings = new Dictionary<string, string>();
+                }
+
+                List<string> extensions = EncryptionTextBox.Text
+                    .Split(',')
+                    .Select(ext => ext.Trim())
+                    .Where(ext => !string.IsNullOrWhiteSpace(ext))
+                    .Select(ext => ext.StartsWith(".") ? ext : "." + ext)
+                    .ToList();
+
+                _settings.AllowedExtensions = extensions;
+                _settings.EncryptionKey = KeyTextBox.Text;
+
+                settings["Middleware"] = MiddlewareTextBox.Text;
+
+                string jsonOutput = JsonSerializer.Serialize(settings, new JsonSerializerOptions { WriteIndented = true });
+                File.WriteAllText(SETTINGS_FILE, jsonOutput);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error saving settings: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }

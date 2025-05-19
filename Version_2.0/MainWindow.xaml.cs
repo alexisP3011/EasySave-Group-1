@@ -5,6 +5,8 @@ using Version_2._0.View.PopUp;
 using System.Windows.Controls;
 using System.Linq;
 using System.IO;
+using Version_2._0.View.Popup;
+using System.Diagnostics;
 
 namespace Version_2._0
 {
@@ -168,6 +170,14 @@ namespace Version_2._0
         public void LaunchButton_Click(object sender, RoutedEventArgs e)
         {
             var selectedWorks = Works.Where(w => w.IsSelected).ToList();
+            SettingsPopup settingsPopup = new SettingsPopup();
+            string software = settingsPopup.Software;
+
+            if (Process.GetProcessesByName(software).Length > 0)
+            {
+                MessageBox.Show("Please close the software to continue.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
 
             if (selectedWorks.Count == 0)
             {
@@ -175,13 +185,11 @@ namespace Version_2._0
                 return;
             }
 
-
             string confirmationMessage = selectedWorks.Count == 1
                 ? "Are you sure you want to launch the selected work?"
                 : $"Are you sure you want to launch the {selectedWorks.Count} selected works?";
 
             var result = MessageBox.Show(confirmationMessage, "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
-
             if (result != MessageBoxResult.Yes)
             {
                 return;
@@ -192,29 +200,19 @@ namespace Version_2._0
                 if (work.State == "inactive")
                 {
                     work.State = "active";
-
                     DailyLog logger = DailyLog.getInstance();
                     logger.createLogFile();
-
                     logger.TransferFilesWithLogs(
                         work.Source,  // Source path
                         work.Target,  // Destination path
                         work.Name);    // Work name
 
-
                     if (Directory.Exists(work.Source))
                     {
-     
                         if (!Directory.Exists(work.Target))
                         {
                             Directory.CreateDirectory(work.Target);
-
-
-
-                          
                         }
-
-
                         foreach (var file in Directory.GetFiles(work.Source))
                         {
                             string fileName = Path.GetFileName(file);
@@ -222,13 +220,10 @@ namespace Version_2._0
                             File.Copy(file, destFile, overwrite: true);
                         }
                     }
-
                     work.State = "finished";
                 }
             }
         }
-
-
 
 
 
@@ -326,8 +321,15 @@ namespace Version_2._0
                 Works[index].Target = updatedWork.Target;
                 Works[index].Type = updatedWork.Type;
 
-                MessageBox.Show($"Le travail '{updatedWork.Name}' a été mis à jour avec succès.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show($"The work '{updatedWork.Name}' has been successfully updated.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
             }
+        }
+
+        private void Button_Settings(object sender, RoutedEventArgs e)
+        {
+            var popup = new SettingsPopup();
+            popup.Owner = this;
+            popup.ShowDialog();
         }
     }
 
