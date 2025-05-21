@@ -56,8 +56,52 @@
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
 
-                            <buttons:CancelButton Grid.Column="1" Margin="0,0,8,0"/>
-                            <buttons:ConfirmButton Grid.Column="0" Margin="8,0,0,0"/>
+                            <Button x:Name="CancelButton" 
+                                     Grid.Column="1" 
+                                     Click="CancelButton_Click" 
+                                     Margin="8,0,0,0"
+                                     Height="50" 
+                                     Width="80" 
+                                     Background="OrangeRed"
+                                     FontSize="16"
+                                     FontWeight="Bold"
+                                     BorderThickness="0">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}"
+                                            CornerRadius="8">
+                                            <TextBlock Text="Cancel"
+                                                       Foreground="White"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+
+                            <Button x:Name="ConfirmButton" 
+                                    Grid.Column="0" 
+                                    Click="ConfirmButton_Click" 
+                                    Margin="0,0,8,0"
+                                    Height="50" 
+                                    Width="80" 
+                                    Background="LimeGreen"
+                                    Foreground="White"
+                                    FontSize="16"
+                                    FontWeight="Bold"
+                                    BorderThickness="0">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}"
+                                            CornerRadius="8">
+                                            <TextBlock x:Name="ConfirmButtonText" Text="Confirm"
+                                                   Foreground="White"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
                         </Grid>
                     </StackPanel>
                 </Border>
