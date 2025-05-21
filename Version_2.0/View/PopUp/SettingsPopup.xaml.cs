@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using Version_2._0.Model;
-using System.IO;
 using System.Text.Json;
+using System.Collections.Generic;
 
 namespace Version_2._0.View.Popup
 {
@@ -15,11 +13,12 @@ namespace Version_2._0.View.Popup
     public partial class SettingsPopup : Window
     {
         private readonly string SETTINGS_FILE;
-        private readonly Settings _settings;
 
         public SettingsPopup()
         {
             InitializeComponent();
+
+
             string settings_folder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             settings_folder = Path.Combine(settings_folder, "EasySave");
 
@@ -27,6 +26,17 @@ namespace Version_2._0.View.Popup
             SETTINGS_FILE = Path.Combine(settings_folder, "Settings_Easy_Save.json");
 
             LoadSettings();
+        }
+
+        //public string Software { get; set; }
+        public string EncryptedExtensions { get; set; }
+
+        private void ConfirmButton_Click(object sender, RoutedEventArgs e)
+        {
+            //Software = MiddlewareTextBox.Text;
+            EncryptedExtensions = EncryptionTextBox.Text;
+            SaveSettings();
+            this.Close();
         }
 
         private void LoadSettings()
@@ -38,13 +48,15 @@ namespace Version_2._0.View.Popup
                     string jsonString = File.ReadAllText(SETTINGS_FILE);
                     var settings = JsonSerializer.Deserialize<Dictionary<string, string>>(jsonString);
 
-                    EncryptionTextBox.Text = string.Join(", ", _settings.AllowedExtensions);
-                    KeyTextBox.Text = _settings.EncryptionKey;
-
-                    if (settings != null && settings.TryGetValue("Middleware", out string middlewareValue))
+                    /*if (settings != null && settings.TryGetValue("Middleware", out string middlewareValue))
                     {
                         MiddlewareTextBox.Text = middlewareValue;
                         Software = middlewareValue;
+                    }*/
+                    if (settings.TryGetValue("EncryptedExtensions", out string extValue))
+                    {
+                        EncryptionTextBox.Text = extValue;
+                        EncryptedExtensions = extValue;
                     }
                 }
             }
@@ -53,17 +65,6 @@ namespace Version_2._0.View.Popup
                 MessageBox.Show($"Error loading settings: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
-        public string Software { get; set; }
-
-        private void ConfirmButton_Click(object sender, RoutedEventArgs e)
-        {
-            Software = MiddlewareTextBox.Text;
-            SaveSettings();
-            this.Close();
-        }
-
-        
 
         private void SaveSettings()
         {
@@ -81,17 +82,9 @@ namespace Version_2._0.View.Popup
                     settings = new Dictionary<string, string>();
                 }
 
-                List<string> extensions = EncryptionTextBox.Text
-                    .Split(',')
-                    .Select(ext => ext.Trim())
-                    .Where(ext => !string.IsNullOrWhiteSpace(ext))
-                    .Select(ext => ext.StartsWith(".") ? ext : "." + ext)
-                    .ToList();
 
-                _settings.AllowedExtensions = extensions;
-                _settings.EncryptionKey = KeyTextBox.Text;
+                //settings["Middleware"] = MiddlewareTextBox.Text;
 
-                settings["Middleware"] = MiddlewareTextBox.Text;
 
                 string jsonOutput = JsonSerializer.Serialize(settings, new JsonSerializerOptions { WriteIndented = true });
                 File.WriteAllText(SETTINGS_FILE, jsonOutput);
