@@ -13,6 +13,7 @@ namespace Version_2._0
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
         WorkStorage storage = WorkStorage.getInstance();
+        RealTimeLog realTimeLog = RealTimeLog.getInstance();
 
         private ObservableCollection<Work> works;
         public ObservableCollection<Work> Works
@@ -100,6 +101,17 @@ namespace Version_2._0
             Works.Add(newWork);
             CurrentWork = newWork;
             storage.AddWorkEntry(newWork.Name, newWork.Source, newWork.Target, newWork.Type, newWork.State);
+            realTimeLog.CreateLogFile();
+            realTimeLog.AddLogEntry(
+                newWork.Name,
+                newWork.Source,
+                newWork.Target,
+                newWork.State,
+                realTimeLog.TotalFilesToCopy(newWork.Source, newWork.State),
+                realTimeLog.TotalFilesSize(newWork.Source, newWork.State),
+                realTimeLog.NbFilesLeftToDo(newWork.Source, newWork.Target, newWork.State),
+                realTimeLog.Progression(newWork.Source, newWork.Target)
+                );
 
 
         }
@@ -114,8 +126,15 @@ namespace Version_2._0
             if (sender is Button button && button.Tag is Work workToUpdate)
             {
                 workToUpdate.State = workToUpdate.State == "active" ? "inactive" : "active";
+
+
+
             }
         }
+
+
+
+
 
         public void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
@@ -136,6 +155,7 @@ namespace Version_2._0
                         {
                             
                             storage.DeleteWorkEntry(Works[i].Name);
+                            realTimeLog.DeleteRealTimeLogEntry(Works[i].Name);
                             Works.RemoveAt(i);
                             //storage.LoadAllWorks();
 
@@ -165,6 +185,7 @@ namespace Version_2._0
                         foreach (var work in selectedWorks)
                         {
                             storage.DeleteWorkEntry(work.Name);
+                            realTimeLog.DeleteRealTimeLogEntry(work.Name);
                             Works.Remove(work);
                         }
                     }
@@ -227,10 +248,36 @@ namespace Version_2._0
                         work.Name);    // Work name
 
                     work.State = "finished";
+                    LaunchRealTimeLog(work);
                 }
             }
+
+
         }
 
+        public void LaunchRealTimeLog(Work workToUpdate)
+        {
+
+            var allLogs = realTimeLog.LoadRealTimeLog();
+
+            int indexToUpdate = allLogs.FindIndex(l => l.Name == workToUpdate.Name);
+            if (indexToUpdate != -1)
+            {
+
+                allLogs[indexToUpdate].State = workToUpdate.State;
+
+                allLogs[indexToUpdate].NbFilesLeftToDo = realTimeLog.NbFilesLeftToDo(workToUpdate.Source, workToUpdate.Target, workToUpdate.State);
+                allLogs[indexToUpdate].Progression = realTimeLog.Progression(workToUpdate.Source, workToUpdate.Target);
+
+                realTimeLog.DeleteRealTimeLog();
+
+                foreach (var log in allLogs)
+                {
+                    realTimeLog.SaveEntry(log);
+                }
+            }
+
+        }
 
 
         public event PropertyChangedEventHandler PropertyChanged;
