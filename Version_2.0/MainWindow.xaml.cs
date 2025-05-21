@@ -12,6 +12,8 @@ namespace Version_2._0
 {
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
+        WorkStorage storage = WorkStorage.getInstance();
+
         private ObservableCollection<Work> works;
         public ObservableCollection<Work> Works
         {
@@ -43,7 +45,7 @@ namespace Version_2._0
                 _areAllWorksSelected = value;
                 OnPropertyChanged(nameof(AreAllWorksSelected));
 
-                // Mettre à jour toutes les checkboxes individuelles
+             
                 if (Works != null)
                 {
                     foreach (var work in Works)
@@ -60,13 +62,24 @@ namespace Version_2._0
 
             Works = new ObservableCollection<Work>();
 
-          
-            Works.Add(new Work { Name = "Work 1", Source = "C:\\Users\\pfrsc\\OneDrive - Association Cesi Viacesi mail\\Bus", Target = "C:\\Users\\pfrsc\\OneDrive - Association Cesi Viacesi mail\\Python\\end", Type = "Type 1", State = "inactive" });
-            Works.Add(new Work { Name = "Work 5", Source = "C:\\Users\\pfrsc\\OneDrive - Association Cesi Viacesi mail\\Bus", Target = "C:\\Users\\pfrsc\\OneDrive - Association Cesi Viacesi mail\\Python\\end2", Type = "Type 1", State = "inactive" });
+            storage.LoadAllWorks();
+            foreach (var workEntry in storage.LoadAllWorks())
+            {
+                Works.Add(new Work
+                {
+                    Name = workEntry.Name,
+                    Source = workEntry.Source,
+                    Target = workEntry.Target,
+                    Type = workEntry.Type,
+                    State = workEntry.State
+                });
+            }
+            //Works.Add(new Work { Name = "Work 1", Source = "C:\\Users\\pfrsc\\OneDrive - Association Cesi Viacesi mail\\Bus", Target = "C:\\Users\\pfrsc\\OneDrive - Association Cesi Viacesi mail\\Python\\end", Type = "Type 1", State = "inactive" });
+            //Works.Add(new Work { Name = "Work 5", Source = "C:\\Users\\pfrsc\\OneDrive - Association Cesi Viacesi mail\\Bus", Target = "C:\\Users\\pfrsc\\OneDrive - Association Cesi Viacesi mail\\Python\\end2", Type = "Type 1", State = "inactive" });
 
-            Works.Add(new Work { Name = "Work 2", Source = "Source 2", Target = "Target 2", Type = "Type 2", State = "inactive" });
-            Works.Add(new Work { Name = "Work 3", Source = "Source 3", Target = "Target 3", Type = "Type 3", State = "inactive" });
-            Works.Add(new Work { Name = "Work 4", Source = "Source 4", Target = "Target 4", Type = "Type 4", State = "inactive" });
+            //Works.Add(new Work { Name = "Work 2", Source = "Source 2", Target = "Target 2", Type = "Type 2", State = "inactive" });
+            //Works.Add(new Work { Name = "Work 3", Source = "Source 3", Target = "Target 3", Type = "Type 3", State = "inactive" });
+            //Works.Add(new Work { Name = "Work 4", Source = "Source 4", Target = "Target 4", Type = "Type 4", State = "inactive" });
 
             if (Works.Count > 0)
                 CurrentWork = Works[0];
@@ -86,6 +99,9 @@ namespace Version_2._0
         {
             Works.Add(newWork);
             CurrentWork = newWork;
+            storage.AddWorkEntry(newWork.Name, newWork.Source, newWork.Target, newWork.Type, newWork.State);
+
+
         }
 
         public void CreateWorkButton_Click(object sender, RoutedEventArgs e)
@@ -104,16 +120,7 @@ namespace Version_2._0
         public void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
 
-            if (sender is Button button && button.Tag is Work workToDelete)
-            {
-                if (MessageBox.Show($"Are you sure you want to delete '{workToDelete.Name}'?", // confirmation pop-up here
-                    "Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-                {
-                    Works.Remove(workToDelete);
-                }
-            }
-
-            else if (AreAllWorksSelected)
+            if (AreAllWorksSelected)
             {
 
                 string message = Works.Count > 1
@@ -127,7 +134,12 @@ namespace Version_2._0
                     {
                         if (Works[i].IsSelected)
                         {
+                            
+                            storage.DeleteWorkEntry(Works[i].Name);
                             Works.RemoveAt(i);
+                            //storage.LoadAllWorks();
+
+
                         }
                     }
 
@@ -150,13 +162,10 @@ namespace Version_2._0
 
                     if (MessageBox.Show(message, "Deletion Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                     {
-
-                        for (int i = Works.Count - 1; i >= 0; i--)
+                        foreach (var work in selectedWorks)
                         {
-                            if (Works[i].IsSelected)
-                            {
-                                Works.RemoveAt(i);
-                            }
+                            storage.DeleteWorkEntry(work.Name);
+                            Works.Remove(work);
                         }
                     }
                 }
@@ -170,12 +179,23 @@ namespace Version_2._0
         public void LaunchButton_Click(object sender, RoutedEventArgs e)
         {
             var selectedWorks = Works.Where(w => w.IsSelected).ToList();
+
             SettingsPopup settingsPopup = new SettingsPopup();
             string software = settingsPopup.Software;
+
+            DailyLog logger = DailyLog.getInstance();
+            logger.createLogFile();
 
             if (Process.GetProcessesByName(software).Length > 0)
             {
                 MessageBox.Show("Please close the software to continue.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                foreach (var work in selectedWorks)
+                {
+                    logger.LogSaveError(work.Name,software);
+                }
+
+
                 return;
             }
 
@@ -200,26 +220,12 @@ namespace Version_2._0
                 if (work.State == "inactive")
                 {
                     work.State = "active";
-                    DailyLog logger = DailyLog.getInstance();
-                    logger.createLogFile();
+
                     logger.TransferFilesWithLogs(
                         work.Source,  // Source path
                         work.Target,  // Destination path
                         work.Name);    // Work name
 
-                    if (Directory.Exists(work.Source))
-                    {
-                        if (!Directory.Exists(work.Target))
-                        {
-                            Directory.CreateDirectory(work.Target);
-                        }
-                        foreach (var file in Directory.GetFiles(work.Source))
-                        {
-                            string fileName = Path.GetFileName(file);
-                            string destFile = Path.Combine(work.Target, fileName);
-                            File.Copy(file, destFile, overwrite: true);
-                        }
-                    }
                     work.State = "finished";
                 }
             }
@@ -245,13 +251,13 @@ namespace Version_2._0
 
         private void WorkCheckbox_Checked(object sender, RoutedEventArgs e)
         {
-            // Vérifier si toutes les checkboxes individuelles sont cochées
+
             UpdateMasterCheckboxState();
         }
 
         private void WorkCheckbox_Unchecked(object sender, RoutedEventArgs e)
         {
-            // Si une checkbox individuelle est décochée, décocher la checkbox maître
+
             List_Works.IsChecked = false;
         }
 
@@ -320,6 +326,8 @@ namespace Version_2._0
                 Works[index].Source = updatedWork.Source;
                 Works[index].Target = updatedWork.Target;
                 Works[index].Type = updatedWork.Type;
+                storage.DeleteWorkEntry(updatedWork.Name);
+                storage.AddWorkEntry(updatedWork.Name, updatedWork.Source, updatedWork.Target, updatedWork.Type, updatedWork.State);
 
                 MessageBox.Show($"The work '{updatedWork.Name}' has been successfully updated.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
             }

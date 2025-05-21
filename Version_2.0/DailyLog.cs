@@ -247,6 +247,23 @@ namespace Version_2._0
             }
 
         }
+
+        public void LogSaveError(string saveName, string processus)
+        {
+            LogEntry errorEntry = new LogEntry
+            {
+                Name = saveName,
+                FileSource = "N/A",
+                FileTarget = "N/A",
+                FileSize = 0,
+                FileTransferTime = 0,
+                Time = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"),
+                ErrorMessage = "Error during launch because " + processus + " is launched"
+            };
+
+            logEntries.Add(errorEntry);
+            SaveLogs();
+        }
     }
 
     public class LogEntry
@@ -257,5 +274,8 @@ namespace Version_2._0
         public long FileSize { get; set; }
         public double FileTransferTime { get; set; }
         public string Time { get; set; }
+
+        public string ErrorMessage { get; set; }  
+
     }
 }

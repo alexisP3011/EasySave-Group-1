@@ -68,7 +68,8 @@ namespace Version_2._0.View.PopUp
                 string.IsNullOrWhiteSpace(SourcePathTextBox.Text) ||
                 string.IsNullOrWhiteSpace(TargetPathTextBox.Text))
             {
-                ErrorMessageTextBlock.Text = "Tous les champs sont obligatoires.";
+                ErrorMessageTextBlock.Text = "All fields are required.";
+  
                 ErrorMessageTextBlock.Visibility = Visibility.Visible;
                 return;
             }
@@ -81,7 +82,7 @@ namespace Version_2._0.View.PopUp
             //    return;
             //}
 
-            // Create a new work with the updated values
+    
             var updatedWork = new Work
             {
                 Name = JobNameTextBox.Text,
