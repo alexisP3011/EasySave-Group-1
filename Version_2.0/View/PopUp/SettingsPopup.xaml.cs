@@ -38,10 +38,7 @@ namespace Version_2._0.View.Popup
                     string jsonString = File.ReadAllText(SETTINGS_FILE);
                     var settings = JsonSerializer.Deserialize<Dictionary<string, string>>(jsonString);
 
-                    // Charger les extensions autorisées
                     EncryptionTextBox.Text = string.Join(", ", _settings.AllowedExtensions);
-
-                    // Charger la clé de cryptage
                     KeyTextBox.Text = _settings.EncryptionKey;
 
                     if (settings != null && settings.TryGetValue("Middleware", out string middlewareValue))
