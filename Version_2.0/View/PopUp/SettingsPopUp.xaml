@@ -6,17 +6,18 @@
         xmlns:local="clr-namespace:Version_2._0.View.Popup"
         xmlns:buttons="clr-namespace:Version_2._0.View.Button"
         mc:Ignorable="d"
-        Title="SettingsPopup" Height="500" Width="800">
+        Title="Settings" Height="450" Width="800">
     <Grid>
         <Grid>
-            <Grid Background="White" Opacity=".75" Panel.ZIndex="10"/>
+            <Grid Background="#cae9ff" Opacity=".75" Panel.ZIndex="10"/>
             <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Panel.ZIndex="11" Width="350">
                 <Border Padding="16">
                     <StackPanel>
                         <TextBlock
                             TextAlignment="Center"
-                            FontSize="20"
+                            FontSize="28"
                             FontWeight="Bold"
+                            Foreground="#1b4965"
                             Margin="0,0,0,10"
                             Text="Settings" />
 
@@ -27,28 +28,28 @@
                             Margin="0,0,0,16"
                             Foreground="Red" />
 
-                        <TextBlock Margin="0,0,0,4" Text="Languages:"/>
+                        <TextBlock FontSize="16"  Margin="0,0,0,4" Text="Languages:"/>
                         <ComboBox Margin="0,0,0,16" x:Name="LanguageComboBox">
                             <ComboBoxItem Content="English" IsSelected="True"/>
                             <ComboBoxItem Content="French" />
                         </ComboBox>
 
-                        <TextBlock Margin="0,0,0,4" Text="Middleware:" />
+                        <TextBlock FontSize="16" Margin="0,0,0,4" Text="Middleware:" />
                         <Border BorderBrush="LightSlateGray" BorderThickness="2" CornerRadius="4" Margin="0,0,0,16">
                             <TextBox x:Name="MiddlewareTextBox" BorderThickness="0" Text="" />
                         </Border>
 
-                        <TextBlock Margin="0,0,0,4" Text="Extension to encrypt:"/>
+                        <TextBlock FontSize="16" Margin="0,0,0,4" Text="Extension to encrypt:"/>
                         <Border BorderBrush="LightSlateGray" BorderThickness="2" CornerRadius="4" Margin="0,0,0,16">
                             <TextBox x:Name="EncryptionTextBox" BorderThickness="0"/>
                         </Border>
 
-                        <TextBlock Margin="0,0,0,4" Text="Encryption Key:" />
+                        <TextBlock FontSize="16" Margin="0,0,0,4" Text="Encryption Key:" />
                         <Border BorderBrush="LightSlateGray" BorderThickness="2" CornerRadius="4" Margin="0,0,0,16">
                             <TextBox x:Name="KeyTextBox" BorderThickness="0"/>
                         </Border>
 
-                        <TextBlock Margin="0,0,0,4" Text="Encryption Path:" />
+                        <TextBlock FontSize="16" Margin="0,0,0,4" Text="Encryption Path:" />
                         <Grid Margin="0,0,0,16">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
@@ -77,7 +78,7 @@
                             </Button>
                         </Grid>
 
-                        <TextBlock Margin="0,0,0,4" Text="Log file extension:"/>
+                        <TextBlock FontSize="16" Margin="0,0,0,4" Text="Log file extension:"/>
                         <ComboBox Margin="0,0,0,16" x:Name="LogFileComboBox">
                             <ComboBoxItem Content=".JSON" IsSelected="True"/>
                             <ComboBoxItem Content=".XML" />
@@ -89,17 +90,48 @@
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
 
-                            <buttons:CancelButton Grid.Column="1" Margin="0,0,8,0"/>
-                            <Button x:Name="ConfirmButton" Grid.Column="0" Click="ConfirmButton_Click" Margin="0,0,8,0"
-        Height="40" Background="#4CAF50" Foreground="White" BorderThickness="0">
+                            <Button x:Name="CancelButton" 
+                                     Grid.Column="1" 
+                                     Click="CancelButton_Click" 
+                                     Margin="8,0,0,0"
+                                     Height="50" 
+                                     Width="80" 
+                                     Background="OrangeRed"
+                                     FontSize="16"
+                                     FontWeight="Bold"
+                                     BorderThickness="0">
                                 <Button.Template>
                                     <ControlTemplate TargetType="Button">
                                         <Border Background="{TemplateBinding Background}"
-                    CornerRadius="8">
-                                            <TextBlock Text="Create"
-                           Foreground="White"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"/>
+                                            CornerRadius="8">
+                                            <TextBlock Text="Cancel"
+                                                       Foreground="White"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+
+                            <Button x:Name="ConfirmButton" 
+                                    Grid.Column="0" 
+                                    Click="ConfirmButton_Click" 
+                                    Margin="0,0,8,0"
+                                    Height="50" 
+                                    Width="80" 
+                                    Background="LimeGreen"
+                                    Foreground="White"
+                                    FontSize="16"
+                                    FontWeight="Bold"
+                                    BorderThickness="0">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}"
+                                            CornerRadius="8">
+                                            <TextBlock x:Name="ConfirmButtonText" Text="Confirm"
+                                                   Foreground="White"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"/>
                                         </Border>
                                     </ControlTemplate>
                                 </Button.Template>
