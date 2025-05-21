@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Version_1._0.Model;
 
+
 namespace Version_1._0.View
 {
     public class View
@@ -219,19 +220,6 @@ namespace Version_1._0.View
                 Console.WriteLine("Merci d'avoir utilisé notre application. Au revoir !");
             }
 
-        }
-
-        public void ShowWork()
-        {
-            Console.WriteLine();
-            if (language == "English")
-            {
-                Console.WriteLine("Here is the work you selected: ");
-            }
-            else if (language == "French")
-            {
-                Console.WriteLine("Voici le travail que vous avez sélectionné : ");
-            }
         }
 
         public void ShowNoWorkAvailable()
