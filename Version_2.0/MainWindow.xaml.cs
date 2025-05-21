@@ -249,6 +249,9 @@ namespace Version_2._0
 
                     work.State = "finished";
                     LaunchRealTimeLog(work);
+      
+                    storage.DeleteWorkEntry(work.Name);
+                    storage.AddWorkEntry(work.Name, work.Source, work.Target, work.Type, "Finished");
                 }
             }
 
@@ -373,8 +376,9 @@ namespace Version_2._0
                 Works[index].Source = updatedWork.Source;
                 Works[index].Target = updatedWork.Target;
                 Works[index].Type = updatedWork.Type;
+                //Works[index].State = "finished";
                 storage.DeleteWorkEntry(updatedWork.Name);
-                storage.AddWorkEntry(updatedWork.Name, updatedWork.Source, updatedWork.Target, updatedWork.Type, updatedWork.State);
+                //storage.AddWorkEntry(updatedWork.Name, updatedWork.Source, updatedWork.Target, updatedWork.Type, "Finished");
 
                 MessageBox.Show($"The work '{updatedWork.Name}' has been successfully updated.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
             }
