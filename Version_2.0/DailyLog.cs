@@ -219,7 +219,7 @@ namespace Version_2._0
                 {
 
                     File.Copy(file, destFile, true);
-                    //Thread.Sleep(2000);
+                    Thread.Sleep(5000);
                     stopwatch.Stop();
 
                     long fileSize = new FileInfo(file).Length;

@@ -236,24 +236,44 @@ namespace Version_2._0
                 return;
             }
 
+          
+            var tasks = new List<Task>();
+
             foreach (var work in selectedWorks)
             {
                 if (work.State == "inactive")
                 {
                     work.State = "active";
 
-                    logger.TransferFilesWithLogs(
-                        work.Source,  // Source path
-                        work.Target,  // Destination path
-                        work.Name);    // Work name
+                    var workCopy = work; 
+                    var loggerCopy = logger;
 
-                    work.State = "finished";
-                    LaunchRealTimeLog(work);
-      
-                    storage.DeleteWorkEntry(work.Name);
-                    storage.AddWorkEntry(work.Name, work.Source, work.Target, work.Type, "Finished");
+       
+                    var task = Task.Run(() =>
+                    {
+                        loggerCopy.TransferFilesWithLogs(
+                            workCopy.Source,  // Source path
+                            workCopy.Target,  // Destination path
+                            workCopy.Name     // Work name
+                        );
+
+                
+                        Dispatcher.Invoke(() =>
+                        {
+                            workCopy.State = "finished";
+                            LaunchRealTimeLog(workCopy);
+
+                            storage.DeleteWorkEntry(workCopy.Name);
+                            storage.AddWorkEntry(workCopy.Name, workCopy.Source, workCopy.Target, workCopy.Type, "finished");
+                        });
+                    });
+
+                    tasks.Add(task);
                 }
             }
+
+    
+            // Task.WhenAll(tasks).Wait();
 
 
         }
