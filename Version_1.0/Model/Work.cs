@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.Json;
+using System.IO;
+using System.Runtime.CompilerServices;
 
 namespace Version_1._0.Model
 {
@@ -55,33 +58,40 @@ namespace Version_1._0.Model
             this.state = input;
         }
 
+        public void SaveWorkToJson()
+        {
+            string directoryPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            string filePath = Path.Combine(directoryPath, "EasySave", "works.json");
+
+            if (!Directory.Exists(Path.GetDirectoryName(filePath)))
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+            }
+
+            var options = new JsonSerializerOptions { WriteIndented = true };
+            File.WriteAllText(filePath, JsonSerializer.Serialize(this, options));
+        }
+
         public void LaunchWork()
         {
             if (this.GetState() == "inactive")
             {
                 this.SetState("active");
 
-                // Verify if the source directory exists
-                if (Directory.Exists(this.GetSource()))
-                {
-                    // Create the target directory if it doesn't exist
-                    if (!Directory.Exists(this.GetTarget()))
-                    {
-                        Directory.CreateDirectory(this.GetTarget());
-                    }
+                DailyLog logger = DailyLog.getInstance();
+                logger.createLogFile();
 
-                    // Copy all of the files to the new location
-                    foreach (var file in Directory.GetFiles(this.GetSource()))
-                    {
-                        string fileName = Path.GetFileName(file);
-                        string destFile = Path.Combine(this.GetTarget(), fileName);
-                        File.Copy(file, destFile, overwrite: true);
-                    }
-                }
-                this.SetState("finished");
+                logger.TransferFilesWithLogs(
+                                            this.GetSource(),  // Source path
+                                            this.GetTarget(),  // Destination path
+                                            this.GetName()     // Work name
+                                            );
 
-                //_works.Remove(workToLaunch);
             }
+            this.SetState("finished");
+
+            //_works.Remove(workToLaunch);
+        
         }
 
 

@@ -57,6 +57,7 @@ namespace Version_1._0
                             if (confirmation == "y" || confirmation == "yes")
                             {
                                 viewModel.AddWork();
+                                
                                 view.ShowWorkCreatedMessage();
                             }
 
@@ -75,7 +76,6 @@ namespace Version_1._0
 
                     case '3':  // Delete a work
                         view.ShowList(viewModel);
-
                         if (viewModel.GetWorkCount() > 0)
                         {
                             string workName = view.AskWorkName();
@@ -193,19 +193,10 @@ namespace Version_1._0
                                 if (confirmation_5 == "y" || confirmation_5 == "yes")
                                 {
                            
-                                    DailyLog logger = DailyLog.getInstance();
-                                    logger.createLogFile();
-
-                        
                                     viewModel._currentWork = workToLaunch;
 
-                      
-                                    logger.TransferFilesWithLogs(
-                                        workToLaunch.GetSource(),  // Source path
-                                        workToLaunch.GetTarget(),  // Destination path
-                                        workToLaunch.GetName()     // Work name
-                                    );
-
+                                    viewModel.LaunchWork();
+                                    
                                     view.WarnLaunch();
                                     
                                 }
