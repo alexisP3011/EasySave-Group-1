@@ -1,0 +1,152 @@
+﻿<Window x:Class="Version_2._0.View.PopUp.PopUpUpdateWork"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Version_2._0.View.PopUp"
+        mc:Ignorable="d"
+        Title="Update Work" Height="450" Width="800" WindowStartupLocation="CenterOwner">
+    <Grid>
+        <Grid>
+            <Grid Background="#cae9ff" Opacity=".75" Panel.ZIndex="10"/>
+            <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Panel.ZIndex="11" Width="350">
+                <Border Padding="16">
+                    <StackPanel>
+                        <TextBlock
+                        TextAlignment="Center"
+                        FontSize="28"
+                        FontWeight="Bold"
+                        Foreground="#1b4965"
+                        Margin="0,0,0,10"
+                        Text="Update a backup work" />
+
+                        <TextBlock
+                        Visibility="Collapsed"
+                        TextWrapping="Wrap"
+                        x:Name="ErrorMessageTextBlock"
+                        Margin="0,0,0,16"
+                        Foreground="Red" />
+
+                        <TextBlock FontSize="16" Margin="0,0,0,4" Text="Name:" />
+                        <Border BorderBrush="LightSlateGray" BorderThickness="2" CornerRadius="4" Margin="0,0,0,16">
+                            <TextBox x:Name="JobNameTextBox" BorderThickness="0" IsReadOnly="True"/>
+                        </Border>
+
+                        <TextBlock FontSize="16" Margin="0,0,0,4" Text="Source :" />
+                        <Grid Margin="0,0,0,16">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <Border BorderBrush="LightSlateGray" BorderThickness="2" CornerRadius="4">
+                                <TextBox x:Name="SourcePathTextBox" Grid.Column="0" BorderThickness="0"/>
+                            </Border>
+
+                            <Button FontSize="16" x:Name="_3DotSource" Grid.Column="1" 
+                                Width="32" 
+                                Margin="4,0,0,0"  ToolTip="Parcourir">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}"
+                                            CornerRadius="8">
+                                            <TextBlock Text="..."
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </Grid>
+
+                        <TextBlock FontSize="16" Margin="0,0,0,4" Text="Target:" />
+                        <Grid Margin="0,0,0,16">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <Border BorderBrush="LightSlateGray" BorderThickness="2" CornerRadius="4">
+                                <TextBox x:Name="TargetPathTextBox" Grid.Column="0" BorderThickness="0"/>
+                            </Border>
+
+                            <Button FontSize="16" x:Name="_3DotTarget" Grid.Column="1"
+                                Width="32" 
+                                Margin="4,0,0,0" ToolTip="Parcourir">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}"
+                                            CornerRadius="8">
+                                            <TextBlock Text="..."
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </Grid>
+
+                        <TextBlock FontSize="16" Margin="0,0,0,4" Text="Type of work:" />
+                        <ComboBox Margin="0,0,0,16" x:Name="JobTypeComboBox">
+                            <ComboBoxItem Content="Complete" IsSelected="True"/>
+                            <ComboBoxItem Content="Differential" />
+                        </ComboBox>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Button x:Name="CancelButton" 
+                                    Grid.Column="1" 
+                                    Click="CancelButton_Click" 
+                                    Margin="8,0,0,0"
+                                    Height="50" 
+                                    Width="80" 
+                                    Background="OrangeRed"
+                                    FontSize="16"
+                                    FontWeight="Bold"
+                                    BorderThickness="0">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}"
+                                            CornerRadius="8">
+                                            <TextBlock Text="Cancel"
+                                                       Foreground="White"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+
+                            <Button x:Name="ConfirmButton" 
+                                    Grid.Column="0" 
+                                    Click="ConfirmButton_Click" 
+                                    Margin="36,0,43,0" 
+                                    Width="80" 
+                                    Background="LimeGreen"
+                                    Foreground="White"
+                                    FontSize="16"
+                                    FontWeight="Bold"
+                                    BorderThickness="0">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}"
+                                            CornerRadius="8">
+                                            <TextBlock x:Name="ConfirmButtonText" Text="Confirm"
+                                                   Foreground="White"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>
