@@ -19,6 +19,8 @@ namespace Version_1._0.ViewModel
 
         Model.RealTimeLog realTimeLog = Model.RealTimeLog.getInstance();
 
+        Settings settings = Settings.getInstance();
+
         public ViewModel()
         {
             //input = "";
@@ -187,6 +189,11 @@ namespace Version_1._0.ViewModel
             UpdateRealTimeLog();
 
         }
+
+        public void changeLanguage()
+        {
+            settings.setCulture(input);
+        }
         public void UpdateRealTimeLog()
         {
 
@@ -211,6 +218,11 @@ namespace Version_1._0.ViewModel
                     realTimeLog.SaveEntry(log);
                 }
             }
+        }
+
+        public string setLanguage()
+        {
+            return settings.LoadSettingsLanguage();
         }
     }
 }

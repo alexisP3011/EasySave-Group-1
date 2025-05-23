@@ -127,9 +127,7 @@
 4. Update a backup work
 5. Launch a backup work
 6. Change the application language
-7. Exit
-
-Enter your choice:</value>
+7. Exit</value>
   </data>
   <data name="SelectOption" xml:space="preserve">
     <value>Please select an option:</value>
@@ -232,5 +230,11 @@ State: {4}</value>
   </data>
   <data name="AskTarget" xml:space="preserve">
     <value>Please enter your target:</value>
+  </data>
+  <data name="AskType" xml:space="preserve">
+    <value>Please enter the type of the backup work: </value>
+  </data>
+  <data name="EnterChoice" xml:space="preserve">
+    <value>Enter your choice: </value>
   </data>
 </root>

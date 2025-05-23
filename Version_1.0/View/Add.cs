@@ -13,54 +13,24 @@ namespace Version_1._0.View
         public void AskSaveName()
         {
             Console.WriteLine();
-            if (language == "English")
-            {
-                Console.WriteLine("Please enter the name of the backup work: ");
-            }
-            else if (language == "French")
-            {
-                Console.WriteLine("Veuillez entrer le nom du travail de sauvegarde : ");
-            }
+            Console.WriteLine(_rm.GetString("AskSaveName"));
         }
 
         public void AskSource()
         {
             Console.WriteLine();
-            if (language == "English")
-            {
-                Console.WriteLine("Please enter your source: ");
-            }
-            else if (language == "French")
-            {
-                Console.WriteLine("Veuillez entrer votre source : ");
-            }
+            Console.WriteLine(_rm.GetString("AskSource"));
         }
         public void AskTarget()
         {
             Console.WriteLine();
-            if (language == "English")
-            {
-                Console.WriteLine("Please enter your target: ");
-            }
-            else if (language == "French")
-            {
-                Console.WriteLine("Veuillez entrer votre cible : ");
-            }
+            Console.WriteLine(_rm.GetString("AskTarget"));
         }
 
         public void AskType()
         {
             Console.WriteLine();
-            if (language == "English")
-            {
-                Console.WriteLine("Please enter the type of the backup work: ");
-            }
-            else if (language == "French")
-            {
-                Console.WriteLine("Veuillez entrer le type du travail de sauvegarde : ");
-            }
+                Console.WriteLine(_rm.GetString("AskType"));
         }
-
-
     }
 }

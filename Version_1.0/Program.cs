@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using Version_1._0.Model;
 using Version_1._0.View;
 
@@ -14,13 +15,11 @@ namespace Version_1._0
             var viewModel = new ViewModel.ViewModel();
             var view = new View.View(viewModel);
             var language = new Language();
-            view.language = "English";
-
 
             while (!exit)
             {
+                Thread.CurrentThread.CurrentUICulture = new CultureInfo(viewModel.setLanguage());
                 view.ShowMenu();
-
                 ConsoleKeyInfo choice = Console.ReadKey();
                 Console.Clear();
                 switch (choice.KeyChar)
@@ -32,8 +31,6 @@ namespace Version_1._0
                         {
                             
                             var add = new View.Add();
-
-                            add.language = view.language;
 
                             add.AskSaveName();
                             viewModel.input = Console.ReadLine();
@@ -106,7 +103,6 @@ namespace Version_1._0
 
                     case '4': // Update a work
                         var update = new View.Update();
-                        update.language = view.language;
 
                         update.ShowList(viewModel);
 
@@ -210,7 +206,6 @@ namespace Version_1._0
                         break;
 
                     case '6': // Change language
-                        language.language = view.language;
                         language.ShowAvailableLanguage();
                         
                         view.ShowMessageChoice();
@@ -219,18 +214,12 @@ namespace Version_1._0
                         switch (languageChoice.KeyChar)
                         {
                             case '1':
-                                if (view.language == "English")
-                                {
-                                    language.WarnCurrrentLanguage();
-                                    view.ShowNext();
-                                }
-                                else
-                                {
                                     view.AskConfirmation();
                                     string confirmation_6 = Console.ReadLine();
                                     if (confirmation_6 == "y" || confirmation_6 == "yes")
                                     {
-                                        view.language = "English";
+                                        viewModel.input = "En";
+                                        viewModel.changeLanguage();
                                         view.ShowNext();
                                     }
                                     else if (confirmation_6 == "n" || confirmation_6 == "no")
@@ -241,24 +230,19 @@ namespace Version_1._0
                                     {
                                         view.WarnInvalidOption();
                                     }
-                                }
+                                
                                 break;
+
                             case '2':
-                                if (view.language == "French")
-                                {
-                                    language.WarnCurrrentLanguage();
-                                    view.ShowNext();
-                                }
-                                else
-                                {
                                     view.AskConfirmation();
-                                    string confirmation_6 = Console.ReadLine();
-                                    if (confirmation_6 == "y" || confirmation_6 == "yes")
+                                    string confirmation_10 = Console.ReadLine();
+                                    if (confirmation_10 == "y" || confirmation_10 == "yes")
                                     {
-                                        view.language = "French";
+                                        viewModel.input = "Fr";
+                                        viewModel.changeLanguage();
                                         view.ShowNext();
                                     }
-                                    else if (confirmation_6 == "n" || confirmation_6 == "no")
+                                    else if (confirmation_10 == "n" || confirmation_10 == "no")
                                     {
                                         language.ShowAvailableLanguage();
                                     }
@@ -266,7 +250,7 @@ namespace Version_1._0
                                     {
                                         view.WarnInvalidOption();
                                     }
-                                }
+                                
                                 break;
                         }
 
