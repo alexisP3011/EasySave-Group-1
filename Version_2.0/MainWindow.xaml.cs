@@ -158,6 +158,8 @@ namespace Version_2._0
                             realTimeLog.DeleteRealTimeLogEntry(Works[i].Name);
                             Works.RemoveAt(i);
                             //storage.LoadAllWorks();
+
+
                         }
                     }
 
@@ -200,12 +202,12 @@ namespace Version_2._0
             var selectedWorks = Works.Where(w => w.IsSelected).ToList();
 
             SettingsPopup settingsPopup = new SettingsPopup();
-            //string software = settingsPopup.Software;
+            string software = settingsPopup.Software;
 
             DailyLog logger = DailyLog.getInstance();
             logger.createLogFile();
 
-            /*if (Process.GetProcessesByName(software).Length > 0)
+            if (Process.GetProcessesByName(software).Length > 0)
             {
                 MessageBox.Show("Please close the software to continue.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
 
@@ -216,7 +218,7 @@ namespace Version_2._0
 
 
                 return;
-            }*/
+            }
 
             if (selectedWorks.Count == 0)
             {
@@ -234,21 +236,44 @@ namespace Version_2._0
                 return;
             }
 
+          
+            var tasks = new List<Task>();
+
             foreach (var work in selectedWorks)
             {
                 if (work.State == "inactive")
                 {
                     work.State = "active";
 
-                    logger.TransferFilesWithLogs(
-                        work.Source,  // Source path
-                        work.Target,  // Destination path
-                        work.Name);    // Work name
+                    var workCopy = work; 
+                    var loggerCopy = logger;
 
-                    work.State = "finished";
-                    LaunchRealTimeLog(work);
+       
+                    var task = Task.Run(() =>
+                    {
+                        loggerCopy.TransferFilesWithLogs(
+                            workCopy.Source,  // Source path
+                            workCopy.Target,  // Destination path
+                            workCopy.Name     // Work name
+                        );
+
+                
+                        Dispatcher.Invoke(() =>
+                        {
+                            workCopy.State = "finished";
+                            LaunchRealTimeLog(workCopy);
+
+                            storage.DeleteWorkEntry(workCopy.Name);
+                            storage.AddWorkEntry(workCopy.Name, workCopy.Source, workCopy.Target, workCopy.Type, "finished");
+                        });
+                    });
+
+                    tasks.Add(task);
                 }
             }
+
+    
+            // Task.WhenAll(tasks).Wait();
 
 
         }
@@ -367,11 +392,13 @@ namespace Version_2._0
 
             if (index != -1)
             {
+              
                 Works[index].Source = updatedWork.Source;
                 Works[index].Target = updatedWork.Target;
                 Works[index].Type = updatedWork.Type;
+                //Works[index].State = "finished";
                 storage.DeleteWorkEntry(updatedWork.Name);
-                storage.AddWorkEntry(updatedWork.Name, updatedWork.Source, updatedWork.Target, updatedWork.Type, updatedWork.State);
+                //storage.AddWorkEntry(updatedWork.Name, updatedWork.Source, updatedWork.Target, updatedWork.Type, "Finished");
 
                 MessageBox.Show($"The work '{updatedWork.Name}' has been successfully updated.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
             }

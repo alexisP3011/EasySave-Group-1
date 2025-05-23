@@ -28,13 +28,11 @@ namespace Version_2._0.View.Popup
             LoadSettings();
         }
 
-        //public string Software { get; set; }
-        public string EncryptedExtensions { get; set; }
+        public string Software { get; set; }
 
         private void ConfirmButton_Click(object sender, RoutedEventArgs e)
         {
-            //Software = MiddlewareTextBox.Text;
-            EncryptedExtensions = EncryptionTextBox.Text;
+            Software = MiddlewareTextBox.Text;
             SaveSettings();
             this.Close();
         }
@@ -48,15 +46,10 @@ namespace Version_2._0.View.Popup
                     string jsonString = File.ReadAllText(SETTINGS_FILE);
                     var settings = JsonSerializer.Deserialize<Dictionary<string, string>>(jsonString);
 
-                    /*if (settings != null && settings.TryGetValue("Middleware", out string middlewareValue))
+                    if (settings != null && settings.TryGetValue("Middleware", out string middlewareValue))
                     {
                         MiddlewareTextBox.Text = middlewareValue;
                         Software = middlewareValue;
-                    }*/
-                    if (settings.TryGetValue("EncryptedExtensions", out string extValue))
-                    {
-                        EncryptionTextBox.Text = extValue;
-                        EncryptedExtensions = extValue;
                     }
                 }
             }
@@ -82,8 +75,8 @@ namespace Version_2._0.View.Popup
                     settings = new Dictionary<string, string>();
                 }
 
-
-                //settings["Middleware"] = MiddlewareTextBox.Text;
+  
+                settings["Middleware"] = MiddlewareTextBox.Text;
 
 
                 string jsonOutput = JsonSerializer.Serialize(settings, new JsonSerializerOptions { WriteIndented = true });
