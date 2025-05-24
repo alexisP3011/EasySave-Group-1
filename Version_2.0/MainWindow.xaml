@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:Version_2._0"
         xmlns:buttons="clr-namespace:Version_2._0.View.Button"
         mc:Ignorable="d"
-        Title="EasySave" Height="500" Width="800">
+        Title="EasySave" Height="500" Width="800"
+        Icon="/Ressources/myicon.ico">
 
     <Grid Background="#cae9ff" Margin="0,0,0,-35">
         <Grid.ColumnDefinitions>
@@ -28,7 +29,7 @@
                     Padding="10,5" Click="Button_Settings" >
 
                 <Button.Background>
-                    <ImageBrush ImageSource="/settings.png"/>
+                    <ImageBrush ImageSource="/Ressources/settings.png"/>
                 </Button.Background>
                 <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}">
