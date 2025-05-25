@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Version_2._0.View.Popup"
         xmlns:buttons="clr-namespace:Version_2._0.View.Button"
         mc:Ignorable="d"
-        Title="Settings" Height="450" Width="800">
+        Title="Settings" Height="525" Width="800">
     <Grid>
         <Grid>
             <Grid Background="#cae9ff" Opacity=".75" Panel.ZIndex="10"/>
@@ -40,8 +40,17 @@
                         </Border>
 
                         <TextBlock FontSize="16" Margin="0,0,0,4" Text="Extension to encrypt:"/>
+                        <ComboBox Margin="0,0,0,16" x:Name="ExtensionComboBox">
+                            <ComboBoxItem Content=".txt" />
+                            <ComboBoxItem Content=".csv" />
+                            <ComboBoxItem Content=".json" />
+                            <ComboBoxItem Content=".xml" />
+                            <ComboBoxItem Content=".log" />
+                        </ComboBox>
+
+                        <TextBlock FontSize="16" Margin="0,0,0,4" Text="Encryption Key:" />
                         <Border BorderBrush="LightSlateGray" BorderThickness="2" CornerRadius="4" Margin="0,0,0,16">
-                            <TextBox x:Name="EncryptionTextBox" BorderThickness="0"/>
+                            <TextBox x:Name="EncryptionKeyTextBox" BorderThickness="0" Text="" />
                         </Border>
 
                         <TextBlock FontSize="16" Margin="0,0,0,4" Text="Log file extension:"/>
