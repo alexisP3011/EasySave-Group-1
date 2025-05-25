@@ -29,10 +29,20 @@ namespace Version_2._0.View.Popup
         }
 
         public string Software { get; set; }
+        public string TargetExtension { get; set; }
+        public string EncryptionKey { get; set; }
 
         private void ConfirmButton_Click(object sender, RoutedEventArgs e)
         {
             Software = MiddlewareTextBox.Text;
+            
+            if (ExtensionComboBox.SelectedItem is ComboBoxItem selectedItem)
+            {
+                TargetExtension = selectedItem.Content.ToString();
+            }
+
+            EncryptionKey = EncryptionKeyTextBox.Text;
+
             SaveSettings();
             this.Close();
         }
@@ -46,10 +56,33 @@ namespace Version_2._0.View.Popup
                     string jsonString = File.ReadAllText(SETTINGS_FILE);
                     var settings = JsonSerializer.Deserialize<Dictionary<string, string>>(jsonString);
 
-                    if (settings != null && settings.TryGetValue("Middleware", out string middlewareValue))
+                    if (settings != null)
                     {
-                        MiddlewareTextBox.Text = middlewareValue;
-                        Software = middlewareValue;
+                        if (settings.TryGetValue("Middleware", out string middlewareValue))
+                        {
+                            MiddlewareTextBox.Text = middlewareValue;
+                            Software = middlewareValue;
+                        }
+
+                        if (settings.TryGetValue("TargetExtension", out string targetExtensionValue))
+                        {
+                            TargetExtension = targetExtensionValue;
+
+                            foreach (ComboBoxItem item in ExtensionComboBox.Items)
+                            {
+                                if (item.Content.ToString() == targetExtensionValue)
+                                {
+                                    ExtensionComboBox.SelectedItem = item;
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (settings.TryGetValue("EncryptionKey", out string encryptionKeyValue))
+                        {
+                            EncryptionKeyTextBox.Text = encryptionKeyValue;
+                            EncryptionKey = encryptionKeyValue;
+                        }
                     }
                 }
             }
@@ -77,6 +110,8 @@ namespace Version_2._0.View.Popup
 
   
                 settings["Middleware"] = MiddlewareTextBox.Text;
+                settings["TargetExtension"] = TargetExtension;
+                settings["EncryptionKey"] = EncryptionKeyTextBox.Text;
 
 
                 string jsonOutput = JsonSerializer.Serialize(settings, new JsonSerializerOptions { WriteIndented = true });

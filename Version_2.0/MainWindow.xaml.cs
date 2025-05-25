@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Linq;
 using System.IO;
 using Version_2._0.View.Popup;
+using Version_2._0.Model;
 using System.Diagnostics;
 
 namespace Version_2._0
@@ -203,6 +204,14 @@ namespace Version_2._0
 
             SettingsPopup settingsPopup = new SettingsPopup();
             string software = settingsPopup.Software;
+            string targetExtension = settingsPopup.TargetExtension;
+            string key = settingsPopup.EncryptionKey;
+
+            if (string.IsNullOrWhiteSpace(targetExtension) || string.IsNullOrWhiteSpace(key))
+            {
+                MessageBox.Show("Please set the target extension and encryption key in the settings.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
 
             DailyLog logger = DailyLog.getInstance();
             logger.createLogFile();
@@ -257,7 +266,33 @@ namespace Version_2._0
                             workCopy.Name     // Work name
                         );
 
-                
+                        try
+                        {
+                            var filesToEncrypt = Directory.GetFiles(workCopy.Target, $"*{targetExtension}");
+                            foreach (var file in filesToEncrypt)
+                            {
+                                try
+                                {
+                                    var manager = new FileManager(file, key);
+                                    manager.TransformFile();
+                                }
+                                catch (Exception ex)
+                                {
+                                    Dispatcher.Invoke(() =>
+                                    {
+                                        MessageBox.Show($"Error encrypting file {file}: {ex.Message}", "Encryption Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                                    });
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Dispatcher.Invoke(() =>
+                            {
+                                MessageBox.Show($"Error accessing files in target directory: {ex.Message}", "File Access Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                            });
+                        }
+
                         Dispatcher.Invoke(() =>
                         {
                             workCopy.State = "finished";
