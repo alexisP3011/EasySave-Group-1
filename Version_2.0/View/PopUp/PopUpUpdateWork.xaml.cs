@@ -109,7 +109,7 @@ namespace Version_2._0.View.PopUp
                 string.IsNullOrWhiteSpace(SourcePathTextBox.Text) ||
                 string.IsNullOrWhiteSpace(TargetPathTextBox.Text))
             {
-                ErrorMessageTextBlock.Text = "All fields are required.";
+                ErrorMessageTextBlock.Text = _rm.GetString("ErrorRequiredFieldsUpdate");
 
                 ErrorMessageTextBlock.Visibility = Visibility.Visible;
                 return;

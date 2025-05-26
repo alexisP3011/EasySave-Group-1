@@ -1,8 +1,10 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.IO;
+using System.Resources;
 using System.Windows;
 using System.Windows.Controls;
+using System.Xml;
 using MessageBox = System.Windows.MessageBox;
 namespace Version_2._0.View.PopUp
 {
@@ -13,9 +15,23 @@ namespace Version_2._0.View.PopUp
     {
         public delegate void WorkCreatedEventHandler(Work newWork);
         public event WorkCreatedEventHandler WorkCreated;
+        private ResourceManager _rm = new ResourceManager("Version_2._0.Ressources.string", typeof(PopUpCreateWork).Assembly);
         public PopUpCreateWork()
         {
             InitializeComponent();
+            CreateWindow.Title = _rm.GetString("CreatePopUpTitle");
+            CreatePopUpTitle.Text = _rm.GetString("CreatePopUp");
+            NameLabel.Text = _rm.GetString("NameLabel");
+            SourceLabel.Text = _rm.GetString("SourceLabel");
+            TargetLabel.Text = _rm.GetString("TargetLabel");
+            TypeLabel.Text = _rm.GetString("TypeLabel");
+
+            ConfirmButton.ApplyTemplate();
+            TextBlock confirmTextBlock = ConfirmButton.Template.FindName("ConfirmButtonText", ConfirmButton) as TextBlock;
+            confirmTextBlock.Text = _rm.GetString("ConfirmButton");
+            CancelButton.ApplyTemplate();
+            TextBlock cancelTextBlock = CancelButton.Template.FindName("CancelButtonText", CancelButton) as TextBlock;
+            cancelTextBlock.Text = _rm.GetString("CancelButton");
         }
 
         private void BrowseFolder_Click(object sender, RoutedEventArgs e)
@@ -42,6 +58,7 @@ namespace Version_2._0.View.PopUp
                     TargetPathTextBox.Text = folder;
                 }
             }
+            
         }
 
 
