@@ -14,6 +14,7 @@
                 <Border Padding="16">
                     <StackPanel>
                         <TextBlock
+                            x:Name="SettingsTitle"
                             TextAlignment="Center"
                             FontSize="28"
                             FontWeight="Bold"
@@ -28,18 +29,18 @@
                             Margin="0,0,0,16"
                             Foreground="Red" />
 
-                        <TextBlock FontSize="16"  Margin="0,0,0,4" Text="Languages:"/>
+                        <TextBlock FontSize="16"  Margin="0,0,0,4" x:Name="LanguageTextBlock" Text="Language:"/>
                         <ComboBox Margin="0,0,0,16" x:Name="LanguageComboBox">
                             <ComboBoxItem Content="English" IsSelected="True"/>
-                            <ComboBoxItem Content="French" />
+                            <ComboBoxItem Content="Français" />
                         </ComboBox>
 
-                        <TextBlock FontSize="16" Margin="0,0,0,4" Text="Middleware:" />
+                        <TextBlock FontSize="16" Margin="0,0,0,4" x:Name="MiddlewareTextBlock" Text="Middleware:" />
                         <Border BorderBrush="LightSlateGray" BorderThickness="2" CornerRadius="4" Margin="0,0,0,16">
                             <TextBox x:Name="MiddlewareTextBox" BorderThickness="0" Text="" />
                         </Border>
 
-                        <TextBlock FontSize="16" Margin="0,0,0,4" Text="Extension to encrypt:"/>
+                        <TextBlock FontSize="16" Margin="0,0,0,4" x:Name="ExtensionEncryptionTextBlock" Text="Extension to encrypt:"/>
                         <ComboBox Margin="0,0,0,16" x:Name="ExtensionComboBox">
                             <ComboBoxItem Content=".txt" />
                             <ComboBoxItem Content=".csv" />
@@ -48,12 +49,12 @@
                             <ComboBoxItem Content=".log" />
                         </ComboBox>
 
-                        <TextBlock FontSize="16" Margin="0,0,0,4" Text="Encryption Key:" />
+                        <TextBlock FontSize="16" Margin="0,0,0,4" x:Name="KeyEncryptionTextBlock" Text="Encryption Key:" />
                         <Border BorderBrush="LightSlateGray" BorderThickness="2" CornerRadius="4" Margin="0,0,0,16">
                             <TextBox x:Name="EncryptionKeyTextBox" BorderThickness="0" Text="" />
                         </Border>
 
-                        <TextBlock FontSize="16" Margin="0,0,0,4" Text="Log file extension:"/>
+                        <TextBlock FontSize="16" Margin="0,0,0,4" x:Name="ExtensionLogTextBlock" Text="Log file extension:"/>
                         <ComboBox Margin="0,0,0,16" x:Name="LogFileComboBox">
                             <ComboBoxItem Content=".JSON" IsSelected="True"/>
                             <ComboBoxItem Content=".XML" />
@@ -80,6 +81,7 @@
                                         <Border Background="{TemplateBinding Background}"
                                             CornerRadius="8">
                                             <TextBlock Text="Cancel"
+                                                       x:Name="CancelButtonText"
                                                        Foreground="White"
                                                        HorizontalAlignment="Center"
                                                        VerticalAlignment="Center"/>
