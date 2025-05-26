@@ -240,6 +240,7 @@ namespace Version_2._0
                 return;
             }
 
+
             DailyLog logger = DailyLog.getInstance();
             logger.createLogFile();
 
@@ -260,6 +261,8 @@ namespace Version_2._0
                 MessageBox.Show("Please select a work to launch.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
+
+
 
             string confirmationMessage = selectedWorks.Count == 1
                 ? "Are you sure you want to launch the selected work?"
@@ -292,14 +295,7 @@ namespace Version_2._0
 
                     var task = Task.Run(() =>
                     {
-                        if (workCopy.State == "active")
-                        {
-                            Dispatcher.Invoke(() =>
-                            {
-                                MessageBox.Show($"The work '{workCopy.Name}' is already active.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
-                            });
-                            return;
-                        }
+
                         try
                         {
                             loggerCopy.TransferFilesWithLogs(

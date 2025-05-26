@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Version_2._0"
         xmlns:buttons="clr-namespace:Version_2._0.View.Button"
         mc:Ignorable="d"
-        Title="EasySave" Height="500" Width="800"
+        Title="EasySave" Height="600" Width="800"
         Icon="/Ressources/myicon.ico">
 
     <Grid Background="#cae9ff" Margin="0,0,0,-35">
