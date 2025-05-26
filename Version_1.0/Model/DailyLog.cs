@@ -146,12 +146,23 @@ namespace Version_1._0.Model
                 createLogFile();
             }
 
-            var options = new JsonSerializerOptions
+            if (Settings.Format.ToLower() == "xml")
             {
-                WriteIndented = true
-            };
-            string jsonString = JsonSerializer.Serialize(logEntries, options);
-            File.WriteAllText(saveName, jsonString);
+                XmlSerializer serializer = new XmlSerializer(typeof(List<LogEntry>));
+                using (FileStream fs = new FileStream(saveName.Replace(".json", ".xml"), FileMode.Create))
+                {
+                    serializer.Serialize(fs, logEntries);
+                }
+            }
+            else
+            {
+                var options = new JsonSerializerOptions
+                {
+                    WriteIndented = true
+                };
+                string jsonString = JsonSerializer.Serialize(logEntries, options);
+                File.WriteAllText(saveName, jsonString);
+            }
         }
 
         public void ClearLogs()

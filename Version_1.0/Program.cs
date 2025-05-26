@@ -16,6 +16,14 @@ namespace Version_1._0
             var language = new Language();
             view.language = "English";
 
+            // Demander le format de sauvegarde des logs au démarrage
+            Console.WriteLine("Choose log file format for this session:");
+            Console.WriteLine("1. JSON");
+            Console.WriteLine("2. XML");
+            Console.Write("Your choice: ");
+            string formatChoice = Console.ReadLine();
+            Settings.Format = (formatChoice == "2") ? "xml" : "json"; // Par défaut JSON
+            Console.WriteLine($"Log format set to: {Settings.Format.ToUpper()}");
 
             while (!exit)
             {
