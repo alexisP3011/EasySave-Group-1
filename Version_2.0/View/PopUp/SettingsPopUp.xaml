@@ -61,6 +61,23 @@
                             <ComboBoxItem Content=".XML" />
                         </ComboBox>
 
+                        <TextBlock FontSize="16" Margin="0,0,0,4" x:Name="PriorityExtensionTextBloc" Text="Priority file management:"/>
+                        <ComboBox Margin="0,0,0,16" x:Name="PriorityExtensionBox">
+                            <ComboBoxItem Content=".txt" />
+                            <ComboBoxItem Content=".csv" />
+                            <ComboBoxItem Content=".json" />
+                            <ComboBoxItem Content=".xml" />
+                            <ComboBoxItem Content=".log" />
+                        </ComboBox>
+
+
+
+
+                        <TextBlock FontSize="16" Margin="0,0,0,4" x:Name="FileSizeTransfertTextBloc" Text="Maximum file size during transfer:"/>
+                        <Border BorderBrush="LightSlateGray" BorderThickness="2" CornerRadius="4" Margin="0,0,0,16">
+                            <TextBox x:Name="FileSizeTransfertTextBox" BorderThickness="0" Text="" />
+                        </Border>
+
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
