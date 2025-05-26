@@ -138,8 +138,11 @@
   <data name="CreateButton" xml:space="preserve">
     <value>Create</value>
   </data>
-  <data name="CreateWorkPopUp" xml:space="preserve">
+  <data name="CreatePopUp" xml:space="preserve">
     <value>Create a backup work</value>
+  </data>
+  <data name="CreatePopUpTitle" xml:space="preserve">
+    <value>Create work</value>
   </data>
   <data name="DeleteButton" xml:space="preserve">
     <value>Delete</value>

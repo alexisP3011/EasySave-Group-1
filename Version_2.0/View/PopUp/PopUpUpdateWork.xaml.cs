@@ -50,7 +50,7 @@ namespace Version_2._0.View.PopUp
             UpdateWindow.Title = _rm.GetString("UpdatePopUpTitle");
             UpdateTitle.Text = _rm.GetString("UpdateWorkPopUp");
             NameLabel.Text = _rm.GetString("NameLabel");
-            SourceLabel.Text = _rm.GetString("NameLabel");
+            SourceLabel.Text = _rm.GetString("SourceLabel");
             TargetLabel.Text = _rm.GetString("TargetLabel");
             TypeLabel.Text = _rm.GetString("TypeLabel");
             ConfirmButton.ApplyTemplate();

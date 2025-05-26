@@ -138,8 +138,11 @@
   <data name="CreateButton" xml:space="preserve">
     <value>Créer</value>
   </data>
-  <data name="CreateWorkPopUp" xml:space="preserve">
+  <data name="CreatePopUp" xml:space="preserve">
     <value>Créer un travail de sauvegarde</value>
+  </data>
+  <data name="CreatePopUpTitle" xml:space="preserve">
+    <value>Créer un travail</value>
   </data>
   <data name="DeleteButton" xml:space="preserve">
     <value>Supprimer</value>
@@ -247,7 +250,8 @@
     <value>Modification de travail</value>
   </data>
   <data name="UpdateWorkPopUp" xml:space="preserve">
-    <value>Modifier un travail de sauvegarde</value>
+    <value>Modifier un travail
+de sauvegarde</value>
   </data>
   <data name="WorkStateActive" xml:space="preserve">
     <value>Actif</value>
