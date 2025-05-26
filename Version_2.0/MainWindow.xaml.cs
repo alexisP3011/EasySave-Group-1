@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Linq;
 using System.IO;
 using Version_2._0.View.Popup;
+using Version_2._0.Model;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Xml;
@@ -121,8 +122,6 @@ namespace Version_2._0
                 realTimeLog.NbFilesLeftToDo(newWork.Source, newWork.Target, newWork.State),
                 realTimeLog.Progression(newWork.Source, newWork.Target)
                 );
-
-
         }
 
         public void CreateWorkButton_Click(object sender, RoutedEventArgs e)
@@ -232,6 +231,14 @@ namespace Version_2._0
 
             SettingsPopup settingsPopup = new SettingsPopup();
             string software = settingsPopup.Software;
+            string targetExtension = settingsPopup.TargetExtension;
+            string key = settingsPopup.EncryptionKey;
+
+            if (string.IsNullOrWhiteSpace(targetExtension) || string.IsNullOrWhiteSpace(key))
+            {
+                MessageBox.Show("Please set the target extension and encryption key in the settings.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
 
             DailyLog logger = DailyLog.getInstance();
             logger.createLogFile();
@@ -285,9 +292,6 @@ namespace Version_2._0
 
                     var task = Task.Run(() =>
                     {
-
-
-
                         if (workCopy.State == "active")
                         {
                             Dispatcher.Invoke(() =>
