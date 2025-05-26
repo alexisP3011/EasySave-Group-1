@@ -113,8 +113,6 @@ namespace Version_2._0
                 realTimeLog.NbFilesLeftToDo(newWork.Source, newWork.Target, newWork.State),
                 realTimeLog.Progression(newWork.Source, newWork.Target)
                 );
-
-
         }
 
         public void CreateWorkButton_Click(object sender, RoutedEventArgs e)
