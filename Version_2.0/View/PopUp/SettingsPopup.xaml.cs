@@ -47,6 +47,10 @@ namespace Version_2._0.View.Popup
         public string TargetExtension { get; set; }
         public string EncryptionKey { get; set; }
         public string Language { get; set; }
+        public string PriorityExtension { get; set; } 
+        public string FileSizeTransfert { get; set; }
+
+
 
         private void ConfirmButton_Click(object sender, RoutedEventArgs e)
         {
@@ -63,6 +67,14 @@ namespace Version_2._0.View.Popup
             {
                 Language = langItem.Content.ToString();
             }
+
+            if (PriorityExtensionBox.SelectedItem is ComboBoxItem priorityItem)
+            {
+                PriorityExtension = priorityItem.Content.ToString();
+            }
+
+            FileSizeTransfert = FileSizeTransfertTextBox.Text;
+
 
             SaveSettings();
             this.Close();
@@ -118,6 +130,29 @@ namespace Version_2._0.View.Popup
                                 }
                             }
                         }
+
+                        if (settings.TryGetValue("PriorityExtension", out string PriorityExtensionValue))
+                        {
+                            PriorityExtension = PriorityExtensionValue;
+
+                            foreach (ComboBoxItem item in PriorityExtensionBox.Items)
+                            {
+                                if (item.Content.ToString() == PriorityExtensionValue)
+                                {
+                                    PriorityExtensionBox.SelectedItem = item;
+                                    break;
+                                }
+                            }
+                        }
+
+
+                        if (settings.TryGetValue("FileSizeTransfert", out string FileSizeTransfertValue))
+                        {
+                            FileSizeTransfertTextBox.Text = FileSizeTransfertValue;
+                            FileSizeTransfert = FileSizeTransfertValue;
+                        }
+
+
                     }
                 }
             }
@@ -143,11 +178,13 @@ namespace Version_2._0.View.Popup
                     settings = new Dictionary<string, string>();
                 }
 
-  
+
                 settings["Middleware"] = MiddlewareTextBox.Text;
                 settings["TargetExtension"] = TargetExtension;
                 settings["EncryptionKey"] = EncryptionKeyTextBox.Text;
                 settings["Language"] = Language;
+                settings["PriorityExtension"] = PriorityExtension;
+                settings["FileSizeTransfert"] = FileSizeTransfert;
 
 
                 string jsonOutput = JsonSerializer.Serialize(settings, new JsonSerializerOptions { WriteIndented = true });
