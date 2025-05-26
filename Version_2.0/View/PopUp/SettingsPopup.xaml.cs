@@ -40,6 +40,7 @@ namespace Version_2._0.View.Popup
             CancelButton.ApplyTemplate();
             TextBlock cancelTextBlock = CancelButton.Template.FindName("CancelButtonText", CancelButton) as TextBlock;
             cancelTextBlock.Text = _rm.GetString("CancelButton");
+            SettingWindow.Title = _rm.GetString("SettingsPopUp");
         }
 
         public string Software { get; set; }
