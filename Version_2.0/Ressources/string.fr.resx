@@ -243,6 +243,9 @@
   <data name="UpdateButton" xml:space="preserve">
     <value>Modifier</value>
   </data>
+  <data name="UpdatePopUpTitle" xml:space="preserve">
+    <value>Modification de travail</value>
+  </data>
   <data name="UpdateWorkPopUp" xml:space="preserve">
     <value>Modifier un travail de sauvegarde</value>
   </data>

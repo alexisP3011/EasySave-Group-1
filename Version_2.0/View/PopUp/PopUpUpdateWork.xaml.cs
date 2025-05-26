@@ -4,6 +4,8 @@ using System.Windows.Controls;
 using System.ComponentModel;
 using Microsoft.Win32;
 using System.IO;
+using System.Resources;
+using Version_2._0.View.Popup;
 
 namespace Version_2._0.View.PopUp
 {
@@ -14,6 +16,7 @@ namespace Version_2._0.View.PopUp
     {
         private Work _originalWork;
         RealTimeLog realTimeLog = RealTimeLog.getInstance();
+        private ResourceManager _rm = new ResourceManager("Version_2._0.Ressources.string", typeof(PopUpUpdateWork).Assembly);
 
         public delegate void WorkUpdatedEventHandler(Work originalWork, Work updatedWork);
         public event WorkUpdatedEventHandler WorkUpdated;
@@ -44,6 +47,18 @@ namespace Version_2._0.View.PopUp
                 textBlock.Text = "Update";
             }
 
+            UpdateWindow.Title = _rm.GetString("UpdatePopUpTitle");
+            UpdateTitle.Text = _rm.GetString("UpdateWorkPopUp");
+            NameLabel.Text = _rm.GetString("NameLabel");
+            SourceLabel.Text = _rm.GetString("NameLabel");
+            TargetLabel.Text = _rm.GetString("TargetLabel");
+            TypeLabel.Text = _rm.GetString("TypeLabel");
+            ConfirmButton.ApplyTemplate();
+            TextBlock confirmTextBlock = ConfirmButton.Template.FindName("ConfirmButtonText", ConfirmButton) as TextBlock;
+            confirmTextBlock.Text = _rm.GetString("ConfirmButton");
+            CancelButton.ApplyTemplate();
+            TextBlock cancelTextBlock = CancelButton.Template.FindName("CancelButtonText", CancelButton) as TextBlock;
+            cancelTextBlock.Text = _rm.GetString("CancelButton");
         }
 
 
