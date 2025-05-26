@@ -293,16 +293,21 @@ namespace Version_2._0
                     workCancellationInfos[workCopy] = cancellationInfo;
                     var token = cancellationInfo.TokenSource.Token;
 
+                  
+
                     var task = Task.Run(() =>
                     {
-
+                       
                         try
                         {
                             loggerCopy.TransferFilesWithLogs(
-                                workCopy.Source,
-                                workCopy.Target,
-                                workCopy.Name,
-                                token);
+                                 workCopy.Source,
+                                 workCopy.Target,
+                                 workCopy.Name,
+                                 token,
+                                 CheckSoftwareOpen,  
+                                 software);
+
 
 
                             Dispatcher.Invoke(() =>
@@ -420,6 +425,28 @@ namespace Version_2._0
                     cancellationInfo.TokenSource.Cancel();
                 }
             }
+        }
+
+        public void CheckSoftwareOpen(string software)
+        {
+
+            var workInProgress = Works.Where(w => w.State == "active").ToList();
+
+
+            if (Process.GetProcessesByName(software).Length > 0)
+            {
+
+                foreach (var work in workInProgress)
+                {
+                    if (workCancellationInfos.TryGetValue(work, out var cancellationInfo))
+                    {
+                        cancellationInfo.CancellationReason = "paused";
+                        cancellationInfo.TokenSource.Cancel();
+                    }
+                }
+            }
+
+
         }
 
 

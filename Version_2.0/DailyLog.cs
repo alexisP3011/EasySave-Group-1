@@ -171,27 +171,35 @@ namespace Version_2._0
         }
 
 
-        public void TransferFilesWithLogs(string sourcePath, string destinationPath,string saveName, CancellationToken token, bool recursive = false)
+        public void TransferFilesWithLogs(string sourcePath, string destinationPath, string saveName,
+            CancellationToken token, Action<string> checkSoftwareCallback = null, string software = null, bool recursive = false)
         {
             if (!Directory.Exists(sourcePath))
             {
                 Console.WriteLine($"Source directory {sourcePath} does not exist.");
                 return;
             }
-
             if (!Directory.Exists(destinationPath))
             {
                 Directory.CreateDirectory(destinationPath);
             }
-
             SearchOption searchOption = recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
-
             List<string> files = ListAllFiles(sourcePath, "*.*", searchOption);
 
             foreach (string file in files)
             {
-                string relativePath;
+
                 token.ThrowIfCancellationRequested();
+
+
+                if (checkSoftwareCallback != null && !string.IsNullOrEmpty(software))
+                {
+                    checkSoftwareCallback(software);
+
+                    token.ThrowIfCancellationRequested();
+                }
+
+                string relativePath;
                 if (recursive)
                 {
                     relativePath = file.Substring(sourcePath.Length).TrimStart('\\', '/');
@@ -200,29 +208,22 @@ namespace Version_2._0
                 {
                     relativePath = Path.GetFileName(file);
                 }
-
                 string destFile = Path.Combine(destinationPath, relativePath);
-
                 string? destDir = Path.GetDirectoryName(destFile);
                 if (!string.IsNullOrEmpty(destDir) && !Directory.Exists(destDir))
                 {
                     Directory.CreateDirectory(destDir);
                 }
-
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
-
                 try
                 {
                     File.Copy(file, destFile, true);
                     Thread.Sleep(5000);
                     stopwatch.Stop();
-
                     long fileSize = new FileInfo(file).Length;
-
                     double transferTimeMs = stopwatch.Elapsed.TotalMilliseconds;
                     double transferTimeSec = Math.Round(transferTimeMs / 1000, 3);
-
                     AddLogEntry(
                         saveName,
                         file,
@@ -230,18 +231,13 @@ namespace Version_2._0
                         fileSize,
                         transferTimeSec
                     );
-
-
-
                     SaveLogs();
                 }
                 catch (Exception)
                 {
-                    // L'exception est ignorée intentionnellement
+              
                 }
             }
-
-
         }
 
         public void LogSaveError(string saveName, string processus)
