@@ -171,7 +171,7 @@ namespace Version_2._0
         }
 
 
-        public void TransferFilesWithLogs(string sourcePath, string destinationPath, string saveName = "Save1", bool recursive = false)
+        public void TransferFilesWithLogs(string sourcePath, string destinationPath,string saveName, CancellationToken token, bool recursive = false)
         {
             if (!Directory.Exists(sourcePath))
             {
@@ -184,7 +184,6 @@ namespace Version_2._0
                 Directory.CreateDirectory(destinationPath);
             }
 
-
             SearchOption searchOption = recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
 
             List<string> files = ListAllFiles(sourcePath, "*.*", searchOption);
@@ -192,9 +191,9 @@ namespace Version_2._0
             foreach (string file in files)
             {
                 string relativePath;
+                token.ThrowIfCancellationRequested();
                 if (recursive)
                 {
-
                     relativePath = file.Substring(sourcePath.Length).TrimStart('\\', '/');
                 }
                 else
@@ -204,30 +203,25 @@ namespace Version_2._0
 
                 string destFile = Path.Combine(destinationPath, relativePath);
 
-
-                string destDir = Path.GetDirectoryName(destFile);
-                if (!Directory.Exists(destDir))
+                string? destDir = Path.GetDirectoryName(destFile);
+                if (!string.IsNullOrEmpty(destDir) && !Directory.Exists(destDir))
                 {
                     Directory.CreateDirectory(destDir);
                 }
-
 
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
 
                 try
                 {
-
                     File.Copy(file, destFile, true);
                     Thread.Sleep(5000);
                     stopwatch.Stop();
 
                     long fileSize = new FileInfo(file).Length;
 
-
                     double transferTimeMs = stopwatch.Elapsed.TotalMilliseconds;
                     double transferTimeSec = Math.Round(transferTimeMs / 1000, 3);
-
 
                     AddLogEntry(
                         saveName,
@@ -238,13 +232,15 @@ namespace Version_2._0
                     );
 
 
-                    SaveLogs();
 
+                    SaveLogs();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
+                    // L'exception est ignorée intentionnellement
                 }
             }
+
 
         }
 
@@ -263,6 +259,28 @@ namespace Version_2._0
 
             logEntries.Add(errorEntry);
             SaveLogs();
+        }
+
+        private static long GetDirectorySize(string directoryPath)
+        {
+            DirectoryInfo dirInfo = new DirectoryInfo(directoryPath);
+            long size = 0;
+
+   
+            FileInfo[] files = dirInfo.GetFiles("*", SearchOption.AllDirectories);
+            size = files.Sum(file => file.Length);
+
+            return size;
+        }
+
+        public double CalculateDirectoryRatio(string sourceDirectory, string targetDirectory)
+        {
+            long sourceSize = GetDirectorySize(sourceDirectory);
+            long targetSize = GetDirectorySize(targetDirectory);
+
+            float ratio = ((float)sourceSize / (float)targetSize)*100;
+            return ratio;
+         
         }
     }
 
