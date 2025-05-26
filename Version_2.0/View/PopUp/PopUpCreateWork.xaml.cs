@@ -1,8 +1,8 @@
 ﻿using Microsoft.Win32;
 using System;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-//using System.Windows.Forms;
 using MessageBox = System.Windows.MessageBox;
 namespace Version_2._0.View.PopUp
 {
@@ -17,6 +17,34 @@ namespace Version_2._0.View.PopUp
         {
             InitializeComponent();
         }
+
+        private void BrowseFolder_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new OpenFileDialog
+            {
+                Title = "Choose a folder",
+                Filter = "Folder|*.none",
+                CheckFileExists = false,
+                ValidateNames = false,
+                FileName = "Select a folder"
+            };
+
+            if (dialog.ShowDialog() == true)
+            {
+                string folder = Path.GetDirectoryName(dialog.FileName);
+
+                if (sender == _3DotSource)
+                {
+                    SourcePathTextBox.Text = folder;
+                }
+                else if (sender == _3DotTarget)
+                {
+                    TargetPathTextBox.Text = folder;
+                }
+            }
+        }
+
+
         private void ConfirmButton_Click(object sender, RoutedEventArgs e)
         {
             // Valider les entrées

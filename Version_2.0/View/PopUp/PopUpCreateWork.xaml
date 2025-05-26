@@ -48,7 +48,7 @@
                             <Button FontSize="16" x:Name="_3DotSource" Grid.Column="1" 
                                      
                                     Width="32" 
-                                    Margin="4,0,0,0"  ToolTip="Parcourir">
+                                    Margin="4,0,0,0"  ToolTip="Parcourir" Click="BrowseFolder_Click">
                                 <Button.Template>
                                     <ControlTemplate TargetType="Button">
                                         <Border Background="{TemplateBinding Background}"
@@ -75,7 +75,7 @@
 
                             <Button FontSize="16" x:Name="_3DotTarget" Grid.Column="1"
                                     Width="32" 
-                                    Margin="4,0,0,0" ToolTip="Parcourir">
+                                    Margin="4,0,0,0" ToolTip="Parcourir" Click="BrowseFolder_Click">
                                 <Button.Template>
                                     <ControlTemplate TargetType="Button">
                                         <Border Background="{TemplateBinding Background}"

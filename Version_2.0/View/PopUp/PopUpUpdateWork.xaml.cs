@@ -54,6 +54,32 @@ namespace Version_2._0.View.PopUp
 
         }
 
+        private void BrowseFolder_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new OpenFileDialog
+            {
+                Title = "Choose a folder",
+                Filter = "Folder|*.none",
+                CheckFileExists = false,
+                ValidateNames = false,
+                FileName = "Select a folder"
+            };
+
+            if (dialog.ShowDialog() == true)
+            {
+                string folder = Path.GetDirectoryName(dialog.FileName);
+
+                if (sender == _3DotSource)
+                {
+                    SourcePathTextBox.Text = folder;
+                }
+                else if (sender == _3DotTarget)
+                {
+                    TargetPathTextBox.Text = folder;
+                }
+            }
+        }
+
 
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
