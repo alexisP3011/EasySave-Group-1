@@ -67,19 +67,19 @@ namespace Version_2._0.View.PopUp
             // Valider les entrées
             if (string.IsNullOrWhiteSpace(JobNameTextBox.Text))
             {
-                ErrorMessageTextBlock.Text = "Please enter a name for the job.";
+                ErrorMessageTextBlock.Text = _rm.GetString("ErrorMessageTextBlockName");
                 ErrorMessageTextBlock.Visibility = Visibility.Visible;
                 return;
             }
             if (string.IsNullOrWhiteSpace(SourcePathTextBox.Text))
             {
-                ErrorMessageTextBlock.Text = "Please select a source folder.";
+                ErrorMessageTextBlock.Text = _rm.GetString("ErrorMessageTextBlockSource");
                 ErrorMessageTextBlock.Visibility = Visibility.Visible;
                 return;
             }
             if (string.IsNullOrWhiteSpace(TargetPathTextBox.Text))
             {
-                ErrorMessageTextBlock.Text = "Please select a target folder.";
+                ErrorMessageTextBlock.Text = _rm.GetString("ErrorMessageTextBlockTarget");
                 ErrorMessageTextBlock.Visibility = Visibility.Visible;
                 return;
             }
@@ -102,7 +102,8 @@ namespace Version_2._0.View.PopUp
             };
 
             WorkCreated?.Invoke(newWork);
-            MessageBox.Show("The work " + newWork.Name +  " has been created successfully." , "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            string message = string.Format(_rm.GetString("SuccessMessageCreate"), newWork.Name);
+            MessageBox.Show(message, _rm.GetString("SuccessMessageTitle"), MessageBoxButton.OK, MessageBoxImage.Information);
             
             this.Close();
         }
