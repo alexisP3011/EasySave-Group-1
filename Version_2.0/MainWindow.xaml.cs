@@ -271,9 +271,12 @@ namespace Version_2._0
                 if (work.State == "inactive" || work.State == "stop" || work.State == "paused")
                 {
                     work.State = "active";
-                    Progress = 0;
+                  
+
 
                     var workCopy = work;
+
+                    LaunchRealTimeLog(workCopy);
                     var loggerCopy = logger;
 
                     var cancellationInfo = new WorkCancellationInfo();
@@ -282,7 +285,17 @@ namespace Version_2._0
 
                     var task = Task.Run(() =>
                     {
-                        Progress += 1;
+
+
+
+                        if (workCopy.State == "active")
+                        {
+                            Dispatcher.Invoke(() =>
+                            {
+                                MessageBox.Show($"The work '{workCopy.Name}' is already active.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                            });
+                            return;
+                        }
                         try
                         {
                             loggerCopy.TransferFilesWithLogs(
@@ -290,17 +303,14 @@ namespace Version_2._0
                                 workCopy.Target,
                                 workCopy.Name,
                                 token);
-                            progress = loggerCopy.CalculateDirectoryRatio(workCopy.Source, workCopy.Target);
+
 
                             Dispatcher.Invoke(() =>
                             {
                                 if (workCopy.State != "stop" && workCopy.State != "paused")
                                 {
                                     workCopy.State = "finished";
-                                    Dispatcher.Invoke(() =>
-                                    {
-                                        Progress = 100; // Exemple de mise à jour
-                                    });
+
 
                                     LaunchRealTimeLog(workCopy);
 
