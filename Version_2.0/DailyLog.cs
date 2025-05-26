@@ -171,64 +171,59 @@ namespace Version_2._0
         }
 
 
-        public void TransferFilesWithLogs(string sourcePath, string destinationPath, string saveName = "Save1", bool recursive = false)
+        public void TransferFilesWithLogs(string sourcePath, string destinationPath, string saveName,
+            CancellationToken token, Action<string> checkSoftwareCallback = null, string software = null, bool recursive = false)
         {
             if (!Directory.Exists(sourcePath))
             {
                 Console.WriteLine($"Source directory {sourcePath} does not exist.");
                 return;
             }
-
             if (!Directory.Exists(destinationPath))
             {
                 Directory.CreateDirectory(destinationPath);
             }
-
-
             SearchOption searchOption = recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
-
             List<string> files = ListAllFiles(sourcePath, "*.*", searchOption);
 
             foreach (string file in files)
             {
+
+                token.ThrowIfCancellationRequested();
+
+
+                if (checkSoftwareCallback != null && !string.IsNullOrEmpty(software))
+                {
+                    checkSoftwareCallback(software);
+
+                    token.ThrowIfCancellationRequested();
+                }
+
                 string relativePath;
                 if (recursive)
                 {
-
                     relativePath = file.Substring(sourcePath.Length).TrimStart('\\', '/');
                 }
                 else
                 {
                     relativePath = Path.GetFileName(file);
                 }
-
                 string destFile = Path.Combine(destinationPath, relativePath);
-
-
-                string destDir = Path.GetDirectoryName(destFile);
-                if (!Directory.Exists(destDir))
+                string? destDir = Path.GetDirectoryName(destFile);
+                if (!string.IsNullOrEmpty(destDir) && !Directory.Exists(destDir))
                 {
                     Directory.CreateDirectory(destDir);
                 }
-
-
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
-
                 try
                 {
-
                     File.Copy(file, destFile, true);
                     Thread.Sleep(5000);
                     stopwatch.Stop();
-
                     long fileSize = new FileInfo(file).Length;
-
-
                     double transferTimeMs = stopwatch.Elapsed.TotalMilliseconds;
                     double transferTimeSec = Math.Round(transferTimeMs / 1000, 3);
-
-
                     AddLogEntry(
                         saveName,
                         file,
@@ -236,16 +231,13 @@ namespace Version_2._0
                         fileSize,
                         transferTimeSec
                     );
-
-
                     SaveLogs();
-
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
+              
                 }
             }
-
         }
 
         public void LogSaveError(string saveName, string processus)
@@ -263,6 +255,28 @@ namespace Version_2._0
 
             logEntries.Add(errorEntry);
             SaveLogs();
+        }
+
+        private static long GetDirectorySize(string directoryPath)
+        {
+            DirectoryInfo dirInfo = new DirectoryInfo(directoryPath);
+            long size = 0;
+
+   
+            FileInfo[] files = dirInfo.GetFiles("*", SearchOption.AllDirectories);
+            size = files.Sum(file => file.Length);
+
+            return size;
+        }
+
+        public double CalculateDirectoryRatio(string sourceDirectory, string targetDirectory)
+        {
+            long sourceSize = GetDirectorySize(sourceDirectory);
+            long targetSize = GetDirectorySize(targetDirectory);
+
+            float ratio = ((float)sourceSize / (float)targetSize)*100;
+            return ratio;
+         
         }
     }
 

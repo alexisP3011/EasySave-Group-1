@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Version_2._0"
         xmlns:buttons="clr-namespace:Version_2._0.View.Button"
         mc:Ignorable="d"
-        Title="EasySave" Height="500" Width="800"
+        Title="EasySave" Height="600" Width="800"
         Icon="/Ressources/myicon.ico">
 
     <Grid Background="#cae9ff" Margin="0,0,0,-35">
@@ -165,6 +165,23 @@
                     </ControlTemplate>
                 </Button.Template>
             </Button>
+
+            <Button Name="Stop" 
+                                            Content="Stop" 
+                                            Width="80" 
+                                            Height="30" 
+                                            Margin="0,5,0,0"
+                                            Click="StopButton_Click"
+
+                                            
+                                       />
+            <Button Name="Pause" 
+                                                 Content="Pause" 
+                                                 Width="80" 
+                                                 Height="30" 
+                                                 Margin="0,5,0,0"
+                                                Click="PauseButton_Click"                                   
+                                                                                    />
         </StackPanel>
 
         <Grid Grid.Column="1" Margin="10">
@@ -200,6 +217,9 @@
                                             <Run Text="State: "/>
                                             <Run Text="{Binding State}" />
                                         </TextBlock>
+                                        <ProgressBar Minimum="0" Maximum="100" Value="{Binding Progress}" Height="30" />
+ 
+
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,5,0,0">
 

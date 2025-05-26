@@ -8,6 +8,8 @@ using System.IO;
 using Version_2._0.View.Popup;
 using Version_2._0.Model;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Xml;
 
 namespace Version_2._0
 {
@@ -47,7 +49,7 @@ namespace Version_2._0
                 _areAllWorksSelected = value;
                 OnPropertyChanged(nameof(AreAllWorksSelected));
 
-             
+
                 if (Works != null)
                 {
                     foreach (var work in Works)
@@ -55,6 +57,18 @@ namespace Version_2._0
                         work.IsSelected = value;
                     }
                 }
+            }
+
+        }
+
+        private double progress;
+        public double Progress
+        {
+            get => progress;
+            set
+            {
+                progress = 50;
+                OnPropertyChanged(nameof(Progress));
             }
         }
 
@@ -76,12 +90,7 @@ namespace Version_2._0
                     State = workEntry.State
                 });
             }
-            //Works.Add(new Work { Name = "Work 1", Source = "C:\\Users\\pfrsc\\OneDrive - Association Cesi Viacesi mail\\Bus", Target = "C:\\Users\\pfrsc\\OneDrive - Association Cesi Viacesi mail\\Python\\end", Type = "Type 1", State = "inactive" });
-            //Works.Add(new Work { Name = "Work 5", Source = "C:\\Users\\pfrsc\\OneDrive - Association Cesi Viacesi mail\\Bus", Target = "C:\\Users\\pfrsc\\OneDrive - Association Cesi Viacesi mail\\Python\\end2", Type = "Type 1", State = "inactive" });
 
-            //Works.Add(new Work { Name = "Work 2", Source = "Source 2", Target = "Target 2", Type = "Type 2", State = "inactive" });
-            //Works.Add(new Work { Name = "Work 3", Source = "Source 3", Target = "Target 3", Type = "Type 3", State = "inactive" });
-            //Works.Add(new Work { Name = "Work 4", Source = "Source 4", Target = "Target 4", Type = "Type 4", State = "inactive" });
 
             if (Works.Count > 0)
                 CurrentWork = Works[0];
@@ -152,7 +161,7 @@ namespace Version_2._0
                     {
                         if (Works[i].IsSelected)
                         {
-                            
+
                             storage.DeleteWorkEntry(Works[i].Name);
                             realTimeLog.DeleteRealTimeLogEntry(Works[i].Name);
                             Works.RemoveAt(i);
@@ -196,7 +205,27 @@ namespace Version_2._0
             }
         }
 
-        public void LaunchButton_Click(object sender, RoutedEventArgs e)
+
+
+
+        // Classe personnalisée pour contenir les informations de cancellation
+        public class WorkCancellationInfo
+        {
+            public CancellationTokenSource TokenSource { get; set; }
+            public string CancellationReason { get; set; } // "stop" ou "pause"
+
+            public WorkCancellationInfo()
+            {
+                TokenSource = new CancellationTokenSource();
+                CancellationReason = "stop"; // Par défaut
+            }
+        }
+
+
+        private Dictionary<Work, WorkCancellationInfo> workCancellationInfos = new Dictionary<Work, WorkCancellationInfo>();
+
+
+       public void LaunchButton_Click(object sender, RoutedEventArgs e)
         {
             var selectedWorks = Works.Where(w => w.IsSelected).ToList();
 
@@ -211,6 +240,7 @@ namespace Version_2._0
                 return;
             }
 
+
             DailyLog logger = DailyLog.getInstance();
             logger.createLogFile();
 
@@ -220,9 +250,8 @@ namespace Version_2._0
 
                 foreach (var work in selectedWorks)
                 {
-                    logger.LogSaveError(work.Name,software);
+                    logger.LogSaveError(work.Name, software);
                 }
-
 
                 return;
             }
@@ -232,6 +261,8 @@ namespace Version_2._0
                 MessageBox.Show("Please select a work to launch.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
+
+
 
             string confirmationMessage = selectedWorks.Count == 1
                 ? "Are you sure you want to launch the selected work?"
@@ -243,73 +274,187 @@ namespace Version_2._0
                 return;
             }
 
-          
             var tasks = new List<Task>();
 
             foreach (var work in selectedWorks)
             {
-                if (work.State == "inactive")
+                if (work.State == "inactive" || work.State == "stop" || work.State == "paused")
                 {
                     work.State = "active";
+                  
 
-                    var workCopy = work; 
+
+                    var workCopy = work;
+
+                    LaunchRealTimeLog(workCopy);
                     var loggerCopy = logger;
 
-       
+                    var cancellationInfo = new WorkCancellationInfo();
+                    workCancellationInfos[workCopy] = cancellationInfo;
+                    var token = cancellationInfo.TokenSource.Token;
+
+                  
+
                     var task = Task.Run(() =>
                     {
-                        loggerCopy.TransferFilesWithLogs(
-                            workCopy.Source,  // Source path
-                            workCopy.Target,  // Destination path
-                            workCopy.Name     // Work name
-                        );
-
+                       
                         try
                         {
-                            var filesToEncrypt = Directory.GetFiles(workCopy.Target, $"*{targetExtension}");
-                            foreach (var file in filesToEncrypt)
+                            loggerCopy.TransferFilesWithLogs(
+                                 workCopy.Source,
+                                 workCopy.Target,
+                                 workCopy.Name,
+                                 token,
+                                 CheckSoftwareOpen,  
+                                 software);
+
+
+
+                            Dispatcher.Invoke(() =>
                             {
-                                try
+                                if (workCopy.State != "stop" && workCopy.State != "paused")
                                 {
-                                    var manager = new FileManager(file, key);
-                                    manager.TransformFile();
+                                    workCopy.State = "finished";
+
+
+                                    LaunchRealTimeLog(workCopy);
+
+                                    storage.DeleteWorkEntry(workCopy.Name);
+                                    storage.AddWorkEntry(workCopy.Name, workCopy.Source, workCopy.Target, workCopy.Type, "finished");
                                 }
-                                catch (Exception ex)
-                                {
-                                    Dispatcher.Invoke(() =>
-                                    {
-                                        MessageBox.Show($"Error encrypting file {file}: {ex.Message}", "Encryption Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                                    });
-                                }
-                            }
+                            });
                         }
-                        catch (Exception ex)
+                        catch (OperationCanceledException)
                         {
                             Dispatcher.Invoke(() =>
                             {
-                                MessageBox.Show($"Error accessing files in target directory: {ex.Message}", "File Access Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                                string newState = cancellationInfo.CancellationReason;
+                                workCopy.State = newState;
+                                LaunchRealTimeLog(workCopy);
+
+                                storage.DeleteWorkEntry(workCopy.Name);
+                                storage.AddWorkEntry(workCopy.Name, workCopy.Source, workCopy.Target, workCopy.Type, newState);
                             });
                         }
-
-                        Dispatcher.Invoke(() =>
+                        finally
                         {
-                            workCopy.State = "finished";
-                            LaunchRealTimeLog(workCopy);
 
-                            storage.DeleteWorkEntry(workCopy.Name);
-                            storage.AddWorkEntry(workCopy.Name, workCopy.Source, workCopy.Target, workCopy.Type, "finished");
-                        });
-                    });
+                            if (workCancellationInfos.ContainsKey(workCopy))
+                            {
+                                workCancellationInfos.Remove(workCopy);
+                            }
+                        }
+                    }, token);
 
                     tasks.Add(task);
                 }
             }
+        }
 
-    
-            // Task.WhenAll(tasks).Wait();
+        public void StopButton_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedWorks = Works.Where(w => w.IsSelected && w.State == "active").ToList();
+
+            var inactiveSelected = Works.Where(w => w.IsSelected && (w.State == "inactive" || w.State == "paused")).ToList();
+            if (inactiveSelected.Any())
+            {
+                MessageBox.Show("Error: Zero work to stop.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            if (selectedWorks.Count == 0)
+            {
+                MessageBox.Show("Error: Any work selected", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            string confirmationMessage = selectedWorks.Count == 1
+                ? "Are you sure you want to stop the selected work?"
+                : $"Are you sure you want to stop the {selectedWorks.Count} selected works?";
+
+            var result = MessageBox.Show(confirmationMessage, "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result != MessageBoxResult.Yes)
+            {
+                return;
+            }
+
+            foreach (var work in selectedWorks)
+            {
+                if (workCancellationInfos.TryGetValue(work, out var cancellationInfo))
+                {
+                    cancellationInfo.CancellationReason = "stop";
+                    cancellationInfo.TokenSource.Cancel();
+                }
+            }
+        }
+
+        
+        public void PauseButton_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedWorks = Works.Where(w => w.IsSelected && w.State == "active").ToList();
+
+            var inactiveSelected = Works.Where(w => w.IsSelected && (w.State == "inactive" || w.State == "paused")).ToList();
+            if (inactiveSelected.Any())
+            {
+                MessageBox.Show("Error: Zero work to pause.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            if (selectedWorks.Count == 0)
+            {
+                MessageBox.Show("Error: Any work selected", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            string confirmationMessage = selectedWorks.Count == 1
+                ? "Are you sure you want to pause the selected work?"
+                : $"Are you sure you want to pause the {selectedWorks.Count} selected works?";
+
+            var result = MessageBox.Show(confirmationMessage, "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result != MessageBoxResult.Yes)
+            {
+                return;
+            }
+
+            foreach (var work in selectedWorks)
+            {
+                if (workCancellationInfos.TryGetValue(work, out var cancellationInfo))
+                {
+                    cancellationInfo.CancellationReason = "paused";
+                    cancellationInfo.TokenSource.Cancel();
+                }
+            }
+        }
+
+        public void CheckSoftwareOpen(string software)
+        {
+
+            var workInProgress = Works.Where(w => w.State == "active").ToList();
+
+
+            if (Process.GetProcessesByName(software).Length > 0)
+            {
+
+                foreach (var work in workInProgress)
+                {
+                    if (workCancellationInfos.TryGetValue(work, out var cancellationInfo))
+                    {
+                        cancellationInfo.CancellationReason = "paused";
+                        cancellationInfo.TokenSource.Cancel();
+                    }
+                }
+            }
 
 
         }
+
+
+
+
+
+
+
 
         public void LaunchRealTimeLog(Work workToUpdate)
         {
@@ -393,7 +538,7 @@ namespace Version_2._0
 
         private void Button_Click_Update(object sender, RoutedEventArgs e)
         {
-            
+
             var selectedWorks = Works.Where(w => w.IsSelected).ToList();
 
             if (selectedWorks.Count == 0)
@@ -420,12 +565,12 @@ namespace Version_2._0
 
         private void OnWorkUpdated(Work originalWork, Work updatedWork)
         {
-     
+
             int index = Works.IndexOf(originalWork);
 
             if (index != -1)
             {
-              
+
                 Works[index].Source = updatedWork.Source;
                 Works[index].Target = updatedWork.Target;
                 Works[index].Type = updatedWork.Type;
@@ -443,7 +588,13 @@ namespace Version_2._0
             popup.Owner = this;
             popup.ShowDialog();
         }
+
     }
+
+
+}
+   
+   
 
     public class Work : INotifyPropertyChanged
     {
@@ -530,4 +681,3 @@ namespace Version_2._0
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
-}
