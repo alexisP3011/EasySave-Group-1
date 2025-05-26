@@ -138,8 +138,11 @@
   <data name="CreateButton" xml:space="preserve">
     <value>Create</value>
   </data>
-  <data name="CreateWorkPopUp" xml:space="preserve">
+  <data name="CreatePopUp" xml:space="preserve">
     <value>Create a backup work</value>
+  </data>
+  <data name="CreatePopUpTitle" xml:space="preserve">
+    <value>Create work</value>
   </data>
   <data name="DeleteButton" xml:space="preserve">
     <value>Delete</value>
@@ -243,8 +246,11 @@
   <data name="UpdateButton" xml:space="preserve">
     <value>Update</value>
   </data>
+  <data name="UpdatePopUpTitle" xml:space="preserve">
+    <value>Update Work</value>
+  </data>
   <data name="UpdateWorkPopUp" xml:space="preserve">
-    <value>Update a backup wrok</value>
+    <value>Update a backup work</value>
   </data>
   <data name="WorkStateActive" xml:space="preserve">
     <value>Active</value>

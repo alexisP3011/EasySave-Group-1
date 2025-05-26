@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Version_2._0.View.PopUp"
         mc:Ignorable="d"
-        Title="Update Work" Height="450" Width="800" WindowStartupLocation="CenterOwner">
+        x:Name="UpdateWindow"
+        Title="Update Work" Height="500" Width="800" WindowStartupLocation="CenterOwner">
     <Grid>
         <Grid>
             <Grid Background="#cae9ff" Opacity=".75" Panel.ZIndex="10"/>
@@ -18,6 +19,7 @@
                         FontWeight="Bold"
                         Foreground="#1b4965"
                         Margin="0,0,0,10"
+                        x:Name="UpdateTitle"
                         Text="Update a backup work" />
 
                         <TextBlock
@@ -27,12 +29,12 @@
                         Margin="0,0,0,16"
                         Foreground="Red" />
 
-                        <TextBlock FontSize="16" Margin="0,0,0,4" Text="Name:" />
+                        <TextBlock FontSize="16" Margin="0,0,0,4" Text="Name:" x:Name="NameLabel"/>
                         <Border BorderBrush="LightSlateGray" BorderThickness="2" CornerRadius="4" Margin="0,0,0,16">
                             <TextBox x:Name="JobNameTextBox" BorderThickness="0" IsReadOnly="True"/>
                         </Border>
 
-                        <TextBlock FontSize="16" Margin="0,0,0,4" Text="Source :" />
+                        <TextBlock FontSize="16" Margin="0,0,0,4" Text="Source :" x:Name="SourceLabel" />
                         <Grid Margin="0,0,0,16">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
@@ -59,7 +61,7 @@
                             </Button>
                         </Grid>
 
-                        <TextBlock FontSize="16" Margin="0,0,0,4" Text="Target:" />
+                        <TextBlock FontSize="16" Margin="0,0,0,4" Text="Target:" x:Name="TargetLabel" />
                         <Grid Margin="0,0,0,16">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
@@ -86,7 +88,7 @@
                             </Button>
                         </Grid>
 
-                        <TextBlock FontSize="16" Margin="0,0,0,4" Text="Type of work:" />
+                        <TextBlock FontSize="16" Margin="0,0,0,4" Text="Type of work:" x:Name="TypeLabel" />
                         <ComboBox Margin="0,0,0,16" x:Name="JobTypeComboBox">
                             <ComboBoxItem Content="Complete" IsSelected="True"/>
                             <ComboBoxItem Content="Differential" />
@@ -113,6 +115,7 @@
                                         <Border Background="{TemplateBinding Background}"
                                             CornerRadius="8">
                                             <TextBlock Text="Cancel"
+                                                       x:Name="CancelButtonText"
                                                        Foreground="White"
                                                        HorizontalAlignment="Center"
                                                        VerticalAlignment="Center"/>

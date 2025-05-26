@@ -6,10 +6,16 @@
         xmlns:local="clr-namespace:Version_2._0.View.PopUp"
         xmlns:buttons="clr-namespace:Version_2._0.View.Button"
         mc:Ignorable="d"
-        Title="Create Work" Height="450" Width="800"
+        x:Name="CreateWindow"
+        Title="Create Work" Height="500" Width="800"
         WindowStartupLocation="CenterOwner">
     <Grid>
-        <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="19*"/>
+            <ColumnDefinition Width="0*"/>
+            <ColumnDefinition Width="381*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.ColumnSpan="3">
             <Grid Background="#cae9ff" Opacity=".75" Panel.ZIndex="10"/>
             <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Panel.ZIndex="11" Width="350">
                 <Border Padding="16">
@@ -20,7 +26,8 @@
                             FontWeight="Bold"
                             Foreground="#1b4965"
                             Margin="0,0,0,10"
-                            Text="Create a backup work" />
+                            Text="Create a backup work"
+                            x:Name="CreatePopUpTitle"/>
 
                         <TextBlock
                             Visibility="Collapsed"
@@ -29,12 +36,12 @@
                             Margin="0,0,0,16"
                             Foreground="Red" />
 
-                        <TextBlock FontSize="16" Margin="0,0,0,4" Text="Name:" />
+                        <TextBlock FontSize="16" Margin="0,0,0,4" Text="Name:" x:Name="NameLabel" />
                         <Border BorderBrush="LightSlateGray" BorderThickness="2" CornerRadius="4" Margin="0,0,0,16">
                             <TextBox x:Name="JobNameTextBox" BorderThickness="0"/>
                         </Border>
 
-                        <TextBlock FontSize="16" Margin="0,0,0,4" Text="Source :" />
+                        <TextBlock FontSize="16" Margin="0,0,0,4" Text="Source :" x:Name="SourceLabel" />
                         <Grid Margin="0,0,0,16">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
@@ -62,7 +69,7 @@
                             </Button>
                         </Grid>
 
-                        <TextBlock FontSize="16" Margin="0,0,0,4" Text="Target:" />
+                        <TextBlock FontSize="16" Margin="0,0,0,4" Text="Target:" x:Name="TargetLabel" />
                         <Grid Margin="0,0,0,16">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
@@ -89,7 +96,7 @@
                             </Button>
                         </Grid>
 
-                        <TextBlock FontSize="16" Margin="0,0,0,4" Text="Type of work:" />
+                        <TextBlock FontSize="16" Margin="0,0,0,4" Text="Type of work:" x:Name="TypeLabel"/>
                         <ComboBox Margin="0,0,0,16" x:Name="JobTypeComboBox">
                             <ComboBoxItem Content="Complete" IsSelected="True"/>
                             <ComboBoxItem Content="Differential" />
@@ -115,7 +122,8 @@
                                     <ControlTemplate TargetType="Button">
                                         <Border Background="{TemplateBinding Background}"
                                                 CornerRadius="8">
-                                            <TextBlock Text="Cancel"
+                                            <TextBlock x:Name="CancelButtonText"
+                                                       Text="Cancel"
                                                        Foreground="White"
                                                        HorizontalAlignment="Center"
                                                        VerticalAlignment="Center"/>
@@ -139,7 +147,8 @@
                                     <ControlTemplate TargetType="Button">
                                         <Border Background="{TemplateBinding Background}"
                                                 CornerRadius="8">
-                                            <TextBlock Text="Confirm"
+                                            <TextBlock x:Name="ConfirmButtonText"
+                                                       Text="Confirm"
                                                        Foreground="White"
                                                        HorizontalAlignment="Center"
                                                        VerticalAlignment="Center"/>
