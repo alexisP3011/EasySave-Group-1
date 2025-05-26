@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CancelButton" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
   <data name="ConfirmationLaunchMessageMultiple" xml:space="preserve">
     <value>Are you sure you want to launch the {0} selected works?</value>
   </data>
@@ -128,6 +131,9 @@
   </data>
   <data name="ConfirmationPopUp" xml:space="preserve">
     <value>Are you sure to perform this action?</value>
+  </data>
+  <data name="ConfirmButton" xml:space="preserve">
+    <value>Confirm</value>
   </data>
   <data name="CreateButton" xml:space="preserve">
     <value>Create</value>
@@ -183,6 +189,9 @@
   <data name="KeyLabel" xml:space="preserve">
     <value>Encryption key:</value>
   </data>
+  <data name="LanguageLabel" xml:space="preserve">
+    <value>Language:</value>
+  </data>
   <data name="LaunchButton" xml:space="preserve">
     <value>Launch</value>
   </data>
@@ -207,7 +216,7 @@
   <data name="NameLabel" xml:space="preserve">
     <value>Name:</value>
   </data>
-  <data name="SettingsPupUp" xml:space="preserve">
+  <data name="SettingsPopUp" xml:space="preserve">
     <value>Settings</value>
   </data>
   <data name="SourceLabel" xml:space="preserve">
