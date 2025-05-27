@@ -41,6 +41,8 @@ namespace Version_2._0.View.Popup
             TextBlock cancelTextBlock = CancelButton.Template.FindName("CancelButtonText", CancelButton) as TextBlock;
             cancelTextBlock.Text = _rm.GetString("CancelButton");
             SettingWindow.Title = _rm.GetString("SettingsPopUp");
+            PriorityExtensionTextBloc.Text = _rm.GetString("PriorityExtension");
+            FileSizeTransfertTextBloc.Text = _rm.GetString("FileSizeTransfert");
         }
 
         public string Software { get; set; }

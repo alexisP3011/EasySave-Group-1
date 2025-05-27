@@ -186,6 +186,9 @@
   <data name="ExtensionLabel" xml:space="preserve">
     <value>Extension to encrypt:</value>
   </data>
+  <data name="FileSizeTransfert" xml:space="preserve">
+    <value>Maximum files size during transfer:</value>
+  </data>
   <data name="InformationMessageTitle" xml:space="preserve">
     <value>Information</value>
   </data>
@@ -218,6 +221,9 @@
   </data>
   <data name="NameLabel" xml:space="preserve">
     <value>Name:</value>
+  </data>
+  <data name="PriorityExtension" xml:space="preserve">
+    <value>Priority file management:</value>
   </data>
   <data name="SettingsPopUp" xml:space="preserve">
     <value>Settings</value>

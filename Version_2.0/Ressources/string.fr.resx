@@ -187,6 +187,10 @@ de sauvegarde</value>
   <data name="ExtensionLabel" xml:space="preserve">
     <value>Extension à crypter :</value>
   </data>
+  <data name="FileSizeTransfert" xml:space="preserve">
+    <value>Taille maximale des fichiers
+pendant le transfert :</value>
+  </data>
   <data name="InformationMessageTitle" xml:space="preserve">
     <value>Information</value>
   </data>
@@ -219,6 +223,9 @@ de sauvegarde</value>
   </data>
   <data name="NameLabel" xml:space="preserve">
     <value>Nom :</value>
+  </data>
+  <data name="PriorityExtension" xml:space="preserve">
+    <value>Gestion prioritaire des fichiers :</value>
   </data>
   <data name="SettingsPopUp" xml:space="preserve">
     <value>Paramètres</value>
