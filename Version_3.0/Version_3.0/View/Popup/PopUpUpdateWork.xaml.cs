@@ -10,13 +10,13 @@ using Version_3._0.View.PopUp;
 namespace Version_3._0.View.PopUp
 {
     /// <summary>
-    /// Logique d'interaction pour PopUpUpdateWork.xaml
+    /// Interaction logic for PopUpUpdateWork.xaml
     /// </summary>
     public partial class PopUpUpdateWork : Window
     {
         private Work _originalWork;
         RealTimeLog realTimeLog = RealTimeLog.getInstance();
-        private ResourceManager _rm = new ResourceManager("Version_3._0.Ressources.string", typeof(PopUpUpdateWork).Assembly);
+        private ResourceManager _rm = new ResourceManager("Version_2._0.Ressources.string", typeof(PopUpUpdateWork).Assembly);
 
         public delegate void WorkUpdatedEventHandler(Work originalWork, Work updatedWork);
         public event WorkUpdatedEventHandler WorkUpdated;
@@ -46,24 +46,13 @@ namespace Version_3._0.View.PopUp
             {
                 textBlock.Text = "Update";
             }
-
-            UpdateWindow.Title = _rm.GetString("UpdatePopUpTitle");
-            UpdateTitle.Text = _rm.GetString("UpdateWorkPopUp");
-            NameLabel.Text = _rm.GetString("NameLabel");
-            SourceLabel.Text = _rm.GetString("SourceLabel");
-            TargetLabel.Text = _rm.GetString("TargetLabel");
-            TypeLabel.Text = _rm.GetString("TypeLabel");
-            ConfirmButton.ApplyTemplate();
-            TextBlock confirmTextBlock = ConfirmButton.Template.FindName("ConfirmButtonText", ConfirmButton) as TextBlock;
-            confirmTextBlock.Text = _rm.GetString("ConfirmButton");
-            CancelButton.ApplyTemplate();
-            TextBlock cancelTextBlock = CancelButton.Template.FindName("CancelButtonText", CancelButton) as TextBlock;
-            cancelTextBlock.Text = _rm.GetString("CancelButton");
         }
 
         public PopUpUpdateWork()
         {
             InitializeComponent();
+
+
         }
 
         private void BrowseFolder_Click(object sender, RoutedEventArgs e)
@@ -165,7 +154,6 @@ namespace Version_3._0.View.PopUp
                     realTimeLog.SaveEntry(log);
                 }
             }
-
         }
     }
 }
