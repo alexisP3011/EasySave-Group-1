@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:Version_2._0"
         xmlns:buttons="clr-namespace:Version_2._0.View.Button"
         mc:Ignorable="d"
+        x:Name="MainWindow"
         Title="EasySave" Height="600" Width="800"
         Icon="/Ressources/myicon.ico">
 
@@ -26,7 +27,7 @@
                     FontWeight="Bold"
                     BorderThickness="55"
                     Margin="0,25,0,0"
-                    Padding="10,5" Click="Button_Settings" >
+                    Padding="10,5" Click="Button_Settings">
 
                 <Button.Background>
                     <ImageBrush ImageSource="/Ressources/settings.png"/>
@@ -56,7 +57,8 @@
     Background="#29ae6e"
     Foreground="White"
     Margin="0,30,0,15"
-    Padding="10,5" Click="Button_Click">
+    Padding="10,5" Click="Button_Click"
+    x:Name="CreateButton">
                 <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Border Background="{TemplateBinding Background}"
@@ -102,7 +104,8 @@
     Background="#ffb600"
     Foreground="White"
                     Margin="0,25,0,15"
-    Padding="10,5" Click="Button_Click_Update">
+    Padding="10,5" Click="Button_Click_Update"
+                    x:Name="UpdateButton">
                 <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Border Background="{TemplateBinding Background}"
@@ -126,7 +129,8 @@
                 Background="#ff5400"
                 Foreground="White"
                 Margin="0,25,0,15"
-                Padding="10,5" Click="DeleteButton_Click">
+                Padding="10,5" Click="DeleteButton_Click"
+                    x:Name="DeleteButton">
                 <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Border Background="{TemplateBinding Background}"
@@ -150,7 +154,8 @@
                 Background="#1e96fc"
                 Foreground="White"
                 Margin="0,25,0,25"
-                Padding="10,5" Click="LaunchButton_Click">
+                Padding="10,5" Click="LaunchButton_Click"
+                    x:Name="LaunchButton">
                 <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Border Background="{TemplateBinding Background}"
@@ -166,22 +171,19 @@
                 </Button.Template>
             </Button>
 
-            <Button Name="Stop" 
-                                            Content="Stop" 
-                                            Width="80" 
-                                            Height="30" 
-                                            Margin="0,5,0,0"
-                                            Click="StopButton_Click"
-
-                                            
-                                       />
-            <Button Name="Pause" 
-                                                 Content="Pause" 
-                                                 Width="80" 
-                                                 Height="30" 
-                                                 Margin="0,5,0,0"
-                                                Click="PauseButton_Click"                                   
-                                                                                    />
+            <Button x:Name="Stop" 
+                    Content="Stop" 
+                    Width="80" 
+                    Height="30" 
+                    Margin="0,5,0,0"
+                    Click="StopButton_Click"/>
+            
+            <Button x:Name="Pause" 
+                    Content="Pause" 
+                    Width="80" 
+                    Height="30" 
+                    Margin="0,5,0,0"
+                    Click="PauseButton_Click"/>
         </StackPanel>
 
         <Grid Grid.Column="1" Margin="10">
@@ -190,7 +192,7 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <TextBlock Grid.Row="0" Text="List of Works" FontSize="28" Foreground="#1b4965" FontWeight="Bold" Margin="0,0,0,10" TextAlignment="Center"/>
+            <TextBlock Grid.Row="0" Text="List of Works" FontSize="28" Foreground="#1b4965" FontWeight="Bold" Margin="0,0,0,10" TextAlignment="Center" x:Name="MainTitle"/>
             <CheckBox Name="List_Works" Checked="List_Works_Checked" Unchecked="List_Works_Unchecked" IsChecked="{Binding AreAllWorksSelected}" Margin="10,14,168,14"/>
             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
                 <ItemsControl ItemsSource="{Binding Works}">
