@@ -6,8 +6,7 @@
         xmlns:local="clr-namespace:Version_2._0"
         xmlns:buttons="clr-namespace:Version_2._0.View.Button"
         mc:Ignorable="d"
-        x:Name="MainWindow"
-        Title="EasySave" Height="600" Width="800"
+        Title="EasySave" Height="650" Width="800"
         Icon="/Ressources/myicon.ico">
 
     <Grid Background="#cae9ff" Margin="0,0,0,-35">
@@ -171,19 +170,58 @@
                 </Button.Template>
             </Button>
 
-            <Button x:Name="Stop" 
-                    Content="Stop" 
-                    Width="80" 
-                    Height="30" 
-                    Margin="0,5,0,0"
-                    Click="StopButton_Click"/>
-            
             <Button x:Name="Pause" 
-                    Content="Pause" 
-                    Width="80" 
-                    Height="30" 
-                    Margin="0,5,0,0"
-                    Click="PauseButton_Click"/>
+                        Height="50" Width="80"
+                        FontSize="16"
+                        FontWeight="Bold"
+                        BorderThickness="0"
+                        Background="#1e96fc"
+                        Foreground="White"
+                        Margin="0,5,0,5"
+                        Padding="10,5"
+                    Click="PauseButton_Click">
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}"
+CornerRadius="8">
+                            <TextBlock Text="Pause"
+      Foreground="{TemplateBinding Foreground}"
+      FontSize="{TemplateBinding FontSize}"
+      FontWeight="{TemplateBinding FontWeight}"
+      HorizontalAlignment="Center"
+      VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+
+            <Button x:Name="Stop"
+                    Height="50" Width="80"
+                FontSize="16"
+                FontWeight="Bold"
+                BorderThickness="0"
+                Background="#1e96fc"
+                Foreground="White"
+                Margin="0,5,0,5"
+                Padding="10,5"
+                    Click="StopButton_Click">
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}"
+CornerRadius="8">
+                            
+
+                            
+                            <TextBlock Text="Stop"
+      Foreground="{TemplateBinding Foreground}"
+      FontSize="{TemplateBinding FontSize}"
+      FontWeight="{TemplateBinding FontWeight}"
+      HorizontalAlignment="Center"
+      VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
         </StackPanel>
 
         <Grid Grid.Column="1" Margin="10">
