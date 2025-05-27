@@ -19,6 +19,7 @@ namespace Version_3._0
         WorkStorage storage = WorkStorage.getInstance();
         RealTimeLog realTimeLog = RealTimeLog.getInstance();
         ResourceManager _rm = new ResourceManager("Version_2._0.Ressources.string", typeof(MainWindow).Assembly);
+        SettingsPopup settings = new SettingsPopup();
 
         private ObservableCollection<Work> works;
         public ObservableCollection<Work> Works
@@ -77,6 +78,7 @@ namespace Version_3._0
         public MainWindow()
         {
             InitializeComponent();
+            settings.LoadSettings();
             Works = new ObservableCollection<Work>();
 
             storage.LoadAllWorks();

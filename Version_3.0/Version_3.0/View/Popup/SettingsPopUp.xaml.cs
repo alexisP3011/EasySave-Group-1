@@ -66,7 +66,7 @@ namespace Version_3._0.View.Popup
             this.Close();
         }
 
-        private void LoadSettings()
+        public void LoadSettings()
         {
             try
             {
