@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\elraz\\source\\repos\\EasySave\\Version_3.0\\Version_3.0.csproj",
+      "projectUniqueName": "C:\\Users\\elraz\\Projet EasySave\\EasySave-Group-1\\Version_3.0\\Version_3.0\\Version_3.0.csproj",
       "projectName": "Version_3.0",
-      "projectPath": "C:\\Users\\elraz\\source\\repos\\EasySave\\Version_3.0\\Version_3.0.csproj",
+      "projectPath": "C:\\Users\\elraz\\Projet EasySave\\EasySave-Group-1\\Version_3.0\\Version_3.0\\Version_3.0.csproj",
       "packagesPath": "C:\\Users\\elraz\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\elraz\\source\\repos\\EasySave\\Version_3.0\\obj\\",
+      "outputPath": "C:\\Users\\elraz\\Projet EasySave\\EasySave-Group-1\\Version_3.0\\Version_3.0\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

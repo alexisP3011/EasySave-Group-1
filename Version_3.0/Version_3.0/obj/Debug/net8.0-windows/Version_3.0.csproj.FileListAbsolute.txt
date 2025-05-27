@@ -8,3 +8,42 @@ C:\Users\elraz\source\repos\EasySave\Version_3.0\obj\Debug\net8.0-windows\View\P
 C:\Users\elraz\source\repos\EasySave\Version_3.0\obj\Debug\net8.0-windows\App.g.cs
 C:\Users\elraz\source\repos\EasySave\Version_3.0\obj\Debug\net8.0-windows\Version_3.0_MarkupCompile.cache
 C:\Users\elraz\source\repos\EasySave\Version_3.0\obj\Debug\net8.0-windows\Version_3.0_MarkupCompile.lref
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_3.0\Version_3.0\bin\Debug\net8.0-windows\Version_3.0.exe
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_3.0\Version_3.0\bin\Debug\net8.0-windows\Version_3.0.deps.json
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_3.0\Version_3.0\bin\Debug\net8.0-windows\Version_3.0.runtimeconfig.json
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_3.0\Version_3.0\bin\Debug\net8.0-windows\Version_3.0.dll
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_3.0\Version_3.0\bin\Debug\net8.0-windows\Version_3.0.pdb
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_3.0\Version_3.0\bin\Debug\net8.0-windows\fr\Version_3.0.resources.dll
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_3.0\Version_3.0\obj\Debug\net8.0-windows\MainWindow.g.cs
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_3.0\Version_3.0\obj\Debug\net8.0-windows\View\Button\CancelButton.g.cs
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_3.0\Version_3.0\obj\Debug\net8.0-windows\View\Button\ConfirmButton.g.cs
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_3.0\Version_3.0\obj\Debug\net8.0-windows\View\Popup\ConfirmationPopUp.g.cs
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_3.0\Version_3.0\obj\Debug\net8.0-windows\View\Popup\PopUpCreateWork.g.cs
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_3.0\Version_3.0\obj\Debug\net8.0-windows\View\Popup\PopUpUpdateWork.g.cs
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_3.0\Version_3.0\obj\Debug\net8.0-windows\View\Popup\SettingsPopUp.g.cs
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_3.0\Version_3.0\obj\Debug\net8.0-windows\App.g.cs
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_3.0\Version_3.0\obj\Debug\net8.0-windows\GeneratedInternalTypeHelper.g.cs
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_3.0\Version_3.0\obj\Debug\net8.0-windows\Version_3.0_MarkupCompile.cache
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_3.0\Version_3.0\obj\Debug\net8.0-windows\Version_3.0_MarkupCompile.lref
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_3.0\Version_3.0\obj\Debug\net8.0-windows\MainWindow.baml
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_3.0\Version_3.0\obj\Debug\net8.0-windows\View\Button\CancelButton.baml
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_3.0\Version_3.0\obj\Debug\net8.0-windows\View\Button\ConfirmButton.baml
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_3.0\Version_3.0\obj\Debug\net8.0-windows\View\Popup\ConfirmationPopUp.baml
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_3.0\Version_3.0\obj\Debug\net8.0-windows\View\Popup\PopUpCreateWork.baml
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_3.0\Version_3.0\obj\Debug\net8.0-windows\View\Popup\PopUpUpdateWork.baml
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_3.0\Version_3.0\obj\Debug\net8.0-windows\View\Popup\SettingsPopUp.baml
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_3.0\Version_3.0\obj\Debug\net8.0-windows\Version_3.0.g.resources
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_3.0\Version_3.0\obj\Debug\net8.0-windows\Version_3._0.Ressources.string.resources
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_3.0\Version_3.0\obj\Debug\net8.0-windows\Version_3._0.Ressources.string.fr.resources
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_3.0\Version_3.0\obj\Debug\net8.0-windows\Version_3.0.csproj.GenerateResource.cache
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_3.0\Version_3.0\obj\Debug\net8.0-windows\Version_3.0.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_3.0\Version_3.0\obj\Debug\net8.0-windows\Version_3.0.AssemblyInfoInputs.cache
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_3.0\Version_3.0\obj\Debug\net8.0-windows\Version_3.0.AssemblyInfo.cs
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_3.0\Version_3.0\obj\Debug\net8.0-windows\Version_3.0.csproj.CoreCompileInputs.cache
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_3.0\Version_3.0\obj\Debug\net8.0-windows\Version_3.0.sourcelink.json
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_3.0\Version_3.0\obj\Debug\net8.0-windows\fr\Version_3.0.resources.dll
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_3.0\Version_3.0\obj\Debug\net8.0-windows\Version_3.0.dll
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_3.0\Version_3.0\obj\Debug\net8.0-windows\refint\Version_3.0.dll
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_3.0\Version_3.0\obj\Debug\net8.0-windows\Version_3.0.pdb
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_3.0\Version_3.0\obj\Debug\net8.0-windows\Version_3.0.genruntimeconfig.cache
+C:\Users\elraz\Projet EasySave\EasySave-Group-1\Version_3.0\Version_3.0\obj\Debug\net8.0-windows\ref\Version_3.0.dll

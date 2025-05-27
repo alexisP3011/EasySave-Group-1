@@ -10,18 +10,21 @@
   </PropertyGroup>
 
 	<ItemGroup>
-		<Compile Remove="Ressources\**" />
 		<Compile Remove="View\Asset\**" />
-		<EmbeddedResource Remove="Ressources\**" />
 		<EmbeddedResource Remove="View\Asset\**" />
-		<None Remove="Ressources\**" />
 		<None Remove="View\Asset\**" />
-		<Page Remove="Ressources\**" />
 		<Page Remove="View\Asset\**" />
 	</ItemGroup>
 
 	<ItemGroup>
+		<None Remove="Ressources\myicon.ico" />
+		<None Remove="Ressources\settings.png" />
 		<None Remove="settings.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Resource Include="Ressources\myicon.ico" />
+		<Resource Include="Ressources\settings.png" />
 	</ItemGroup>
 
 </Project>
