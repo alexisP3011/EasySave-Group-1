@@ -10,6 +10,7 @@ using Version_2._0.Model;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Xml;
+using System.Resources;
 
 namespace Version_2._0
 {
@@ -17,6 +18,7 @@ namespace Version_2._0
     {
         WorkStorage storage = WorkStorage.getInstance();
         RealTimeLog realTimeLog = RealTimeLog.getInstance();
+        ResourceManager _rm = new ResourceManager("Version_2._0.Ressources.string", typeof(MainWindow).Assembly);
 
         private ObservableCollection<Work> works;
         public ObservableCollection<Work> Works
@@ -75,7 +77,6 @@ namespace Version_2._0
         public MainWindow()
         {
             InitializeComponent();
-
             Works = new ObservableCollection<Work>();
 
             storage.LoadAllWorks();
@@ -150,11 +151,9 @@ namespace Version_2._0
             if (AreAllWorksSelected)
             {
 
-                string message = Works.Count > 1
-                    ? $"Are you sure you want to delete all {Works.Count} selected works?"
-                    : "Are you sure you want to delete the selected work?";
+                string message = Works.Count > 1 ? string.Format(_rm.GetString("MultipleDeletionConfiramtionMessageAll"), Works.Count) : _rm.GetString("MultipleDeletionConfirmationMessageOne");
 
-                if (MessageBox.Show(message, "Multiple Deletion Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                if (MessageBox.Show(message, _rm.GetString("MultipleDeletionConfirmationMessageTitle"), MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
 
                     for (int i = Works.Count - 1; i >= 0; i--)
@@ -184,11 +183,9 @@ namespace Version_2._0
 
                 if (selectedCount > 0)
                 {
-                    string message = selectedCount > 1
-                        ? $"Are you sure you want to delete the {selectedCount} selected works?"
-                        : $"Are you sure you want to delete the work '{selectedWorks[0].Name}'?";
+                    string message = selectedCount > 1 ? string.Format(_rm.GetString("DeletionConfirmationMessageMultiple"), selectedCount) : string.Format(_rm.GetString("DeletionConfirmationMessageOne"), selectedWorks[0].Name);
 
-                    if (MessageBox.Show(message, "Deletion Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                    if (MessageBox.Show(message, _rm.GetString("DeletionConfirmationMessageTitle"), MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                     {
                         foreach (var work in selectedWorks)
                         {
@@ -200,7 +197,7 @@ namespace Version_2._0
                 }
                 else
                 {
-                    MessageBox.Show("No work is selected for deletion.", "Information");
+                    MessageBox.Show(_rm.GetString("ErrorDeletionMessage"), _rm.GetString("InformationMessageTitle"));
                 }
             }
         }
@@ -236,7 +233,7 @@ namespace Version_2._0
 
             if (string.IsNullOrWhiteSpace(targetExtension) || string.IsNullOrWhiteSpace(key))
             {
-                MessageBox.Show("Please set the target extension and encryption key in the settings.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Please set the target extension and encryption key in the settings.", _rm.GetString("InformationMessageTitle"), MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
 
@@ -246,7 +243,7 @@ namespace Version_2._0
 
             if (Process.GetProcessesByName(software).Length > 0)
             {
-                MessageBox.Show("Please close the software to continue.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show(_rm.GetString("ErrorSofwareLaunchMessage"), _rm.GetString("InformationMessageTitle"), MessageBoxButton.OK, MessageBoxImage.Information);
 
                 foreach (var work in selectedWorks)
                 {
@@ -258,17 +255,15 @@ namespace Version_2._0
 
             if (selectedWorks.Count == 0)
             {
-                MessageBox.Show("Please select a work to launch.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show(_rm.GetString("ErrorSelectLaunchMessage"), _rm.GetString("InformationMessageTitle"), MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
 
 
 
-            string confirmationMessage = selectedWorks.Count == 1
-                ? "Are you sure you want to launch the selected work?"
-                : $"Are you sure you want to launch the {selectedWorks.Count} selected works?";
+            string confirmationMessage = selectedWorks.Count == 1 ? _rm.GetString("ConfirmationLaunchMessageOne") : string.Format(_rm.GetString("ConfirmationLaunchMessageMultiple"), selectedWorks.Count);
 
-            var result = MessageBox.Show(confirmationMessage, "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            var result = MessageBox.Show(confirmationMessage, _rm.GetString("ConfirmationLaunchMessageTitle"), MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result != MessageBoxResult.Yes)
             {
                 return;
@@ -359,21 +354,19 @@ namespace Version_2._0
             var inactiveSelected = Works.Where(w => w.IsSelected && (w.State == "inactive" || w.State == "paused")).ToList();
             if (inactiveSelected.Any())
             {
-                MessageBox.Show("Error: Zero work to stop.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(_rm.GetString("ErrorStopZeroWork"), _rm.GetString("InformationMessageTitle"), MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
             if (selectedWorks.Count == 0)
             {
-                MessageBox.Show("Error: Any work selected", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(_rm.GetString("ErrorStopAnyWork"), _rm.GetString("InformationMessageTitle"), MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
-            string confirmationMessage = selectedWorks.Count == 1
-                ? "Are you sure you want to stop the selected work?"
-                : $"Are you sure you want to stop the {selectedWorks.Count} selected works?";
+            string confirmationMessage = selectedWorks.Count == 1 ? _rm.GetString("ConfirmationStopWork") : string.Format(_rm.GetString("ConfirmationStopMultipleWorks"), selectedWorks.Count);
 
-            var result = MessageBox.Show(confirmationMessage, "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            var result = MessageBox.Show(confirmationMessage, _rm.GetString("ConfirmationLaunchMessageTitle"), MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result != MessageBoxResult.Yes)
             {
                 return;
@@ -397,21 +390,19 @@ namespace Version_2._0
             var inactiveSelected = Works.Where(w => w.IsSelected && (w.State == "inactive" || w.State == "paused")).ToList();
             if (inactiveSelected.Any())
             {
-                MessageBox.Show("Error: Zero work to pause.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(_rm.GetString("ErrorPauseZeroWork"), _rm.GetString("InformationMessageTitle"), MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
             if (selectedWorks.Count == 0)
             {
-                MessageBox.Show("Error: Any work selected", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(_rm.GetString("ErrorPauseAnyWork"), _rm.GetString("InformationMessageTitle"), MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
-            string confirmationMessage = selectedWorks.Count == 1
-                ? "Are you sure you want to pause the selected work?"
-                : $"Are you sure you want to pause the {selectedWorks.Count} selected works?";
+            string confirmationMessage = selectedWorks.Count == 1 ? _rm.GetString("ConfirmationPauseWork") : string.Format(_rm.GetString("ConfirmationPauseMultipleWorks"), selectedWorks.Count);
 
-            var result = MessageBox.Show(confirmationMessage, "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            var result = MessageBox.Show(confirmationMessage, _rm.GetString("ConfirmationLaunchMessageTitle"), MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result != MessageBoxResult.Yes)
             {
                 return;
@@ -543,13 +534,13 @@ namespace Version_2._0
 
             if (selectedWorks.Count == 0)
             {
-                MessageBox.Show("Please select a work to update.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show(_rm.GetString("ErrorNoSelectUpdateMessage"), _rm.GetString("InformationMessageTitle"), MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
 
             if (selectedWorks.Count > 1)
             {
-                MessageBox.Show("Please select only one work to update.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show(_rm.GetString("ErrorMultipleSelectUpdateMessage"), _rm.GetString("InformationMessageTitle"), MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
 
@@ -578,7 +569,7 @@ namespace Version_2._0
                 storage.DeleteWorkEntry(updatedWork.Name);
                 //storage.AddWorkEntry(updatedWork.Name, updatedWork.Source, updatedWork.Target, updatedWork.Type, "Finished");
 
-                MessageBox.Show($"The work '{updatedWork.Name}' has been successfully updated.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show(string.Format(_rm.GetString("SuccessMessageUpdate"), updatedWork.Name), _rm.GetString("SuccessMessageTitle"), MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
