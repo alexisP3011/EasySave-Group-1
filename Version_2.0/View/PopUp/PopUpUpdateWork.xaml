@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:Version_2._0.View.PopUp"
         mc:Ignorable="d"
         x:Name="UpdateWindow"
-        Title="Update Work" Height="500" Width="800" WindowStartupLocation="CenterOwner">
+        Title="Update Work" Height="500" Width="800" WindowStartupLocation="CenterOwner"
+        Icon="/Ressources/myicon.ico">
     <Grid>
         <Grid>
             <Grid Background="#cae9ff" Opacity=".75" Panel.ZIndex="10"/>

@@ -7,7 +7,8 @@
         xmlns:buttons="clr-namespace:Version_2._0.View.Button"
         mc:Ignorable="d"
         x:Name="SettingWindow"
-        Title="Settings" Height="625" Width="800">
+        Title="Settings" Height="625" Width="800"
+        Icon="/Ressources/myicon.ico">
     <Grid>
         <Grid>
             <Grid Background="#cae9ff" Opacity=".75" Panel.ZIndex="10"/>
