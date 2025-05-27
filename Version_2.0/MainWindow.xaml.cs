@@ -234,9 +234,9 @@ namespace Version_2._0
             string targetExtension = settingsPopup.TargetExtension;
             string key = settingsPopup.EncryptionKey;
 
-            if (string.IsNullOrWhiteSpace(targetExtension) || string.IsNullOrWhiteSpace(key))
+            if (!string.IsNullOrEmpty(targetExtension) && targetExtension.Trim() != "" && string.IsNullOrWhiteSpace(key))
             {
-                MessageBox.Show("Please set the target extension and encryption key in the settings.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Encryption key is required as a target extension is specified in settings.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
 
