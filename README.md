@@ -32,6 +32,20 @@ The different deliverables to achieve for this project are :
 
     - A 3.0 version of EasySave with the UML diagrams showing its future development
 
+## UML
+
+For this section, we had to create various diagrams:
+
+    - Use Case Diagram
+
+    - Sequence Diagram
+
+    - Activity Diagram
+
+    - Class Diagram
+
+These diagrams were created using Visual Paradigm and were all included in the .docx deliverables they correspond to. Nevertheless, you can find below a link to each diagram created during the project.
+
 ## Mock-up
 
 To get an idea of our application's design, several mock-ups have been created: one for the general application interface, one for the confirmation screen, one for the settings, and one for the creation and editing of backup tasks. Below is the link to these mock-ups compiled in a single document:

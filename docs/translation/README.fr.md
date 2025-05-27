@@ -32,6 +32,20 @@ Les différents livrables à réaliser pour ce projet sont :
 
     - Une version 3.0 de EasySave avec les diagrammes UML qui le font évoluer
 
+## UML
+
+Pour cette partie, nous devions réaliser différents diagrammes :
+
+    - Diagramme Use Case
+
+    - Diagramme de séquences
+
+    - Diagramme d'activité
+
+    - Diagramme de classe
+
+Ces diagrammes ont été réalisés avec Visual Paradigm et ont tous été présentés dans les .docx des livrables auxquels ils correspondent. Nonobstant, vous pouvez retrouver ci-dessous un lien de chacun des diagrammes qui a été fait durant le projet.
+
 ## Mock-up
 
 Pour avoir une idée du design de notre application, des mock-ups ont été réalisé : un pour l'application de manière générale, un pour la confirmation, un pour les paramètres et un pour la création et édition des travaux de sauvegarde. Ci-dessous le lien de ceux-ci en un document :

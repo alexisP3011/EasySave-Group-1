@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using Version_1._0.Model;
 using Version_1._0.View;
 
@@ -14,42 +15,29 @@ namespace Version_1._0
             var viewModel = new ViewModel.ViewModel();
             var view = new View.View(viewModel);
             var language = new Language();
-            view.language = "English";
-
-            // Demander le format de sauvegarde des logs au démarrage
-            Console.WriteLine("Choose log file format for this session:");
-            Console.WriteLine("1. JSON");
-            Console.WriteLine("2. XML");
-            Console.Write("Your choice: ");
-            string formatChoice = Console.ReadLine();
-            Settings.Format = (formatChoice == "2") ? "xml" : "json"; // Par défaut JSON
-            Console.WriteLine($"Log format set to: {Settings.Format.ToUpper()}");
 
             while (!exit)
             {
+                Thread.CurrentThread.CurrentUICulture = new CultureInfo(viewModel.setLanguage());
                 view.ShowMenu();
-                Console.WriteLine("8. Export logs to JSON/XML"); // Ajout de l'option d'export des logs
-
                 ConsoleKeyInfo choice = Console.ReadKey();
                 Console.Clear();
                 switch (choice.KeyChar)
                 {
                     case '1': // Create a new work
                         view.ShowList(viewModel);
-
+                        
                         if (viewModel.GetWorkCount() < 5)
                         {
-
+                            
                             var add = new View.Add();
-
-                            add.language = view.language;
 
                             add.AskSaveName();
                             viewModel.input = Console.ReadLine();
                             viewModel.SetName();
 
                             add.AskSource();
-                            viewModel.input = Console.ReadLine();
+                            viewModel.input = Console.ReadLine() ;
                             viewModel.SetSource();
 
                             add.AskTarget();
@@ -66,6 +54,7 @@ namespace Version_1._0
                             if (confirmation == "y" || confirmation == "yes")
                             {
                                 viewModel.AddWork();
+                                
                                 view.ShowWorkCreatedMessage();
                             }
 
@@ -84,7 +73,6 @@ namespace Version_1._0
 
                     case '3':  // Delete a work
                         view.ShowList(viewModel);
-
                         if (viewModel.GetWorkCount() > 0)
                         {
                             string workName = view.AskWorkName();
@@ -115,7 +103,6 @@ namespace Version_1._0
 
                     case '4': // Update a work
                         var update = new View.Update();
-                        update.language = view.language;
 
                         update.ShowList(viewModel);
 
@@ -201,22 +188,13 @@ namespace Version_1._0
                                 string confirmation_5 = Console.ReadLine().ToLower();
                                 if (confirmation_5 == "y" || confirmation_5 == "yes")
                                 {
-
-                                    DailyLog logger = DailyLog.getInstance();
-                                    logger.createLogFile();
-
-
+                           
                                     viewModel._currentWork = workToLaunch;
 
-
-                                    logger.TransferFilesWithLogs(
-                                        workToLaunch.GetSource(),  // Source path
-                                        workToLaunch.GetTarget(),  // Destination path
-                                        workToLaunch.GetName()     // Work name
-                                    );
-
+                                    viewModel.LaunchWork();
+                                    
                                     view.WarnLaunch();
-
+                                    
                                 }
                             }
                             else
@@ -228,27 +206,20 @@ namespace Version_1._0
                         break;
 
                     case '6': // Change language
-                        language.language = view.language;
                         language.ShowAvailableLanguage();
-
+                        
                         view.ShowMessageChoice();
 
                         ConsoleKeyInfo languageChoice = Console.ReadKey();
                         switch (languageChoice.KeyChar)
                         {
                             case '1':
-                                if (view.language == "English")
-                                {
-                                    language.WarnCurrrentLanguage();
-                                    view.ShowNext();
-                                }
-                                else
-                                {
                                     view.AskConfirmation();
                                     string confirmation_6 = Console.ReadLine();
                                     if (confirmation_6 == "y" || confirmation_6 == "yes")
                                     {
-                                        view.language = "English";
+                                        viewModel.input = "En";
+                                        viewModel.changeLanguage();
                                         view.ShowNext();
                                     }
                                     else if (confirmation_6 == "n" || confirmation_6 == "no")
@@ -259,24 +230,19 @@ namespace Version_1._0
                                     {
                                         view.WarnInvalidOption();
                                     }
-                                }
+                                
                                 break;
+
                             case '2':
-                                if (view.language == "French")
-                                {
-                                    language.WarnCurrrentLanguage();
-                                    view.ShowNext();
-                                }
-                                else
-                                {
                                     view.AskConfirmation();
-                                    string confirmation_6 = Console.ReadLine();
-                                    if (confirmation_6 == "y" || confirmation_6 == "yes")
+                                    string confirmation_10 = Console.ReadLine();
+                                    if (confirmation_10 == "y" || confirmation_10 == "yes")
                                     {
-                                        view.language = "French";
+                                        viewModel.input = "Fr";
+                                        viewModel.changeLanguage();
                                         view.ShowNext();
                                     }
-                                    else if (confirmation_6 == "n" || confirmation_6 == "no")
+                                    else if (confirmation_10 == "n" || confirmation_10 == "no")
                                     {
                                         language.ShowAvailableLanguage();
                                     }
@@ -284,7 +250,7 @@ namespace Version_1._0
                                     {
                                         view.WarnInvalidOption();
                                     }
-                                }
+                                
                                 break;
                         }
 
@@ -300,92 +266,6 @@ namespace Version_1._0
                             exit = true;
                         }
 
-                        Console.Clear();
-                        break;
-
-                    case '8': // Export logs to JSON/XML
-                        // Utilisation de la même instance de DailyLog sans redéclarer la variable
-                        DailyLog logManager = DailyLog.getInstance();
-
-                        // Si les logs n'ont pas encore été initialisés, on crée un fichier journal
-                        if (logManager.GetLogEntries().Count == 0)
-                        {
-                            logManager.createLogFile();
-                        }
-
-                        // Afficher les statistiques des logs actuels
-                        var stats = logManager.GetLogStatistics();
-                        Console.WriteLine("Current logs statistics:");
-                        Console.WriteLine($"- Total entries: {stats["totalEntries"]}");
-                        if (Convert.ToInt32(stats["totalEntries"]) > 0)
-                        {
-                            Console.WriteLine($"- Total file size: {stats["totalFileSize"]} bytes");
-                            Console.WriteLine($"- Average file size: {stats["averageFileSize"]} KB");
-                            Console.WriteLine($"- Total transfer time: {stats["totalTransferTime"]} seconds");
-                            Console.WriteLine($"- Average transfer time: {stats["averageTransferTime"]} seconds");
-                            Console.WriteLine($"- First transfer: {stats["startTime"]}");
-                            Console.WriteLine($"- Last transfer: {stats["endTime"]}");
-                        }
-                        Console.WriteLine();
-
-                        // Menu pour choisir le format d'export
-                        Console.WriteLine("Choose export format:");
-                        Console.WriteLine("1. JSON");
-                        Console.WriteLine("2. XML");
-                        Console.WriteLine("0. Cancel");
-
-                        ConsoleKeyInfo exportChoice = Console.ReadKey();
-                        Console.WriteLine();
-
-                        if (exportChoice.KeyChar == '0')
-                        {
-                            Console.WriteLine("Export cancelled.");
-                        }
-                        else if (exportChoice.KeyChar == '1' || exportChoice.KeyChar == '2')
-                        {
-                            // Demander le chemin du fichier
-                            Console.WriteLine("Enter export file path:");
-                            if (exportChoice.KeyChar == '1')
-                                Console.WriteLine("Example: C:\\Logs\\export.json");
-                            else
-                                Console.WriteLine("Example: C:\\Logs\\export.xml");
-
-                            string exportPath = Console.ReadLine();
-
-                            // Vérifier que le chemin est valide
-                            if (string.IsNullOrWhiteSpace(exportPath))
-                            {
-                                Console.WriteLine("Invalid path. Export cancelled.");
-                            }
-                            else
-                            {
-                                try
-                                {
-                                    // Exporter selon le format choisi
-                                    if (exportChoice.KeyChar == '1')
-                                    {
-                                        logManager.ExportToJson(exportPath);
-                                        Console.WriteLine($"Logs successfully exported to JSON: {exportPath}");
-                                    }
-                                    else
-                                    {
-                                        logManager.ExportToXml(exportPath);
-                                        Console.WriteLine($"Logs successfully exported to XML: {exportPath}");
-                                    }
-                                }
-                                catch (Exception ex)
-                                {
-                                    Console.WriteLine($"Error during export: {ex.Message}");
-                                }
-                            }
-                        }
-                        else
-                        {
-                            Console.WriteLine("Invalid choice.");
-                        }
-
-                        Console.WriteLine("Press any key to return to menu...");
-                        Console.ReadKey();
                         Console.Clear();
                         break;
 

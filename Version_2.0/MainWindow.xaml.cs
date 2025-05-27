@@ -6,13 +6,19 @@ using System.Windows.Controls;
 using System.Linq;
 using System.IO;
 using Version_2._0.View.Popup;
+using Version_2._0.Model;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Xml;
+using System.Resources;
 
 namespace Version_2._0
 {
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
         WorkStorage storage = WorkStorage.getInstance();
+        RealTimeLog realTimeLog = RealTimeLog.getInstance();
+        ResourceManager _rm = new ResourceManager("Version_2._0.Ressources.string", typeof(MainWindow).Assembly);
 
         // Liste complète des travaux
         private ObservableCollection<Work> _allWorks;
@@ -50,7 +56,7 @@ namespace Version_2._0
                 OnPropertyChanged(nameof(AreAllWorksSelected));
 
 
-                if (FilteredWorks != null)
+                if (Works != null)
                 {
                     foreach (var work in FilteredWorks)
                     {
@@ -58,13 +64,24 @@ namespace Version_2._0
                     }
                 }
             }
+
+        }
+
+        private double progress;
+        public double Progress
+        {
+            get => progress;
+            set
+            {
+                progress = 50;
+                OnPropertyChanged(nameof(Progress));
+            }
         }
 
         public MainWindow()
         {
             InitializeComponent();
-
-            _allWorks = new ObservableCollection<Work>();
+            Works = new ObservableCollection<Work>();
 
             storage.LoadAllWorks();
             foreach (var workEntry in storage.LoadAllWorks())
@@ -78,13 +95,7 @@ namespace Version_2._0
                     State = workEntry.State
                 });
             }
-            //Exemple de données simulées
-            //Works.Add(new Work { Name = "Work 1", Source = "C:\\Users\\pfrsc\\OneDrive - Association Cesi Viacesi mail\\Bus", Target = "C:\\Users\\pfrsc\\OneDrive - Association Cesi Viacesi mail\\Python\\end", Type = "Type 1", State = "inactive" });
-            //Works.Add(new Work { Name = "Work 5", Source = "C:\\Users\\pfrsc\\OneDrive - Association Cesi Viacesi mail\\Bus", Target = "C:\\Users\\pfrsc\\OneDrive - Association Cesi Viacesi mail\\Python\\end2", Type = "Type 1", State = "inactive" });
 
-            //Works.Add(new Work { Name = "Work 2", Source = "Source 2", Target = "Target 2", Type = "Type 2", State = "inactive" });
-            //Works.Add(new Work { Name = "Work 3", Source = "Source 3", Target = "Target 3", Type = "Type 3", State = "inactive" });
-            //Works.Add(new Work { Name = "Work 4", Source = "Source 4", Target = "Target 4", Type = "Type 4", State = "inactive" });
 
             // Initialiser la liste filtrée avec tous les travaux
             FilteredWorks = new ObservableCollection<Work>(_allWorks);
@@ -133,6 +144,17 @@ namespace Version_2._0
 
             CurrentWork = newWork;
             storage.AddWorkEntry(newWork.Name, newWork.Source, newWork.Target, newWork.Type, newWork.State);
+            realTimeLog.CreateLogFile();
+            realTimeLog.AddLogEntry(
+                newWork.Name,
+                newWork.Source,
+                newWork.Target,
+                newWork.State,
+                realTimeLog.TotalFilesToCopy(newWork.Source, newWork.State),
+                realTimeLog.TotalFilesSize(newWork.Source, newWork.State),
+                realTimeLog.NbFilesLeftToDo(newWork.Source, newWork.Target, newWork.State),
+                realTimeLog.Progression(newWork.Source, newWork.Target)
+                );
         }
 
         public void CreateWorkButton_Click(object sender, RoutedEventArgs e)
@@ -145,30 +167,42 @@ namespace Version_2._0
             if (sender is Button button && button.Tag is Work workToUpdate)
             {
                 workToUpdate.State = workToUpdate.State == "active" ? "inactive" : "active";
+
+
+
             }
         }
+
+
+
+
 
         public void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             if (AreAllWorksSelected)
             {
-                string message = FilteredWorks.Count > 1
-                    ? $"Are you sure you want to delete all {FilteredWorks.Count} selected works?"
-                    : "Are you sure you want to delete the selected work?";
 
-                if (MessageBox.Show(message, "Multiple Deletion Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                string message = Works.Count > 1 ? string.Format(_rm.GetString("MultipleDeletionConfiramtionMessageAll"), Works.Count) : _rm.GetString("MultipleDeletionConfirmationMessageOne");
+
+                if (MessageBox.Show(message, _rm.GetString("MultipleDeletionConfirmationMessageTitle"), MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
                     // Créer une liste temporaire des works à supprimer
                     var worksToRemove = FilteredWorks.Where(w => w.IsSelected).ToList();
 
                     foreach (var work in worksToRemove)
                     {
-                        storage.DeleteWorkEntry(work.Name);
-                        _allWorks.Remove(work);
+                        if (Works[i].IsSelected)
+                        {
+
+                            storage.DeleteWorkEntry(Works[i].Name);
+                            realTimeLog.DeleteRealTimeLogEntry(Works[i].Name);
+                            Works.RemoveAt(i);
+                            //storage.LoadAllWorks();
+
+
+                        }
                     }
 
-                    // Rafraîchir la liste filtrée
-                    FilteredWorks = new ObservableCollection<Work>(_allWorks);
 
                     AreAllWorksSelected = false;
                 }
@@ -180,42 +214,67 @@ namespace Version_2._0
 
                 if (selectedCount > 0)
                 {
-                    string message = selectedCount > 1
-                        ? $"Are you sure you want to delete the {selectedCount} selected works?"
-                        : $"Are you sure you want to delete the work '{selectedWorks[0].Name}'?";
+                    string message = selectedCount > 1 ? string.Format(_rm.GetString("DeletionConfirmationMessageMultiple"), selectedCount) : string.Format(_rm.GetString("DeletionConfirmationMessageOne"), selectedWorks[0].Name);
 
-                    if (MessageBox.Show(message, "Deletion Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                    if (MessageBox.Show(message, _rm.GetString("DeletionConfirmationMessageTitle"), MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                     {
                         foreach (var work in selectedWorks)
                         {
                             storage.DeleteWorkEntry(work.Name);
-                            _allWorks.Remove(work);
+                            realTimeLog.DeleteRealTimeLogEntry(work.Name);
+                            Works.Remove(work);
                         }
-
-                        // Rafraîchir la liste filtrée
-                        FilteredWorks = new ObservableCollection<Work>(_allWorks);
                     }
                 }
                 else
                 {
-                    MessageBox.Show("No work is selected for deletion.", "Information");
+                    MessageBox.Show(_rm.GetString("ErrorDeletionMessage"), _rm.GetString("InformationMessageTitle"));
                 }
             }
         }
 
-        public void LaunchButton_Click(object sender, RoutedEventArgs e)
+
+
+
+        // Classe personnalisée pour contenir les informations de cancellation
+        public class WorkCancellationInfo
+        {
+            public CancellationTokenSource TokenSource { get; set; }
+            public string CancellationReason { get; set; } // "stop" ou "pause"
+
+            public WorkCancellationInfo()
+            {
+                TokenSource = new CancellationTokenSource();
+                CancellationReason = "stop"; // Par défaut
+            }
+        }
+
+
+        private Dictionary<Work, WorkCancellationInfo> workCancellationInfos = new Dictionary<Work, WorkCancellationInfo>();
+
+
+       public void LaunchButton_Click(object sender, RoutedEventArgs e)
         {
             var selectedWorks = FilteredWorks.Where(w => w.IsSelected).ToList();
 
             SettingsPopup settingsPopup = new SettingsPopup();
             string software = settingsPopup.Software;
+            string targetExtension = settingsPopup.TargetExtension;
+            string key = settingsPopup.EncryptionKey;
+
+            if (!string.IsNullOrEmpty(targetExtension) && targetExtension.Trim() != "" && string.IsNullOrWhiteSpace(key))
+            {
+                MessageBox.Show(_rm.GetString("ErrorCryptoSoft"), _rm.GetString("InformationMessageTitle"), MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
 
             DailyLog logger = DailyLog.getInstance();
             logger.createLogFile();
 
             if (Process.GetProcessesByName(software).Length > 0)
             {
-                MessageBox.Show("Please close the software to continue.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show(_rm.GetString("ErrorSofwareLaunchMessage"), _rm.GetString("InformationMessageTitle"), MessageBoxButton.OK, MessageBoxImage.Information);
 
                 foreach (var work in selectedWorks)
                 {
@@ -227,15 +286,118 @@ namespace Version_2._0
 
             if (selectedWorks.Count == 0)
             {
-                MessageBox.Show("Please select a work to launch.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show(_rm.GetString("ErrorSelectLaunchMessage"), _rm.GetString("InformationMessageTitle"), MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
 
-            string confirmationMessage = selectedWorks.Count == 1
-                ? "Are you sure you want to launch the selected work?"
-                : $"Are you sure you want to launch the {selectedWorks.Count} selected works?";
 
-            var result = MessageBox.Show(confirmationMessage, "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            string confirmationMessage = selectedWorks.Count == 1 ? _rm.GetString("ConfirmationLaunchMessageOne") : string.Format(_rm.GetString("ConfirmationLaunchMessageMultiple"), selectedWorks.Count);
+
+            var result = MessageBox.Show(confirmationMessage, _rm.GetString("ConfirmationLaunchMessageTitle"), MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result != MessageBoxResult.Yes)
+            {
+                return;
+            }
+
+            var tasks = new List<Task>();
+
+            foreach (var work in selectedWorks)
+            {
+                if (work.State == "inactive" || work.State == "stop" || work.State == "paused")
+                {
+                    work.State = "active";
+                  
+
+
+                    var workCopy = work;
+
+                    LaunchRealTimeLog(workCopy);
+                    var loggerCopy = logger;
+
+                    var cancellationInfo = new WorkCancellationInfo();
+                    workCancellationInfos[workCopy] = cancellationInfo;
+                    var token = cancellationInfo.TokenSource.Token;
+
+                  
+
+                    var task = Task.Run(() =>
+                    {
+                       
+                        try
+                        {
+                            loggerCopy.TransferFilesWithLogs(
+                                 workCopy.Source,
+                                 workCopy.Target,
+                                 workCopy.Name,
+                                 token,
+                                 CheckSoftwareOpen,  
+                                 software);
+
+
+
+                            Dispatcher.Invoke(() =>
+                            {
+                                if (workCopy.State != "stop" && workCopy.State != "paused")
+                                {
+                                    workCopy.State = "finished";
+
+
+                                    LaunchRealTimeLog(workCopy);
+
+                                    storage.DeleteWorkEntry(workCopy.Name);
+                                    storage.AddWorkEntry(workCopy.Name, workCopy.Source, workCopy.Target, workCopy.Type, "finished");
+                                }
+                            });
+                        }
+                        catch (OperationCanceledException)
+                        {
+                            Dispatcher.Invoke(() =>
+                            {
+
+                                string newState = cancellationInfo.CancellationReason;
+                                workCopy.State = newState;
+                                LaunchRealTimeLog(workCopy);
+
+                                storage.DeleteWorkEntry(workCopy.Name);
+                                storage.AddWorkEntry(workCopy.Name, workCopy.Source, workCopy.Target, workCopy.Type, newState);
+                            });
+                        }
+                        finally
+                        {
+
+                            if (workCancellationInfos.ContainsKey(workCopy))
+                            {
+                                workCancellationInfos.Remove(workCopy);
+                            }
+                        }
+                    }, token);
+
+                    tasks.Add(task);
+                }
+            }
+        }
+
+        public void StopButton_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedWorks = Works.Where(w => w.IsSelected && w.State == "active").ToList();
+
+            var inactiveSelected = Works.Where(w => w.IsSelected && (w.State == "inactive" || w.State == "paused")).ToList();
+            if (inactiveSelected.Any())
+            {
+                MessageBox.Show(_rm.GetString("ErrorStopZeroWork"), _rm.GetString("InformationMessageTitle"), MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            if (selectedWorks.Count == 0)
+            {
+                MessageBox.Show(_rm.GetString("ErrorStopAnyWork"), _rm.GetString("InformationMessageTitle"), MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            string confirmationMessage = selectedWorks.Count == 1 ? _rm.GetString("ConfirmationStopWork") : string.Format(_rm.GetString("ConfirmationStopMultipleWorks"), selectedWorks.Count);
+
+            var result = MessageBox.Show(confirmationMessage, _rm.GetString("ConfirmationLaunchMessageTitle"), MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result != MessageBoxResult.Yes)
             {
                 return;
@@ -243,19 +405,103 @@ namespace Version_2._0
 
             foreach (var work in selectedWorks)
             {
-                if (work.State == "inactive")
+                if (workCancellationInfos.TryGetValue(work, out var cancellationInfo))
                 {
-                    work.State = "active";
-
-                    logger.TransferFilesWithLogs(
-                        work.Source,  // Source path
-                        work.Target,  // Destination path
-                        work.Name);    // Work name
-
-                    work.State = "finished";
+                    cancellationInfo.CancellationReason = "stop";
+                    cancellationInfo.TokenSource.Cancel();
                 }
             }
         }
+
+        
+        public void PauseButton_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedWorks = Works.Where(w => w.IsSelected && w.State == "active").ToList();
+
+            var inactiveSelected = Works.Where(w => w.IsSelected && (w.State == "inactive" || w.State == "paused")).ToList();
+            if (inactiveSelected.Any())
+            {
+                MessageBox.Show(_rm.GetString("ErrorPauseZeroWork"), _rm.GetString("InformationMessageTitle"), MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            if (selectedWorks.Count == 0)
+            {
+                MessageBox.Show(_rm.GetString("ErrorPauseAnyWork"), _rm.GetString("InformationMessageTitle"), MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            string confirmationMessage = selectedWorks.Count == 1 ? _rm.GetString("ConfirmationPauseWork") : string.Format(_rm.GetString("ConfirmationPauseMultipleWorks"), selectedWorks.Count);
+
+            var result = MessageBox.Show(confirmationMessage, _rm.GetString("ConfirmationLaunchMessageTitle"), MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result != MessageBoxResult.Yes)
+            {
+                return;
+            }
+
+            foreach (var work in selectedWorks)
+            {
+                if (workCancellationInfos.TryGetValue(work, out var cancellationInfo))
+                {
+                    cancellationInfo.CancellationReason = "paused";
+                    cancellationInfo.TokenSource.Cancel();
+                }
+            }
+        }
+
+        public void CheckSoftwareOpen(string software)
+        {
+
+            var workInProgress = Works.Where(w => w.State == "active").ToList();
+
+
+            if (Process.GetProcessesByName(software).Length > 0)
+            {
+
+                foreach (var work in workInProgress)
+                {
+                    if (workCancellationInfos.TryGetValue(work, out var cancellationInfo))
+                    {
+                        cancellationInfo.CancellationReason = "paused";
+                        cancellationInfo.TokenSource.Cancel();
+                    }
+                }
+            }
+
+
+        }
+
+
+
+
+
+
+
+
+        public void LaunchRealTimeLog(Work workToUpdate)
+        {
+
+            var allLogs = realTimeLog.LoadRealTimeLog();
+
+            int indexToUpdate = allLogs.FindIndex(l => l.Name == workToUpdate.Name);
+            if (indexToUpdate != -1)
+            {
+
+                allLogs[indexToUpdate].State = workToUpdate.State;
+
+                allLogs[indexToUpdate].NbFilesLeftToDo = realTimeLog.NbFilesLeftToDo(workToUpdate.Source, workToUpdate.Target, workToUpdate.State);
+                allLogs[indexToUpdate].Progression = realTimeLog.Progression(workToUpdate.Source, workToUpdate.Target);
+
+                realTimeLog.DeleteRealTimeLog();
+
+                foreach (var log in allLogs)
+                {
+                    realTimeLog.SaveEntry(log);
+                }
+            }
+
+        }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string propertyName)
@@ -312,17 +558,18 @@ namespace Version_2._0
 
         private void Button_Click_Update(object sender, RoutedEventArgs e)
         {
-            var selectedWorks = FilteredWorks.Where(w => w.IsSelected).ToList();
+
+            var selectedWorks = Works.Where(w => w.IsSelected).ToList();
 
             if (selectedWorks.Count == 0)
             {
-                MessageBox.Show("Please select a work to update.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show(_rm.GetString("ErrorNoSelectUpdateMessage"), _rm.GetString("InformationMessageTitle"), MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
 
             if (selectedWorks.Count > 1)
             {
-                MessageBox.Show("Please select only one work to update.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show(_rm.GetString("ErrorMultipleSelectUpdateMessage"), _rm.GetString("InformationMessageTitle"), MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
 
@@ -338,27 +585,20 @@ namespace Version_2._0
 
         private void OnWorkUpdated(Work originalWork, Work updatedWork)
         {
-            int index = FilteredWorks.IndexOf(originalWork);
+
+            int index = Works.IndexOf(originalWork);
 
             if (index != -1)
             {
-                FilteredWorks[index].Source = updatedWork.Source;
-                FilteredWorks[index].Target = updatedWork.Target;
-                FilteredWorks[index].Type = updatedWork.Type;
 
-                // Mettre à jour également dans _allWorks
-                int allWorksIndex = _allWorks.IndexOf(originalWork);
-                if (allWorksIndex != -1)
-                {
-                    _allWorks[allWorksIndex].Source = updatedWork.Source;
-                    _allWorks[allWorksIndex].Target = updatedWork.Target;
-                    _allWorks[allWorksIndex].Type = updatedWork.Type;
-                }
-
+                Works[index].Source = updatedWork.Source;
+                Works[index].Target = updatedWork.Target;
+                Works[index].Type = updatedWork.Type;
+                //Works[index].State = "finished";
                 storage.DeleteWorkEntry(updatedWork.Name);
-                storage.AddWorkEntry(updatedWork.Name, updatedWork.Source, updatedWork.Target, updatedWork.Type, updatedWork.State);
+                //storage.AddWorkEntry(updatedWork.Name, updatedWork.Source, updatedWork.Target, updatedWork.Type, "Finished");
 
-                MessageBox.Show($"The work '{updatedWork.Name}' has been successfully updated.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show(string.Format(_rm.GetString("SuccessMessageUpdate"), updatedWork.Name), _rm.GetString("SuccessMessageTitle"), MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
@@ -368,7 +608,13 @@ namespace Version_2._0
             popup.Owner = this;
             popup.ShowDialog();
         }
+
     }
+
+
+}
+   
+   
 
     public class Work : INotifyPropertyChanged
     {
@@ -455,4 +701,3 @@ namespace Version_2._0
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
-}

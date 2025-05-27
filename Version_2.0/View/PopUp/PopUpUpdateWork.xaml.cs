@@ -4,6 +4,8 @@ using System.Windows.Controls;
 using System.ComponentModel;
 using Microsoft.Win32;
 using System.IO;
+using System.Resources;
+using Version_2._0.View.Popup;
 
 namespace Version_2._0.View.PopUp
 {
@@ -13,7 +15,8 @@ namespace Version_2._0.View.PopUp
     public partial class PopUpUpdateWork : Window
     {
         private Work _originalWork;
-
+        RealTimeLog realTimeLog = RealTimeLog.getInstance();
+        private ResourceManager _rm = new ResourceManager("Version_2._0.Ressources.string", typeof(PopUpUpdateWork).Assembly);
 
         public delegate void WorkUpdatedEventHandler(Work originalWork, Work updatedWork);
         public event WorkUpdatedEventHandler WorkUpdated;
@@ -28,7 +31,7 @@ namespace Version_2._0.View.PopUp
             SourcePathTextBox.Text = workToUpdate.Source;
             TargetPathTextBox.Text = workToUpdate.Target;
 
-    
+
             foreach (ComboBoxItem item in JobTypeComboBox.Items)
             {
                 if (item.Content.ToString() == workToUpdate.Type)
@@ -43,7 +46,6 @@ namespace Version_2._0.View.PopUp
             {
                 textBlock.Text = "Update";
             }
-
         }
 
 
@@ -51,7 +53,33 @@ namespace Version_2._0.View.PopUp
         {
             InitializeComponent();
 
- 
+
+        }
+
+        private void BrowseFolder_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new OpenFileDialog
+            {
+                Title = "Choose a folder",
+                Filter = "Folder|*.none",
+                CheckFileExists = false,
+                ValidateNames = false,
+                FileName = "Select a folder"
+            };
+
+            if (dialog.ShowDialog() == true)
+            {
+                string folder = Path.GetDirectoryName(dialog.FileName);
+
+                if (sender == _3DotSource)
+                {
+                    SourcePathTextBox.Text = folder;
+                }
+                else if (sender == _3DotTarget)
+                {
+                    TargetPathTextBox.Text = folder;
+                }
+            }
         }
 
 
@@ -68,8 +96,8 @@ namespace Version_2._0.View.PopUp
                 string.IsNullOrWhiteSpace(SourcePathTextBox.Text) ||
                 string.IsNullOrWhiteSpace(TargetPathTextBox.Text))
             {
-                ErrorMessageTextBlock.Text = "All fields are required.";
-  
+                ErrorMessageTextBlock.Text = _rm.GetString("ErrorRequiredFieldsUpdate");
+
                 ErrorMessageTextBlock.Visibility = Visibility.Visible;
                 return;
             }
@@ -82,7 +110,7 @@ namespace Version_2._0.View.PopUp
             //    return;
             //}
 
-    
+
             var updatedWork = new Work
             {
                 Name = JobNameTextBox.Text,
@@ -95,9 +123,41 @@ namespace Version_2._0.View.PopUp
 
             // Trigger the event to notify that the work has been updated
             WorkUpdated?.Invoke(_originalWork, updatedWork);
+            UpdateRealTimeLog(updatedWork);
 
             // Close the window
             this.Close();
         }
+
+
+
+        public void UpdateRealTimeLog(Work workToUpdate)
+        {
+
+            var allLogs = realTimeLog.LoadRealTimeLog();
+
+            int indexToUpdate = allLogs.FindIndex(l => l.Name == workToUpdate.Name);
+            if (indexToUpdate != -1)
+            {
+                allLogs[indexToUpdate].Name = workToUpdate.Name;
+                allLogs[indexToUpdate].Source = workToUpdate.Source;
+                allLogs[indexToUpdate].Target = workToUpdate.Target;
+                allLogs[indexToUpdate].State = workToUpdate.State;
+                allLogs[indexToUpdate].TotalFilesToCopy = realTimeLog.TotalFilesToCopy(workToUpdate.Source, workToUpdate.Target);
+                allLogs[indexToUpdate].TotalFilesSize = realTimeLog.TotalFilesSize(workToUpdate.Source, workToUpdate.Target);
+                allLogs[indexToUpdate].NbFilesLeftToDo = realTimeLog.NbFilesLeftToDo(workToUpdate.Source, workToUpdate.Target, workToUpdate.State);
+                allLogs[indexToUpdate].Progression = realTimeLog.Progression(workToUpdate.Source, workToUpdate.Target);
+
+                realTimeLog.DeleteRealTimeLog();
+
+                foreach (var log in allLogs)
+                {
+                    realTimeLog.SaveEntry(log);
+                }
+            }
+
+        }
+
     }
+
 }

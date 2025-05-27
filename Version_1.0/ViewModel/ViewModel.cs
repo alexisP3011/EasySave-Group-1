@@ -3,16 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Version_1._0.Model;
 
 namespace Version_1._0.ViewModel
 {
     public class ViewModel
     {
-        // Collection de travaux
+        // Collection of works
         private List<Model.Work> _works = new List<Model.Work>();
 
-        // Travail actuel pour les opérations
+        // Current work for operations
         public Model.Work _currentWork = new Model.Work();
+
+        Model.WorkStorage storage = Model.WorkStorage.getInstance();
+
+        Model.RealTimeLog realTimeLog = Model.RealTimeLog.getInstance();
+
+        Settings settings = Settings.getInstance();
 
         public ViewModel()
         {
@@ -22,7 +29,7 @@ namespace Version_1._0.ViewModel
         public string input { get; set; }
         public string output { get; set; }
 
-        // Méthodes pour le travail actuel
+        // Methods for the current work
         public string GetName()
         {
             return output = _currentWork.GetName();
@@ -69,44 +76,53 @@ namespace Version_1._0.ViewModel
             _currentWork.SetState(input);
         }
 
-       
+
         public void AddWork()
         {
             // Create a new instance of Model.Work
-            Model.Work newWork = new Model.Work();
 
-            // Set properties of the new work using the current work
-            newWork.SetName(_currentWork.GetName());
-            newWork.SetSource(_currentWork.GetSource());
-            newWork.SetTarget(_currentWork.GetTarget());
-            newWork.SetType(_currentWork.GetType());
-            newWork.SetState(_currentWork.GetState());
-
-            // Add the new work to the collection
-            _works.Add(newWork);
-
-            // Reset the current work
-            _currentWork = new Model.Work();
+            storage.AddWorkEntry(
+                _currentWork.GetName(),
+                _currentWork.GetSource(),
+                _currentWork.GetTarget(),
+                _currentWork.GetType(),
+                _currentWork.GetState()
+            );
+            realTimeLog.CreateLogFile();
+            realTimeLog.AddLogEntry(
+                _currentWork.GetName(),
+                _currentWork.GetSource(),
+                _currentWork.GetTarget(),
+                _currentWork.GetState(),
+                realTimeLog.TotalFilesToCopy(_currentWork.GetSource(), _currentWork.GetState()),
+                realTimeLog.TotalFilesSize(_currentWork.GetSource(), _currentWork.GetState()),
+                realTimeLog.NbFilesLeftToDo(_currentWork.GetSource(), _currentWork.GetTarget(), _currentWork.GetState()),
+                realTimeLog.Progression(_currentWork.GetSource(), _currentWork.GetTarget())
+                );
         }
 
         public List<Model.Work> GetAllWorks()
         {
-            return _works;
+            return storage.LoadAllWorks();
         }
 
         public Model.Work GetWorkByName()
         {
-            return _works.FirstOrDefault(w => w.GetName() == input);
+            var allWorks = storage.LoadAllWorks();
+            return allWorks.FirstOrDefault(w => w.GetName() == input);
         }
 
-        public bool DeleteWork()
+        public void DeleteWork()
         {
-            Model.Work workToDelete = _works.FirstOrDefault(w => w.GetName() == input);
+            var allWorks = storage.LoadAllWorks();
+            var workToDelete = allWorks.FirstOrDefault(w => w.GetName() == input);
             if (workToDelete != null)
             {
-                return _works.Remove(workToDelete);
+                storage.DeleteWorkEntry(workToDelete.GetName());
             }
-            return false;
+
+            realTimeLog.DeleteRealTimeLogEntry(workToDelete.GetName());
+
         }
 
         public void LoadWorkToCurrent()
@@ -121,27 +137,92 @@ namespace Version_1._0.ViewModel
                 _currentWork.SetState(work.GetState());
             }
         }
-
         public void UpdateWork()
         {
-
-            Model.Work workToUpdate = _works.FirstOrDefault(w => w.GetName() == input);
-            if (workToUpdate != null)
+            // Load all works from storage
+            var allWorks = storage.LoadAllWorks();
+            // Find the index of the work to update by its name
+            int indexToUpdate = allWorks.FindIndex(w => w.GetName() == input);
+            if (indexToUpdate != -1)
             {
+                // Update the properties of the found object with those of _currentWork
+                allWorks[indexToUpdate].SetName(_currentWork.GetName());
+                allWorks[indexToUpdate].SetSource(_currentWork.GetSource());
+                allWorks[indexToUpdate].SetTarget(_currentWork.GetTarget());
+                allWorks[indexToUpdate].SetType(_currentWork.GetType());
+                allWorks[indexToUpdate].SetState(_currentWork.GetState());
 
-                int index = _works.IndexOf(workToUpdate);
-                _works[index] = _currentWork;
+                // Delete all works from storage
+                foreach (var work in storage.LoadAllWorks())
+                {
+                    storage.DeleteWorkEntry(work.GetName());
+                }
+
+                // Reinsert all works in order, including the updated work
+                foreach (var work in allWorks)
+                {
+                    storage.AddWorkEntry(
+                        work.GetName(),
+                        work.GetSource(),
+                        work.GetTarget(),
+                        work.GetType(),
+                        work.GetState()
+                    );
+                }
             }
+            // Update the real-time log
+            UpdateRealTimeLog();
         }
 
         public int GetWorkCount()
         {
-            return _works.Count;
+            return storage.AllWorkCount();
         }
 
         public void LaunchWork()
         {
+            
             _currentWork.LaunchWork();
+
+            UpdateWork();
+
+            UpdateRealTimeLog();
+
+        }
+
+        public void changeLanguage()
+        {
+            settings.setCulture(input);
+        }
+        public void UpdateRealTimeLog()
+        {
+
+            var allLogs = realTimeLog.LoadRealTimeLog();
+
+            int indexToUpdate = allLogs.FindIndex(l => l.Name == input);
+            if (indexToUpdate != -1)
+            {
+                allLogs[indexToUpdate].Name = _currentWork.GetName();
+                allLogs[indexToUpdate].Source = _currentWork.GetSource();
+                allLogs[indexToUpdate].Target = _currentWork.GetTarget();
+                allLogs[indexToUpdate].State = _currentWork.GetState();
+                allLogs[indexToUpdate].TotalFilesToCopy = realTimeLog.TotalFilesToCopy(_currentWork.GetSource(), _currentWork.GetState());
+                allLogs[indexToUpdate].TotalFilesSize = realTimeLog.TotalFilesSize(_currentWork.GetSource(), _currentWork.GetState());
+                allLogs[indexToUpdate].NbFilesLeftToDo = realTimeLog.NbFilesLeftToDo(_currentWork.GetSource(), _currentWork.GetTarget(), _currentWork.GetState());
+                allLogs[indexToUpdate].Progression = realTimeLog.Progression(_currentWork.GetSource(), _currentWork.GetTarget());
+
+                realTimeLog.DeleteRealTimeLog();
+
+                foreach (var log in allLogs)
+                {
+                    realTimeLog.SaveEntry(log);
+                }
+            }
+        }
+
+        public string setLanguage()
+        {
+            return settings.LoadSettingsLanguage();
         }
     }
 }
