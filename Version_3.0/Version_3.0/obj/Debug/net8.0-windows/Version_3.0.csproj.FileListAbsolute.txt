@@ -1,0 +1,10 @@
+C:\Users\elraz\source\repos\EasySave\Version_3.0\obj\Debug\net8.0-windows\MainWindow.g.cs
+C:\Users\elraz\source\repos\EasySave\Version_3.0\obj\Debug\net8.0-windows\View\Button\CancelButton.g.cs
+C:\Users\elraz\source\repos\EasySave\Version_3.0\obj\Debug\net8.0-windows\View\Button\ConfirmButton.g.cs
+C:\Users\elraz\source\repos\EasySave\Version_3.0\obj\Debug\net8.0-windows\View\PopUp\ConfirmationPopUp.g.cs
+C:\Users\elraz\source\repos\EasySave\Version_3.0\obj\Debug\net8.0-windows\View\PopUp\PopUpCreateWork.g.cs
+C:\Users\elraz\source\repos\EasySave\Version_3.0\obj\Debug\net8.0-windows\View\PopUp\PopUpUpdateWork.g.cs
+C:\Users\elraz\source\repos\EasySave\Version_3.0\obj\Debug\net8.0-windows\View\PopUp\SettingsPopUp.g.cs
+C:\Users\elraz\source\repos\EasySave\Version_3.0\obj\Debug\net8.0-windows\App.g.cs
+C:\Users\elraz\source\repos\EasySave\Version_3.0\obj\Debug\net8.0-windows\Version_3.0_MarkupCompile.cache
+C:\Users\elraz\source\repos\EasySave\Version_3.0\obj\Debug\net8.0-windows\Version_3.0_MarkupCompile.lref
