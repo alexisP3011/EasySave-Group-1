@@ -20,18 +20,14 @@ namespace Version_2._0
         RealTimeLog realTimeLog = RealTimeLog.getInstance();
         ResourceManager _rm = new ResourceManager("Version_2._0.Ressources.string", typeof(MainWindow).Assembly);
 
-        // Liste complète des travaux
-        private ObservableCollection<Work> _allWorks;
-
-        // Liste filtrée des travaux (pour l'affichage)
-        private ObservableCollection<Work> _filteredWorks;
-        public ObservableCollection<Work> FilteredWorks
+        private ObservableCollection<Work> works;
+        public ObservableCollection<Work> Works
         {
-            get => _filteredWorks;
+            get => works;
             set
             {
-                _filteredWorks = value;
-                OnPropertyChanged(nameof(FilteredWorks));
+                works = value;
+                OnPropertyChanged(nameof(Works));
             }
         }
 
@@ -58,7 +54,7 @@ namespace Version_2._0
 
                 if (Works != null)
                 {
-                    foreach (var work in FilteredWorks)
+                    foreach (var work in Works)
                     {
                         work.IsSelected = value;
                     }
@@ -86,7 +82,7 @@ namespace Version_2._0
             storage.LoadAllWorks();
             foreach (var workEntry in storage.LoadAllWorks())
             {
-                _allWorks.Add(new Work
+                Works.Add(new Work
                 {
                     Name = workEntry.Name,
                     Source = workEntry.Source,
@@ -97,34 +93,10 @@ namespace Version_2._0
             }
 
 
-            // Initialiser la liste filtrée avec tous les travaux
-            FilteredWorks = new ObservableCollection<Work>(_allWorks);
-
-            if (FilteredWorks.Count > 0)
-                CurrentWork = FilteredWorks[0];
+            if (Works.Count > 0)
+                CurrentWork = Works[0];
 
             this.DataContext = this;
-        }
-
-        // Implémentation de l'événement SearchBox_TextChanged
-        private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            string filter = SearchBox.Text.ToLower();
-
-            FilteredWorks = new ObservableCollection<Work>(
-                _allWorks.Where(w =>
-                    w.Name.ToLower().Contains(filter) ||
-                    w.Source.ToLower().Contains(filter) ||
-                    w.Target.ToLower().Contains(filter) ||
-                    w.Type.ToLower().Contains(filter) ||
-                    w.State.ToLower().Contains(filter))
-            );
-        }
-
-        // Implémentation du bouton de réinitialisation de la recherche
-        private void ClearSearchButton_Click(object sender, RoutedEventArgs e)
-        {
-            SearchBox.Text = string.Empty;
         }
 
         public void OpenCreateWorkPopUp()
@@ -137,11 +109,7 @@ namespace Version_2._0
 
         private void OnWorkCreated(Work newWork)
         {
-            _allWorks.Add(newWork);
-
-            // Rafraîchir la liste filtrée avec le nouveau travail
-            FilteredWorks = new ObservableCollection<Work>(_allWorks);
-
+            Works.Add(newWork);
             CurrentWork = newWork;
             storage.AddWorkEntry(newWork.Name, newWork.Source, newWork.Target, newWork.Type, newWork.State);
             realTimeLog.CreateLogFile();
@@ -179,6 +147,7 @@ namespace Version_2._0
 
         public void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
+
             if (AreAllWorksSelected)
             {
 
@@ -186,10 +155,8 @@ namespace Version_2._0
 
                 if (MessageBox.Show(message, _rm.GetString("MultipleDeletionConfirmationMessageTitle"), MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
-                    // Créer une liste temporaire des works à supprimer
-                    var worksToRemove = FilteredWorks.Where(w => w.IsSelected).ToList();
 
-                    foreach (var work in worksToRemove)
+                    for (int i = Works.Count - 1; i >= 0; i--)
                     {
                         if (Works[i].IsSelected)
                         {
@@ -207,9 +174,11 @@ namespace Version_2._0
                     AreAllWorksSelected = false;
                 }
             }
+
             else
             {
-                var selectedWorks = FilteredWorks.Where(w => w.IsSelected).ToList();
+
+                var selectedWorks = Works.Where(w => w.IsSelected).ToList();
                 int selectedCount = selectedWorks.Count;
 
                 if (selectedCount > 0)
@@ -255,7 +224,7 @@ namespace Version_2._0
 
        public void LaunchButton_Click(object sender, RoutedEventArgs e)
         {
-            var selectedWorks = FilteredWorks.Where(w => w.IsSelected).ToList();
+            var selectedWorks = Works.Where(w => w.IsSelected).ToList();
 
             SettingsPopup settingsPopup = new SettingsPopup();
             string software = settingsPopup.Software;
@@ -521,18 +490,20 @@ namespace Version_2._0
 
         private void WorkCheckbox_Checked(object sender, RoutedEventArgs e)
         {
+
             UpdateMasterCheckboxState();
         }
 
         private void WorkCheckbox_Unchecked(object sender, RoutedEventArgs e)
         {
+
             List_Works.IsChecked = false;
         }
 
         private void UpdateMasterCheckboxState()
         {
             bool allChecked = true;
-            foreach (var work in FilteredWorks)
+            foreach (var work in Works)
             {
                 if (!work.IsSelected)
                 {
