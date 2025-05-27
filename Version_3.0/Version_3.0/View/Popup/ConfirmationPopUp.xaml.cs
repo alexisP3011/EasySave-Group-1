@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 namespace Version_3._0.View.PopUp
 {
     /// <summary>
-    /// Logique d'interaction pour ConfirmationPopUp.xaml
+    /// Interaction logic for ConfirmationPopUp.xaml
     /// </summary>
     public partial class ConfirmationPopUp : Window
     {
