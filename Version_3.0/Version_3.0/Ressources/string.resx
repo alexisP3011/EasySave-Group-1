@@ -132,6 +132,18 @@
   <data name="ConfirmationPopUp" xml:space="preserve">
     <value>Are you sure to perform this action?</value>
   </data>
+  <data name="ConfirmationStopMultipleWorks" xml:space="preserve">
+    <value>Are you sure you want to stop the {0} selected works?</value>
+  </data>
+  <data name="ConfirmationPauseMultipleWorks" xml:space="preserve">
+    <value>Are you sure you want to pause the {0} selected works?</value>
+  </data>
+  <data name="ConfirmationStopWork" xml:space="preserve">
+    <value>Are you sure you want to stop the selected work?</value>
+  </data>
+  <data name="ConfirmationPauseWork" xml:space="preserve">
+    <value>Are you sure you want to pause the selected work?</value>
+  </data>
   <data name="ConfirmButton" xml:space="preserve">
     <value>Confirm</value>
   </data>
@@ -174,6 +186,12 @@
   <data name="ErrorNoSelectUpdateMessage" xml:space="preserve">
     <value>Please select a work to update.</value>
   </data>
+  <data name="ErrorPauseAnyWork" xml:space="preserve">
+    <value>Error: Any work selected</value>
+  </data>
+  <data name="ErrorPauseZeroWork" xml:space="preserve">
+    <value>Error: Zero work to pause.</value>
+  </data>
   <data name="ErrorRequiredFieldsUpdate" xml:space="preserve">
     <value>All fields are required.</value>
   </data>
@@ -182,6 +200,12 @@
   </data>
   <data name="ErrorSofwareLaunchMessage" xml:space="preserve">
     <value>Please close the software to continue.</value>
+  </data>
+  <data name="ErrorStopAnyWork" xml:space="preserve">
+    <value>Error: Any work selected.</value>
+  </data>
+  <data name="ErrorStopZeroWork" xml:space="preserve">
+    <value>Error : Zero work to stop.</value>
   </data>
   <data name="ExtensionLabel" xml:space="preserve">
     <value>Extension to encrypt:</value>
@@ -222,6 +246,9 @@
   <data name="NameLabel" xml:space="preserve">
     <value>Name:</value>
   </data>
+  <data name="PauseButton" xml:space="preserve">
+    <value>Pause</value>
+  </data>
   <data name="PriorityExtension" xml:space="preserve">
     <value>Priority file management:</value>
   </data>
@@ -233,6 +260,9 @@
   </data>
   <data name="StateLabel" xml:space="preserve">
     <value>State: </value>
+  </data>
+  <data name="StopButton" xml:space="preserve">
+    <value>Stop</value>
   </data>
   <data name="SuccessMessageCreate" xml:space="preserve">
     <value>The work {0} has been created succesfully.</value>
@@ -269,5 +299,8 @@
   </data>
   <data name="WorkTypeContent" xml:space="preserve">
     <value>Complete</value>
+  </data>
+  <data name="ErrorCryptoSoft" xml:space="preserve">
+    <value>Encryption key is required as a target extension is specified in settings.</value>
   </data>
 </root>

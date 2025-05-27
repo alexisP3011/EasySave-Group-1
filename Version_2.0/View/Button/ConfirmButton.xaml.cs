@@ -29,13 +29,13 @@ namespace Version_2._0.View.Button
 
         private void InnerButton_Click(object sender, RoutedEventArgs e)
         {
-            Click?.Invoke(this, e); // On propage le clic
+            Click?.Invoke(this, e); // We propagate the click
         }
 
 
         public void InternalButton_Click(object sender, RoutedEventArgs e)
         {
-            // On propage l'événement Click aux utilisateurs du contrôle
+            // We propagate the Click event to the control's users
             //Click?.Invoke(this, e);
 
 

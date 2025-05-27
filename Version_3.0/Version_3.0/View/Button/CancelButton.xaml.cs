@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 namespace Version_3._0.View.Button
 {
     /// <summary>
-    /// Logique d'interaction pour CancelButton.xaml
+    /// Interaction logic for CancelButton.xaml
     /// </summary>
     public partial class CancelButton : UserControl
     {
@@ -27,7 +27,7 @@ namespace Version_3._0.View.Button
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            // Recherche la fenêtre parente et la ferme si elle existe
+            // Find the parent window and close it if it exists
             Window parentWindow = Window.GetWindow(this);
             if (parentWindow != null)
             {

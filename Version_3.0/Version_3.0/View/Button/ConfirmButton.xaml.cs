@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 namespace Version_3._0.View.Button
 {
     /// <summary>
-    /// Logique d'interaction pour ConfirmButton.xaml
+    /// Interaction logic for ConfirmButton.xaml
     /// </summary>
     public partial class ConfirmButton : UserControl
     {
