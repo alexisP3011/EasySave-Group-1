@@ -123,8 +123,8 @@ namespace Version_2._0
             {
                 string[] files = Directory.GetFiles(directory, searchPattern, searchOption);
 
-                var pdfFiles = files.Where(f => f.EndsWith("."+priority_extension, StringComparison.OrdinalIgnoreCase));
-                var otherFiles = files.Where(f => !f.EndsWith("." +priority_extension, StringComparison.OrdinalIgnoreCase));
+                var pdfFiles = files.Where(f => f.EndsWith(priority_extension, StringComparison.OrdinalIgnoreCase));
+                var otherFiles = files.Where(f => !f.EndsWith(priority_extension, StringComparison.OrdinalIgnoreCase));
 
                 filesList.AddRange(pdfFiles);
                 filesList.AddRange(otherFiles);

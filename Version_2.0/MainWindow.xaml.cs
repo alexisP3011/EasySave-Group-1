@@ -291,7 +291,7 @@ namespace Version_2._0
                     var token = cancellationInfo.TokenSource.Token;
 
 
-                    var priorityExtension = "json";
+                    var priorityExtension = settings.PriorityExtension;
                     var task = Task.Run(() =>
                     {
                        
