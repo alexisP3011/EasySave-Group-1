@@ -110,7 +110,7 @@ namespace Version_2._0
             }
         }
 
-        public List<string> ListAllFiles(string directory, string searchPattern = "*.*", SearchOption searchOption = SearchOption.TopDirectoryOnly)
+        public List<string> ListAllFiles(string directory, string priority_extension,string searchPattern = "*.*",SearchOption searchOption = SearchOption.TopDirectoryOnly)
         {
             List<string> filesList = new List<string>();
 
@@ -122,7 +122,13 @@ namespace Version_2._0
             try
             {
                 string[] files = Directory.GetFiles(directory, searchPattern, searchOption);
-                filesList.AddRange(files);
+
+                var pdfFiles = files.Where(f => f.EndsWith("."+priority_extension, StringComparison.OrdinalIgnoreCase));
+                var otherFiles = files.Where(f => !f.EndsWith("." +priority_extension, StringComparison.OrdinalIgnoreCase));
+
+                filesList.AddRange(pdfFiles);
+                filesList.AddRange(otherFiles);
+
                 return filesList;
             }
             catch (Exception ex)
@@ -130,6 +136,7 @@ namespace Version_2._0
                 return filesList;
             }
         }
+
 
         public void AddLogEntry(string name, string source, string destination, long size, double transferTime)
         {
@@ -171,7 +178,7 @@ namespace Version_2._0
         }
 
 
-        public void TransferFilesWithLogs(string sourcePath, string destinationPath, string saveName,
+        public void TransferFilesWithLogs(string sourcePath, string destinationPath, string saveName, string priority_extension,
             CancellationToken token, Action<string> checkSoftwareCallback = null, string software = null, bool recursive = false)
         {
             if (!Directory.Exists(sourcePath))
@@ -184,7 +191,8 @@ namespace Version_2._0
                 Directory.CreateDirectory(destinationPath);
             }
             SearchOption searchOption = recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
-            List<string> files = ListAllFiles(sourcePath, "*.*", searchOption);
+            List<string> files = ListAllFiles(sourcePath, priority_extension, "*.*");
+
 
             foreach (string file in files)
             {
@@ -278,6 +286,8 @@ namespace Version_2._0
             return ratio;
          
         }
+
+
     }
 
     public class LogEntry

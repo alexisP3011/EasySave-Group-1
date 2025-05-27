@@ -290,8 +290,8 @@ namespace Version_2._0
                     workCancellationInfos[workCopy] = cancellationInfo;
                     var token = cancellationInfo.TokenSource.Token;
 
-                  
 
+                    var priorityExtension = "json";
                     var task = Task.Run(() =>
                     {
                        
@@ -301,6 +301,7 @@ namespace Version_2._0
                                  workCopy.Source,
                                  workCopy.Target,
                                  workCopy.Name,
+                                 priorityExtension,
                                  token,
                                  CheckSoftwareOpen,  
                                  software);
