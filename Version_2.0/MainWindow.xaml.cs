@@ -233,7 +233,7 @@ namespace Version_2._0
 
             if (!string.IsNullOrEmpty(targetExtension) && targetExtension.Trim() != "" && string.IsNullOrWhiteSpace(key))
             {
-                MessageBox.Show("Encryption key is required as a target extension is specified in settings.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show(_rm.GetString("ErrorCryptoSoft"), _rm.GetString("InformationMessageTitle"), MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
 

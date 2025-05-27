@@ -303,4 +303,7 @@ de sauvegarde</value>
   <data name="WorkTypeContent" xml:space="preserve">
     <value>Complete</value>
   </data>
+  <data name="ErrorCryptoSoft" xml:space="preserve">
+    <value>La clé de chiffrement est requise lorsqu'une extension cible est spécifiée dans les paramètres.</value>
+  </data>
 </root>

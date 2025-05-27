@@ -300,4 +300,7 @@
   <data name="WorkTypeContent" xml:space="preserve">
     <value>Complete</value>
   </data>
+  <data name="ErrorCryptoSoft" xml:space="preserve">
+    <value>Encryption key is required as a target extension is specified in settings.</value>
+  </data>
 </root>
