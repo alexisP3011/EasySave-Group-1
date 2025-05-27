@@ -18,7 +18,7 @@ namespace Version_3._0
     {
         WorkStorage storage = WorkStorage.getInstance();
         RealTimeLog realTimeLog = RealTimeLog.getInstance();
-        ResourceManager _rm = new ResourceManager("Version_2._0.Ressources.string", typeof(MainWindow).Assembly);
+        ResourceManager _rm = new ResourceManager("Version_3._0.Ressources.string", typeof(MainWindow).Assembly);
         SettingsPopup settings = new SettingsPopup();
 
         private ObservableCollection<Work> works;
@@ -70,8 +70,11 @@ namespace Version_3._0
             get => progress;
             set
             {
-                progress = 50;
-                OnPropertyChanged(nameof(Progress));
+                if (progress != value)
+                {
+                    progress = value;
+                    OnPropertyChanged(nameof(Progress));
+                }
             }
         }
 
