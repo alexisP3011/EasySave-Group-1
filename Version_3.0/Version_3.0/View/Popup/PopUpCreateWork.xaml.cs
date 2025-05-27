@@ -16,7 +16,7 @@ namespace Version_3._0.View.PopUp
     {
         public delegate void WorkCreatedEventHandler(Work newWork);
         public event WorkCreatedEventHandler WorkCreated;
-        private ResourceManager _rm = new ResourceManager("Version_2._0.Ressources.string", typeof(PopUpCreateWork).Assembly);
+        private ResourceManager _rm = new ResourceManager("Version_3._0.Ressources.string", typeof(PopUpCreateWork).Assembly);
         public PopUpCreateWork()
         {
             InitializeComponent();

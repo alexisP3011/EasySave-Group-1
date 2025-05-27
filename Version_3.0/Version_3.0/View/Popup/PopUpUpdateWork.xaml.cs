@@ -16,7 +16,7 @@ namespace Version_3._0.View.PopUp
     {
         private Work _originalWork;
         RealTimeLog realTimeLog = RealTimeLog.getInstance();
-        private ResourceManager _rm = new ResourceManager("Version_2._0.Ressources.string", typeof(PopUpUpdateWork).Assembly);
+        private ResourceManager _rm = new ResourceManager("Version_3._0.Ressources.string", typeof(PopUpUpdateWork).Assembly);
 
         public delegate void WorkUpdatedEventHandler(Work originalWork, Work updatedWork);
         public event WorkUpdatedEventHandler WorkUpdated;

@@ -10,7 +10,7 @@ using System.Resources;
 namespace Version_3._0.View.Popup
 {
     /// <summary>
-    /// Logique d'interaction pour SettingsPopUp.xaml
+    /// Interaction logic for SettingsPopUp.xaml
     /// </summary>
     public partial class SettingsPopup : Window
     {
@@ -27,22 +27,6 @@ namespace Version_3._0.View.Popup
             SETTINGS_FILE = Path.Combine(settings_folder, "Settings_Easy_Save.json");
 
             LoadSettings();
-
-            SettingsTitle.Text = _rm.GetString("SettingsPopUp");
-            LanguageTextBlock.Text = _rm.GetString("LanguageLabel");
-            MiddlewareTextBlock.Text = _rm.GetString("MiddlewareLabel");
-            ExtensionEncryptionTextBlock.Text = _rm.GetString("ExtensionLabel");
-            KeyEncryptionTextBlock.Text = _rm.GetString("KeyLabel");
-            ExtensionLogTextBlock.Text = _rm.GetString("LogExtensionLabel");
-            ConfirmButton.ApplyTemplate();
-            TextBlock confirmTextBlock = ConfirmButton.Template.FindName("ConfirmButtonText", ConfirmButton) as TextBlock;
-            confirmTextBlock.Text = _rm.GetString("ConfirmButton");
-            CancelButton.ApplyTemplate();
-            TextBlock cancelTextBlock = CancelButton.Template.FindName("CancelButtonText", CancelButton) as TextBlock;
-            cancelTextBlock.Text = _rm.GetString("CancelButton");
-            SettingWindow.Title = _rm.GetString("SettingsPopUp");
-            PriorityExtensionTextBloc.Text = _rm.GetString("PriorityExtension");
-            FileSizeTransfertTextBloc.Text = _rm.GetString("FileSizeTransfert");
         }
 
         public string Software { get; set; }
@@ -51,6 +35,8 @@ namespace Version_3._0.View.Popup
         public string Language { get; set; }
         public string PriorityExtension { get; set; }
         public string FileSizeTransfert { get; set; }
+
+
 
         private void ConfirmButton_Click(object sender, RoutedEventArgs e)
         {
@@ -125,7 +111,7 @@ namespace Version_3._0.View.Popup
                                 if (item.Content.ToString() == languageValue)
                                 {
                                     LanguageComboBox.SelectedItem = item;
-                                    setCulture(languageValue);
+                                    App.SetCulture(languageValue);
                                     break;
                                 }
                             }
@@ -193,18 +179,6 @@ namespace Version_3._0.View.Popup
             catch (Exception ex)
             {
                 MessageBox.Show($"Error saving settings: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-
-        public void setCulture(string language)
-        {
-            if (language == "English")
-            {
-                Thread.CurrentThread.CurrentUICulture = new CultureInfo("En");
-            }
-            else if (language == "Français")
-            {
-                Thread.CurrentThread.CurrentUICulture = new CultureInfo("Fr");
             }
         }
 
