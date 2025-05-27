@@ -20,6 +20,7 @@ namespace Version_3._0
         RealTimeLog realTimeLog = RealTimeLog.getInstance();
         ResourceManager _rm = new ResourceManager("Version_3._0.Ressources.string", typeof(MainWindow).Assembly);
         SettingsPopup settings = new SettingsPopup();
+        private Action<double> progressHandler;
 
         private ObservableCollection<Work> works;
         public ObservableCollection<Work> Works
@@ -293,29 +294,30 @@ namespace Version_3._0
                     workCancellationInfos[workCopy] = cancellationInfo;
                     var token = cancellationInfo.TokenSource.Token;
 
-
+                    var progressHandler = new Progress<double>(value =>
+                    {
+                        currentWork.Progress = value;
+                    });
 
                     var task = Task.Run(() =>
                     {
-
                         try
                         {
                             loggerCopy.TransferFilesWithLogs(
-                                 workCopy.Source,
-                                 workCopy.Target,
-                                 workCopy.Name,
-                                 token,
-                                 CheckSoftwareOpen,
-                                 software);
-
-
+                                workCopy.Source,
+                                workCopy.Target,
+                                workCopy.Name,
+                                token,
+                                CheckSoftwareOpen,
+                                software,
+                                false,
+                                progressHandler);
 
                             Dispatcher.Invoke(() =>
                             {
                                 if (workCopy.State != "stop" && workCopy.State != "paused")
                                 {
                                     workCopy.State = "finished";
-
 
                                     LaunchRealTimeLog(workCopy);
 
@@ -328,7 +330,6 @@ namespace Version_3._0
                         {
                             Dispatcher.Invoke(() =>
                             {
-
                                 string newState = cancellationInfo.CancellationReason;
                                 workCopy.State = newState;
                                 LaunchRealTimeLog(workCopy);
@@ -339,7 +340,6 @@ namespace Version_3._0
                         }
                         finally
                         {
-
                             if (workCancellationInfos.ContainsKey(workCopy))
                             {
                                 workCancellationInfos.Remove(workCopy);
@@ -444,13 +444,6 @@ namespace Version_3._0
 
 
         }
-
-
-
-
-
-
-
 
         public void LaunchRealTimeLog(Work workToUpdate)
         {
@@ -595,6 +588,7 @@ namespace Version_3._0
         private string type;
         private string state;
         private bool isSelected;
+        private double progress;
 
         public string Name
         {
@@ -653,6 +647,16 @@ namespace Version_3._0
             {
                 isSelected = value;
                 OnPropertyChanged(nameof(IsSelected));
+            }
+        }
+
+        public double Progress
+        {
+            get => progress;
+            set
+            {
+                progress = value;
+                OnPropertyChanged(nameof(Progress));
             }
         }
 

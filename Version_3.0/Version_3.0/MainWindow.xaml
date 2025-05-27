@@ -257,7 +257,7 @@ CornerRadius="8">
                                             <Run Text="{res:Loc StateLabel}"/>
                                             <Run Text="{Binding State}" />
                                         </TextBlock>
-                                        <ProgressBar Minimum="0" Maximum="100" Value="{Binding Progress}" Height="30" />
+                                        <ProgressBar x:Name="JobProgression" Maximum="100" Value="{Binding Progress}" Height="10" />
 
 
                                     </StackPanel>
