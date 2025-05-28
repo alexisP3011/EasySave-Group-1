@@ -6,16 +6,17 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Xml;
 using MessageBox = System.Windows.MessageBox;
-namespace Version_2._0.View.PopUp
+
+namespace Version_3._0.View.PopUp
 {
     /// <summary>
-    /// Logique d'interaction pour PopUpCreateWork.xaml
+    /// Interaction logic for PopUpCreateWork.xaml
     /// </summary>
     public partial class PopUpCreateWork : Window
     {
         public delegate void WorkCreatedEventHandler(Work newWork);
         public event WorkCreatedEventHandler WorkCreated;
-        private ResourceManager _rm = new ResourceManager("Version_2._0.Ressources.string", typeof(PopUpCreateWork).Assembly);
+        private ResourceManager _rm = new ResourceManager("Version_3._0.Ressources.string", typeof(PopUpCreateWork).Assembly);
         public PopUpCreateWork()
         {
             InitializeComponent();
@@ -45,7 +46,7 @@ namespace Version_2._0.View.PopUp
                     TargetPathTextBox.Text = folder;
                 }
             }
-            
+
         }
 
 
@@ -91,7 +92,7 @@ namespace Version_2._0.View.PopUp
             WorkCreated?.Invoke(newWork);
             string message = string.Format(_rm.GetString("SuccessMessageCreate"), newWork.Name);
             MessageBox.Show(message, _rm.GetString("SuccessMessageTitle"), MessageBoxButton.OK, MessageBoxImage.Information);
-            
+
             this.Close();
         }
         private void ConfirmButton_Loaded(object sender, RoutedEventArgs e)

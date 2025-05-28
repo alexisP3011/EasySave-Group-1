@@ -1,16 +1,17 @@
-﻿<Window x:Class="Version_2._0.View.PopUp.PopUpCreateWork"
+﻿<Window x:Class="Version_3._0.View.PopUp.PopUpCreateWork"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Version_2._0.View.PopUp"
-        xmlns:buttons="clr-namespace:Version_2._0.View.Button"
-        xmlns:res="clr-namespace:Version_2._0"
+        xmlns:local="clr-namespace:Version_3._0.View.PopUp"
+        xmlns:buttons="clr-namespace:Version_3._0.View.Button"
+        xmlns:res="clr-namespace:Version_3._0"
         mc:Ignorable="d"
         x:Name="CreateWindow"
         Title="{res:Loc CreatePopUpTitle}" Height="500" Width="800"
         WindowStartupLocation="CenterOwner"
         Icon="/Ressources/myicon.ico">
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="19*"/>
@@ -23,20 +24,20 @@
                 <Border Padding="16">
                     <StackPanel>
                         <TextBlock
-                            TextAlignment="Center"
-                            FontSize="28"
-                            FontWeight="Bold"
-                            Foreground="#1b4965"
-                            Margin="0,0,0,10"
-                            Text="{res:Loc CreatePopUp}"
-                            x:Name="CreatePopUpTitle"/>
+                        TextAlignment="Center"
+                        FontSize="28"
+                        FontWeight="Bold"
+                        Foreground="#1b4965"
+                        Margin="0,0,0,10"
+                        Text="{res:Loc CreatePopUp}"
+                        x:Name="CreatePopUpTitle"/>
 
                         <TextBlock
-                            Visibility="Collapsed"
-                            TextWrapping="Wrap"
-                            x:Name="ErrorMessageTextBlock"
-                            Margin="0,0,0,16"
-                            Foreground="Red" />
+                        Visibility="Collapsed"
+                        TextWrapping="Wrap"
+                        x:Name="ErrorMessageTextBlock"
+                        Margin="0,0,0,16"
+                        Foreground="Red" />
 
                         <TextBlock FontSize="16" Margin="0,0,0,4" Text="{res:Loc NameLabel}" x:Name="NameLabel" />
                         <Border BorderBrush="LightSlateGray" BorderThickness="2" CornerRadius="4" Margin="0,0,0,16">
@@ -55,16 +56,16 @@
                             </Border>
 
                             <Button FontSize="16" x:Name="_3DotSource" Grid.Column="1" 
-                                     
-                                    Width="32" 
-                                    Margin="4,0,0,0"  ToolTip="Parcourir" Click="BrowseFolder_Click">
+                                 
+                                Width="32" 
+                                Margin="4,0,0,0"  ToolTip="Parcourir" Click="BrowseFolder_Click">
                                 <Button.Template>
                                     <ControlTemplate TargetType="Button">
                                         <Border Background="{TemplateBinding Background}"
-                                                CornerRadius="8">
+                                            CornerRadius="8">
                                             <TextBlock Text="..."
-                                                       HorizontalAlignment="Center"
-                                                       VerticalAlignment="Center"/>
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"/>
                                         </Border>
                                     </ControlTemplate>
                                 </Button.Template>
@@ -83,15 +84,15 @@
                             </Border>
 
                             <Button FontSize="16" x:Name="_3DotTarget" Grid.Column="1"
-                                    Width="32" 
-                                    Margin="4,0,0,0" ToolTip="Parcourir" Click="BrowseFolder_Click">
+                                Width="32" 
+                                Margin="4,0,0,0" ToolTip="Parcourir" Click="BrowseFolder_Click">
                                 <Button.Template>
                                     <ControlTemplate TargetType="Button">
                                         <Border Background="{TemplateBinding Background}"
-                                                CornerRadius="8">
+                                            CornerRadius="8">
                                             <TextBlock Text="..."
-                                                       HorizontalAlignment="Center"
-                                                       VerticalAlignment="Center"/>
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"/>
                                         </Border>
                                     </ControlTemplate>
                                 </Button.Template>
@@ -111,49 +112,49 @@
                             </Grid.ColumnDefinitions>
 
                             <Button x:Name="CancelButton" 
-                                    Grid.Column="1" 
-                                    Click="CancelButton_Click" 
-                                    Margin="8,0,0,0"
-                                    Height="50" 
-                                    Width="80" 
-                                    Background="OrangeRed"
-                                    FontSize="16"
-                                    FontWeight="Bold" 
-                                    BorderThickness="0">
+                                Grid.Column="1" 
+                                Click="CancelButton_Click" 
+                                Margin="8,0,0,0"
+                                Height="50" 
+                                Width="80" 
+                                Background="OrangeRed"
+                                FontSize="16"
+                                FontWeight="Bold" 
+                                BorderThickness="0">
                                 <Button.Template>
                                     <ControlTemplate TargetType="Button">
                                         <Border Background="{TemplateBinding Background}"
-                                                CornerRadius="8">
+                                            CornerRadius="8">
                                             <TextBlock x:Name="CancelButtonText"
-                                                       Text="{res:Loc CancelButton}"
-                                                       Foreground="White"
-                                                       HorizontalAlignment="Center"
-                                                       VerticalAlignment="Center"/>
+                                                   Text="{res:Loc CancelButton}"
+                                                   Foreground="White"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"/>
                                         </Border>
                                     </ControlTemplate>
                                 </Button.Template>
                             </Button>
 
                             <Button x:Name="ConfirmButton" 
-                                    Grid.Column="0" 
-                                    Click="ConfirmButton_Click" 
-                                    Margin="0,0,8,0"
-                                    Height="50" 
-                                    Width="80"
-                                    Background="LimeGreen"
-                                    Foreground="White"
-                                    FontSize="16"
-                                    FontWeight="Bold"
-                                    BorderThickness="0">
+                                Grid.Column="0" 
+                                Click="ConfirmButton_Click" 
+                                Margin="0,0,8,0"
+                                Height="50" 
+                                Width="80"
+                                Background="LimeGreen"
+                                Foreground="White"
+                                FontSize="16"
+                                FontWeight="Bold"
+                                BorderThickness="0">
                                 <Button.Template>
                                     <ControlTemplate TargetType="Button">
                                         <Border Background="{TemplateBinding Background}"
-                                                CornerRadius="8">
+                                            CornerRadius="8">
                                             <TextBlock x:Name="ConfirmButtonText"
-                                                       Text="{res:Loc ConfirmButton}"
-                                                       Foreground="White"
-                                                       HorizontalAlignment="Center"
-                                                       VerticalAlignment="Center"/>
+                                                   Text="{res:Loc ConfirmButton}"
+                                                   Foreground="White"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"/>
                                         </Border>
                                     </ControlTemplate>
                                 </Button.Template>

@@ -3,7 +3,7 @@ using System.Data;
 using System.Globalization;
 using System.Windows;
 
-namespace Version_2._0
+namespace Version_3._0
 {
     /// <summary>
     /// Interaction logic for App.xaml

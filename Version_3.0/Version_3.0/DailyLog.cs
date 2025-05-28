@@ -9,11 +9,7 @@ using System.Threading.Tasks;
 using System;
 using System.Collections.Generic;
 
-
-
-
-
-namespace Version_2._0
+namespace Version_3._0
 {
     public class DailyLog
     {
@@ -40,7 +36,7 @@ namespace Version_2._0
         {
             string directoryPath = string.IsNullOrEmpty(directory)
             ? Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) : directory;
-                        directoryPath = Path.Combine(directoryPath, "EasySave", "logs");
+            directoryPath = Path.Combine(directoryPath, "EasySave", "logs");
 
             if (!Directory.Exists(directoryPath))
             {
@@ -110,7 +106,7 @@ namespace Version_2._0
             }
         }
 
-        public List<string> ListAllFiles(string directory, string priority_extension,string searchPattern = "*.*",SearchOption searchOption = SearchOption.TopDirectoryOnly)
+        public List<string> ListAllFiles(string directory, string priority_extension, string searchPattern = "*.*", SearchOption searchOption = SearchOption.TopDirectoryOnly)
         {
             List<string> filesList = new List<string>();
 
@@ -136,7 +132,6 @@ namespace Version_2._0
                 return filesList;
             }
         }
-
 
         public void AddLogEntry(string name, string source, string destination, long size, double transferTime)
         {
@@ -179,7 +174,7 @@ namespace Version_2._0
 
 
         public void TransferFilesWithLogs(string sourcePath, string destinationPath, string saveName, string priority_extension,
-            CancellationToken token, Action<string> checkSoftwareCallback = null, string software = null, bool recursive = false)
+            CancellationToken token, Action<string> checkSoftwareCallback = null, string software = null, bool recursive = false, IProgress<double>? progress = null)
         {
             if (!Directory.Exists(sourcePath))
             {
@@ -193,9 +188,12 @@ namespace Version_2._0
             SearchOption searchOption = recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
             List<string> files = ListAllFiles(sourcePath, priority_extension, "*.*");
 
+            long totalBytes = files.Sum(file => new FileInfo(file).Length);
+            long copiedBytes = 0;
 
             foreach (string file in files)
             {
+
 
                 token.ThrowIfCancellationRequested();
 
@@ -224,12 +222,13 @@ namespace Version_2._0
                 }
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
+                long fileSize = 0;
                 try
                 {
                     File.Copy(file, destFile, true);
                     Thread.Sleep(5000);
                     stopwatch.Stop();
-                    long fileSize = new FileInfo(file).Length;
+                    fileSize = new FileInfo(file).Length;
                     double transferTimeMs = stopwatch.Elapsed.TotalMilliseconds;
                     double transferTimeSec = Math.Round(transferTimeMs / 1000, 3);
                     AddLogEntry(
@@ -243,8 +242,25 @@ namespace Version_2._0
                 }
                 catch (Exception)
                 {
-              
+
                 }
+
+                copiedBytes += fileSize;
+
+                if (progress != null && totalBytes > 0)
+                {
+                    double percent = (double)copiedBytes / totalBytes * 100;
+                    progress.Report(percent);
+                }
+
+                RealTimeLog.getInstance().UpdateStateFile(new Work
+                {
+                    Name = saveName,
+                    Source = sourcePath,
+                    Target = destinationPath,
+                    State = "active"
+                });
+
             }
         }
 
@@ -270,7 +286,7 @@ namespace Version_2._0
             DirectoryInfo dirInfo = new DirectoryInfo(directoryPath);
             long size = 0;
 
-   
+
             FileInfo[] files = dirInfo.GetFiles("*", SearchOption.AllDirectories);
             size = files.Sum(file => file.Length);
 
@@ -282,12 +298,10 @@ namespace Version_2._0
             long sourceSize = GetDirectorySize(sourceDirectory);
             long targetSize = GetDirectorySize(targetDirectory);
 
-            float ratio = ((float)sourceSize / (float)targetSize)*100;
+            float ratio = ((float)sourceSize / (float)targetSize) * 100;
             return ratio;
-         
+
         }
-
-
     }
 
     public class LogEntry
@@ -299,7 +313,7 @@ namespace Version_2._0
         public double FileTransferTime { get; set; }
         public string Time { get; set; }
 
-        public string ErrorMessage { get; set; }  
+        public string ErrorMessage { get; set; }
 
     }
 }

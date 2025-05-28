@@ -4,8 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Version_2._0.View.PopUp"
+        xmlns:res="clr-namespace:Version_2._0"
         mc:Ignorable="d"
-        Title="Update Work" Height="450" Width="800" WindowStartupLocation="CenterOwner">
+        x:Name="UpdateWindow"
+        Title="{res:Loc UpdatePopUpTitle}" Height="500" Width="800" WindowStartupLocation="CenterOwner"
+        Icon="/Ressources/myicon.ico">
     <Grid>
         <Grid>
             <Grid Background="#cae9ff" Opacity=".75" Panel.ZIndex="10"/>
@@ -18,7 +21,8 @@
                         FontWeight="Bold"
                         Foreground="#1b4965"
                         Margin="0,0,0,10"
-                        Text="Update a backup work" />
+                        x:Name="UpdateTitle"
+                        Text="{res:Loc UpdateWorkPopUp}" />
 
                         <TextBlock
                         Visibility="Collapsed"
@@ -27,12 +31,12 @@
                         Margin="0,0,0,16"
                         Foreground="Red" />
 
-                        <TextBlock FontSize="16" Margin="0,0,0,4" Text="Name:" />
+                        <TextBlock FontSize="16" Margin="0,0,0,4" Text="{res:Loc NameLabel}" x:Name="NameLabel"/>
                         <Border BorderBrush="LightSlateGray" BorderThickness="2" CornerRadius="4" Margin="0,0,0,16">
                             <TextBox x:Name="JobNameTextBox" BorderThickness="0" IsReadOnly="True"/>
                         </Border>
 
-                        <TextBlock FontSize="16" Margin="0,0,0,4" Text="Source :" />
+                        <TextBlock FontSize="16" Margin="0,0,0,4" Text="{res:Loc SourceLabel}" x:Name="SourceLabel" />
                         <Grid Margin="0,0,0,16">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
@@ -45,7 +49,7 @@
 
                             <Button FontSize="16" x:Name="_3DotSource" Grid.Column="1" 
                                 Width="32" 
-                                Margin="4,0,0,0"  ToolTip="Parcourir">
+                                Margin="4,0,0,0"  ToolTip="Parcourir" Click="BrowseFolder_Click">
                                 <Button.Template>
                                     <ControlTemplate TargetType="Button">
                                         <Border Background="{TemplateBinding Background}"
@@ -59,7 +63,7 @@
                             </Button>
                         </Grid>
 
-                        <TextBlock FontSize="16" Margin="0,0,0,4" Text="Target:" />
+                        <TextBlock FontSize="16" Margin="0,0,0,4" Text="{res:Loc TargetLabel}" x:Name="TargetLabel" />
                         <Grid Margin="0,0,0,16">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
@@ -72,7 +76,7 @@
 
                             <Button FontSize="16" x:Name="_3DotTarget" Grid.Column="1"
                                 Width="32" 
-                                Margin="4,0,0,0" ToolTip="Parcourir">
+                                Margin="4,0,0,0" ToolTip="Parcourir" Click="BrowseFolder_Click">
                                 <Button.Template>
                                     <ControlTemplate TargetType="Button">
                                         <Border Background="{TemplateBinding Background}"
@@ -86,7 +90,7 @@
                             </Button>
                         </Grid>
 
-                        <TextBlock FontSize="16" Margin="0,0,0,4" Text="Type of work:" />
+                        <TextBlock FontSize="16" Margin="0,0,0,4" Text="{res:Loc TypeLabel}" x:Name="TypeLabel" />
                         <ComboBox Margin="0,0,0,16" x:Name="JobTypeComboBox">
                             <ComboBoxItem Content="Complete" IsSelected="True"/>
                             <ComboBoxItem Content="Differential" />
@@ -112,7 +116,8 @@
                                     <ControlTemplate TargetType="Button">
                                         <Border Background="{TemplateBinding Background}"
                                             CornerRadius="8">
-                                            <TextBlock Text="Cancel"
+                                            <TextBlock Text="{res:Loc CancelButton}"
+                                                       x:Name="CancelButtonText"
                                                        Foreground="White"
                                                        HorizontalAlignment="Center"
                                                        VerticalAlignment="Center"/>
@@ -135,7 +140,7 @@
                                     <ControlTemplate TargetType="Button">
                                         <Border Background="{TemplateBinding Background}"
                                             CornerRadius="8">
-                                            <TextBlock x:Name="ConfirmButtonText" Text="Confirm"
+                                            <TextBlock x:Name="ConfirmButtonText" Text="{res:Loc ConfirmButton}"
                                                    Foreground="White"
                                                    HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"/>

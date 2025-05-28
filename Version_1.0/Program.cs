@@ -26,9 +26,10 @@ namespace Version_1._0
                 {
                     case '1': // Create a new work
                         view.ShowList(viewModel);
-
+                        
                         if (viewModel.GetWorkCount() < 5)
                         {
+                            
                             var add = new View.Add();
 
                             add.AskSaveName();
@@ -36,7 +37,7 @@ namespace Version_1._0
                             viewModel.SetName();
 
                             add.AskSource();
-                            viewModel.input = Console.ReadLine();
+                            viewModel.input = Console.ReadLine() ;
                             viewModel.SetSource();
 
                             add.AskTarget();
@@ -53,6 +54,7 @@ namespace Version_1._0
                             if (confirmation == "y" || confirmation == "yes")
                             {
                                 viewModel.AddWork();
+                                
                                 view.ShowWorkCreatedMessage();
                             }
 
@@ -186,14 +188,13 @@ namespace Version_1._0
                                 string confirmation_5 = Console.ReadLine().ToLower();
                                 if (confirmation_5 == "y" || confirmation_5 == "yes")
                                 {
+                           
                                     viewModel._currentWork = workToLaunch;
 
-                                    // CHANGEMENT ICI
-                                    string format = Version_1._0.Model.Settings.getInstance().LoadLogFormat().ToLower();
-                                    // ← récupère le format depuis les paramètres
-                                    viewModel.LaunchWorkWithFormat(format);
-
+                                    viewModel.LaunchWork();
+                                    
                                     view.WarnLaunch();
+                                    
                                 }
                             }
                             else
@@ -206,98 +207,61 @@ namespace Version_1._0
 
                     case '6': // Change language
                         language.ShowAvailableLanguage();
-
+                        
                         view.ShowMessageChoice();
 
                         ConsoleKeyInfo languageChoice = Console.ReadKey();
                         switch (languageChoice.KeyChar)
                         {
                             case '1':
-                                view.AskConfirmation();
-                                string confirmation_6 = Console.ReadLine();
-                                if (confirmation_6 == "y" || confirmation_6 == "yes")
-                                {
-                                    viewModel.input = "En";
-                                    viewModel.changeLanguage();
-                                    view.ShowNext();
-                                }
-                                else if (confirmation_6 == "n" || confirmation_6 == "no")
-                                {
-                                    language.ShowAvailableLanguage();
-                                }
-                                else
-                                {
-                                    view.WarnInvalidOption();
-                                }
-
+                                    view.AskConfirmation();
+                                    string confirmation_6 = Console.ReadLine();
+                                    if (confirmation_6 == "y" || confirmation_6 == "yes")
+                                    {
+                                        viewModel.input = "En";
+                                        viewModel.changeLanguage();
+                                        view.ShowNext();
+                                    }
+                                    else if (confirmation_6 == "n" || confirmation_6 == "no")
+                                    {
+                                        language.ShowAvailableLanguage();
+                                    }
+                                    else
+                                    {
+                                        view.WarnInvalidOption();
+                                    }
+                                
                                 break;
 
                             case '2':
-                                view.AskConfirmation();
-                                string confirmation_10 = Console.ReadLine();
-                                if (confirmation_10 == "y" || confirmation_10 == "yes")
-                                {
-                                    viewModel.input = "Fr";
-                                    viewModel.changeLanguage();
-                                    view.ShowNext();
-                                }
-                                else if (confirmation_10 == "n" || confirmation_10 == "no")
-                                {
-                                    language.ShowAvailableLanguage();
-                                }
-                                else
-                                {
-                                    view.WarnInvalidOption();
-                                }
-
+                                    view.AskConfirmation();
+                                    string confirmation_10 = Console.ReadLine();
+                                    if (confirmation_10 == "y" || confirmation_10 == "yes")
+                                    {
+                                        viewModel.input = "Fr";
+                                        viewModel.changeLanguage();
+                                        view.ShowNext();
+                                    }
+                                    else if (confirmation_10 == "n" || confirmation_10 == "no")
+                                    {
+                                        language.ShowAvailableLanguage();
+                                    }
+                                    else
+                                    {
+                                        view.WarnInvalidOption();
+                                    }
+                                
                                 break;
                         }
 
                         Console.Clear();
                         break;
 
-                    case '7': // Choose log format (XML or JSON)
-                        view.ShowLogFormatOptions();
-                        ConsoleKeyInfo formatChoice = Console.ReadKey();
-                        Console.WriteLine();
-
-                        switch (formatChoice.KeyChar)
-                        {
-                            case '1': // XML format
-                                view.AskConfirmation();
-                                string confirmationXML = Console.ReadLine().ToLower();
-                                if (confirmationXML == "y" || confirmationXML == "yes")
-                                {
-                                    viewModel.input = "XML";
-                                    viewModel.SetLogFormat();
-                                    view.ShowLogFormatUpdatedMessage("XML");
-                                }
-                                break;
-
-                            case '2': // JSON format
-                                view.AskConfirmation();
-                                string confirmationJSON = Console.ReadLine().ToLower();
-                                if (confirmationJSON == "y" || confirmationJSON == "yes")
-                                {
-                                    viewModel.input = "JSON";
-                                    viewModel.SetLogFormat();
-                                    view.ShowLogFormatUpdatedMessage("JSON");
-                                }
-                                break;
-
-                            default:
-                                view.WarnInvalidOption();
-                                break;
-                        }
-
-                        Console.Clear();
-                        break;
-
-                    case '8':// Exit the program
+                    case '7':// Exit the program
                         view.AskConfirmation();
-                        string confirmation_8 = Console.ReadLine().ToLower();
+                        string confirmation_7 = Console.ReadLine().ToLower();
 
-                        if (confirmation_8 == "y" || confirmation_8 == "yes")
+                        if (confirmation_7 == "y" || confirmation_7 == "yes")
                         {
                             exit = true;
                         }

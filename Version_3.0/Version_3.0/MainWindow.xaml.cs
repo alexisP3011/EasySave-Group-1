@@ -1,25 +1,26 @@
 ﻿using System.ComponentModel;
 using System.Windows;
 using System.Collections.ObjectModel;
-using Version_2._0.View.PopUp;
 using System.Windows.Controls;
 using System.Linq;
 using System.IO;
-using Version_2._0.View.Popup;
-using Version_2._0.Model;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Xml;
 using System.Resources;
+using Version_3._0.Model;
+using Version_3._0.View.PopUp;
+using Version_3._0.View.Popup;
 
-namespace Version_2._0
+namespace Version_3._0
 {
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
         WorkStorage storage = WorkStorage.getInstance();
         RealTimeLog realTimeLog = RealTimeLog.getInstance();
-        ResourceManager _rm = new ResourceManager("Version_2._0.Ressources.string", typeof(MainWindow).Assembly);
+        ResourceManager _rm = new ResourceManager("Version_3._0.Ressources.string", typeof(MainWindow).Assembly);
         SettingsPopup settings = new SettingsPopup();
+        private Action<double> progressHandler;
 
         private ObservableCollection<Work> works;
         public ObservableCollection<Work> Works
@@ -70,8 +71,11 @@ namespace Version_2._0
             get => progress;
             set
             {
-                progress = 50;
-                OnPropertyChanged(nameof(Progress));
+                if (progress != value)
+                {
+                    progress = value;
+                    OnPropertyChanged(nameof(Progress));
+                }
             }
         }
 
@@ -224,7 +228,7 @@ namespace Version_2._0
         private Dictionary<Work, WorkCancellationInfo> workCancellationInfos = new Dictionary<Work, WorkCancellationInfo>();
 
 
-       public void LaunchButton_Click(object sender, RoutedEventArgs e)
+        public void LaunchButton_Click(object sender, RoutedEventArgs e)
         {
             var selectedWorks = Works.Where(w => w.IsSelected).ToList();
 
@@ -278,7 +282,7 @@ namespace Version_2._0
                 if (work.State == "inactive" || work.State == "stop" || work.State == "paused")
                 {
                     work.State = "active";
-                  
+
 
 
                     var workCopy = work;
@@ -290,30 +294,32 @@ namespace Version_2._0
                     workCancellationInfos[workCopy] = cancellationInfo;
                     var token = cancellationInfo.TokenSource.Token;
 
+                    var progressHandler = new Progress<double>(value =>
+                    {
+                        currentWork.Progress = value;
+                    });
 
                     var priorityExtension = settings.PriorityExtension;
                     var task = Task.Run(() =>
                     {
-                       
                         try
                         {
                             loggerCopy.TransferFilesWithLogs(
-                                 workCopy.Source,
-                                 workCopy.Target,
-                                 workCopy.Name,
-                                 priorityExtension,
-                                 token,
-                                 CheckSoftwareOpen,  
-                                 software);
-
-
+                                workCopy.Source,
+                                workCopy.Target,
+                                workCopy.Name,
+                                priorityExtension,
+                                token,
+                                CheckSoftwareOpen,
+                                software,
+                                false,
+                                progressHandler);
 
                             Dispatcher.Invoke(() =>
                             {
                                 if (workCopy.State != "stop" && workCopy.State != "paused")
                                 {
                                     workCopy.State = "finished";
-
 
                                     LaunchRealTimeLog(workCopy);
 
@@ -326,7 +332,6 @@ namespace Version_2._0
                         {
                             Dispatcher.Invoke(() =>
                             {
-
                                 string newState = cancellationInfo.CancellationReason;
                                 workCopy.State = newState;
                                 LaunchRealTimeLog(workCopy);
@@ -337,7 +342,6 @@ namespace Version_2._0
                         }
                         finally
                         {
-
                             if (workCancellationInfos.ContainsKey(workCopy))
                             {
                                 workCancellationInfos.Remove(workCopy);
@@ -385,7 +389,7 @@ namespace Version_2._0
             }
         }
 
-        
+
         public void PauseButton_Click(object sender, RoutedEventArgs e)
         {
             var selectedWorks = Works.Where(w => w.IsSelected && w.State == "active").ToList();
@@ -442,13 +446,6 @@ namespace Version_2._0
 
 
         }
-
-
-
-
-
-
-
 
         public void LaunchRealTimeLog(Work workToUpdate)
         {
@@ -585,11 +582,6 @@ namespace Version_2._0
 
     }
 
-
-}
-   
-   
-
     public class Work : INotifyPropertyChanged
     {
         private string name;
@@ -598,6 +590,7 @@ namespace Version_2._0
         private string type;
         private string state;
         private bool isSelected;
+        private double progress;
 
         public string Name
         {
@@ -659,6 +652,16 @@ namespace Version_2._0
             }
         }
 
+        public double Progress
+        {
+            get => progress;
+            set
+            {
+                progress = value;
+                OnPropertyChanged(nameof(Progress));
+            }
+        }
+
         public Work()
         {
             Name = "";
@@ -675,3 +678,4 @@ namespace Version_2._0
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
+}

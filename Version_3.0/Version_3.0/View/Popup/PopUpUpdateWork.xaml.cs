@@ -5,18 +5,18 @@ using System.ComponentModel;
 using Microsoft.Win32;
 using System.IO;
 using System.Resources;
-using Version_2._0.View.Popup;
+using Version_3._0.View.PopUp;
 
-namespace Version_2._0.View.PopUp
+namespace Version_3._0.View.PopUp
 {
     /// <summary>
-    /// Logique d'interaction pour PopUpUpdateWork.xaml
+    /// Interaction logic for PopUpUpdateWork.xaml
     /// </summary>
     public partial class PopUpUpdateWork : Window
     {
         private Work _originalWork;
         RealTimeLog realTimeLog = RealTimeLog.getInstance();
-        private ResourceManager _rm = new ResourceManager("Version_2._0.Ressources.string", typeof(PopUpUpdateWork).Assembly);
+        private ResourceManager _rm = new ResourceManager("Version_3._0.Ressources.string", typeof(PopUpUpdateWork).Assembly);
 
         public delegate void WorkUpdatedEventHandler(Work originalWork, Work updatedWork);
         public event WorkUpdatedEventHandler WorkUpdated;
@@ -47,7 +47,6 @@ namespace Version_2._0.View.PopUp
                 textBlock.Text = "Update";
             }
         }
-
 
         public PopUpUpdateWork()
         {
@@ -155,9 +154,6 @@ namespace Version_2._0.View.PopUp
                     realTimeLog.SaveEntry(log);
                 }
             }
-
         }
-
     }
-
 }
