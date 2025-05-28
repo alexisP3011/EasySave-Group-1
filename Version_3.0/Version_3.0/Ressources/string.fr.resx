@@ -132,6 +132,18 @@
   <data name="ConfirmationPopUp" xml:space="preserve">
     <value>Êtes-vous sûr de vouloir effectuer cette action ?</value>
   </data>
+  <data name="ConfirmationStopMultipleWorks" xml:space="preserve">
+    <value>Êtes-vous sûr de vouloir arrêter les {0} travaux sélectionnés ?</value>
+  </data>
+  <data name="ConfirmationPauseMultipleWorks" xml:space="preserve">
+    <value>Êtes-vous sûr de vouloir mettre en pause les {0} travaux sélectionnés ?</value>
+  </data>
+  <data name="ConfirmationStopWork" xml:space="preserve">
+    <value>Êtes-vous sûr de vouloir arrêter le travail sélectionné ?</value>
+  </data>
+  <data name="ConfirmationPauseWork" xml:space="preserve">
+    <value>Êtes-vous sûr de vouloir mettre en pause le travail sélectionné ?</value>
+  </data>
   <data name="ConfirmButton" xml:space="preserve">
     <value>Confirmer</value>
   </data>
@@ -175,6 +187,12 @@ de sauvegarde</value>
   <data name="ErrorNoSelectUpdateMessage" xml:space="preserve">
     <value>Veuillez sélectionner un travail à mettre à jour.</value>
   </data>
+  <data name="ErrorPauseAnyWork" xml:space="preserve">
+    <value>Erreur : Zéro travail à mettre en pause.</value>
+  </data>
+  <data name="ErrorPauseZeroWork" xml:space="preserve">
+    <value>Erreur : Zéro travail à mettre en pause.</value>
+  </data>
   <data name="ErrorRequiredFieldsUpdate" xml:space="preserve">
     <value>Tous les champs sont obligatoires.</value>
   </data>
@@ -183,6 +201,12 @@ de sauvegarde</value>
   </data>
   <data name="ErrorSofwareLaunchMessage" xml:space="preserve">
     <value>Veuillez fermer le logiciel métier pour continuer.</value>
+  </data>
+  <data name="ErrorStopAnyWork" xml:space="preserve">
+    <value>Erreur : Aucun travail sélectionné.</value>
+  </data>
+  <data name="ErrorStopZeroWork" xml:space="preserve">
+    <value>Erreur : Pas de travail à arrêter.</value>
   </data>
   <data name="ExtensionLabel" xml:space="preserve">
     <value>Extension à crypter :</value>
@@ -224,6 +248,9 @@ pendant le transfert :</value>
   <data name="NameLabel" xml:space="preserve">
     <value>Nom :</value>
   </data>
+  <data name="PauseButton" xml:space="preserve">
+    <value>Pause</value>
+  </data>
   <data name="PriorityExtension" xml:space="preserve">
     <value>Gestion prioritaire des fichiers :</value>
   </data>
@@ -235,6 +262,9 @@ pendant le transfert :</value>
   </data>
   <data name="StateLabel" xml:space="preserve">
     <value>État : </value>
+  </data>
+  <data name="StopButton" xml:space="preserve">
+    <value>Arrêter</value>
   </data>
   <data name="SuccessMessageCreate" xml:space="preserve">
     <value>Le travail {0} a été créé avec succès.</value>
@@ -272,5 +302,8 @@ de sauvegarde</value>
   </data>
   <data name="WorkTypeContent" xml:space="preserve">
     <value>Complete</value>
+  </data>
+  <data name="ErrorCryptoSoft" xml:space="preserve">
+    <value>La clé de chiffrement est requise lorsqu'une extension cible est spécifiée dans les paramètres.</value>
   </data>
 </root>

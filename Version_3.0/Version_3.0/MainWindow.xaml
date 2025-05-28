@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Version_3._0"
         xmlns:buttons="clr-namespace:Version_3._0.View.Button"
+        xmlns:res="clr-namespace:Version_3._0"
         mc:Ignorable="d"
         Title="EasySave" Height="650" Width="800"
         Icon="/Ressources/myicon.ico">
@@ -61,7 +62,7 @@
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Border Background="{TemplateBinding Background}"
                 CornerRadius="8">
-                            <TextBlock Text="Create"
+                            <TextBlock Text="{res:Loc CreateButton}"
                       Foreground="{TemplateBinding Foreground}"
                       FontSize="{TemplateBinding FontSize}"
                       FontWeight="{TemplateBinding FontWeight}"
@@ -108,7 +109,7 @@
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Border Background="{TemplateBinding Background}"
                 CornerRadius="8">
-                            <TextBlock Text="Update"
+                            <TextBlock Text="{res:Loc UpdateButton}"
                       Foreground="{TemplateBinding Foreground}"
                       FontSize="{TemplateBinding FontSize}"
                       FontWeight="{TemplateBinding FontWeight}"
@@ -133,7 +134,7 @@
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Border Background="{TemplateBinding Background}"
             CornerRadius="8">
-                            <TextBlock Text="Delete"
+                            <TextBlock Text="{res:Loc DeleteButton}"
                   Foreground="{TemplateBinding Foreground}"
                   FontSize="{TemplateBinding FontSize}"
                   FontWeight="{TemplateBinding FontWeight}"
@@ -158,7 +159,7 @@
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Border Background="{TemplateBinding Background}"
                 CornerRadius="8">
-                            <TextBlock Text="Launch"
+                            <TextBlock Text="{res:Loc LaunchButton}"
                       Foreground="{TemplateBinding Foreground}"
                       FontSize="{TemplateBinding FontSize}"
                       FontWeight="{TemplateBinding FontWeight}"
@@ -183,7 +184,7 @@
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Border Background="{TemplateBinding Background}"
 CornerRadius="8">
-                            <TextBlock Text="Pause"
+                            <TextBlock Text="{res:Loc PauseButton}"
       Foreground="{TemplateBinding Foreground}"
       FontSize="{TemplateBinding FontSize}"
       FontWeight="{TemplateBinding FontWeight}"
@@ -211,7 +212,7 @@ CornerRadius="8">
 
 
 
-                            <TextBlock Text="Stop"
+                            <TextBlock Text="{res:Loc StopButton}"
       Foreground="{TemplateBinding Foreground}"
       FontSize="{TemplateBinding FontSize}"
       FontWeight="{TemplateBinding FontWeight}"
@@ -229,7 +230,7 @@ CornerRadius="8">
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <TextBlock Grid.Row="0" Text="List of Works" FontSize="28" Foreground="#1b4965" FontWeight="Bold" Margin="0,0,0,10" TextAlignment="Center" x:Name="MainTitle"/>
+            <TextBlock Grid.Row="0" Text="{res:Loc List}" FontSize="28" Foreground="#1b4965" FontWeight="Bold" Margin="0,0,0,10" TextAlignment="Center" x:Name="MainTitle"/>
             <CheckBox Name="List_Works" Checked="List_Works_Checked" Unchecked="List_Works_Unchecked" IsChecked="{Binding AreAllWorksSelected}" Margin="10,14,168,14"/>
             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
                 <ItemsControl ItemsSource="{Binding Works}">
@@ -241,22 +242,22 @@ CornerRadius="8">
                                     <TextBlock FontWeight="Bold" FontSize="14" Margin="0,0,0,5" Text="{Binding Name}"/>
                                     <StackPanel Orientation="Vertical">
                                         <TextBlock Margin="0,0,0,4">
-                                            <Run Text="Source: "/>
+                                            <Run Text="{res:Loc SourceLabel}"/>
                                             <Run Text="{Binding Source}" />
                                         </TextBlock>
                                         <TextBlock Margin="0,0,0,4">
-                                            <Run Text="Target: "/>
+                                            <Run Text="{res:Loc TargetLabel}"/>
                                             <Run Text="{Binding Target}" />
                                         </TextBlock>
                                         <TextBlock Margin="0,0,0,4">
-                                            <Run Text="Type: "/>
+                                            <Run Text="{res:Loc TypeLabel}"/>
                                             <Run Text="{Binding Type}" />
                                         </TextBlock>
                                         <TextBlock Margin="0,0,0,4">
-                                            <Run Text="State: "/>
+                                            <Run Text="{res:Loc StateLabel}"/>
                                             <Run Text="{Binding State}" />
                                         </TextBlock>
-                                        <ProgressBar Minimum="0" Maximum="100" Value="{Binding Progress}" Height="30" />
+                                        <ProgressBar x:Name="JobProgression" Maximum="100" Value="{Binding Progress}" Height="10" />
 
 
                                     </StackPanel>

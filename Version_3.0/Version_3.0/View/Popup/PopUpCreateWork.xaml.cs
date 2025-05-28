@@ -10,30 +10,16 @@ using MessageBox = System.Windows.MessageBox;
 namespace Version_3._0.View.PopUp
 {
     /// <summary>
-    /// Logique d'interaction pour PopUpCreateWork.xaml
+    /// Interaction logic for PopUpCreateWork.xaml
     /// </summary>
     public partial class PopUpCreateWork : Window
     {
         public delegate void WorkCreatedEventHandler(Work newWork);
         public event WorkCreatedEventHandler WorkCreated;
         private ResourceManager _rm = new ResourceManager("Version_3._0.Ressources.string", typeof(PopUpCreateWork).Assembly);
-
         public PopUpCreateWork()
         {
             InitializeComponent();
-
-            CreateWindow.Title = _rm.GetString("CreatePopUpTitle");
-            CreatePopUpTitle.Text = _rm.GetString("CreatePopUp");
-            NameLabel.Text = _rm.GetString("NameLabel");
-            SourceLabel.Text = _rm.GetString("SourceLabel");
-            TargetLabel.Text = _rm.GetString("TargetLabel");
-            TypeLabel.Text = _rm.GetString("TypeLabel");
-            ConfirmButton.ApplyTemplate();
-            TextBlock confirmTextBlock = ConfirmButton.Template.FindName("ConfirmButtonText", ConfirmButton) as TextBlock;
-            confirmTextBlock.Text = _rm.GetString("ConfirmButton");
-            CancelButton.ApplyTemplate();
-            TextBlock cancelTextBlock = CancelButton.Template.FindName("CancelButtonText", CancelButton) as TextBlock;
-            cancelTextBlock.Text = _rm.GetString("CancelButton");
         }
 
         private void BrowseFolder_Click(object sender, RoutedEventArgs e)

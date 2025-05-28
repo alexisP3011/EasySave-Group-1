@@ -86,7 +86,7 @@ namespace Version_3._0
             File.WriteAllText(filePath, JsonSerializer.Serialize(existingLogs, options));
         }
 
-        public void AddLogEntry(string name, string source, string target, string state, long TotalFilesToCopy, long TotalFilesSize, long NbFilesLeftToDo, int Progression)
+        public void AddLogEntry(string name, string source, string target, string state, long TotalFilesToCopy, long TotalFilesSize, long NbFilesLeftToDo, double Progression)
         {
             RealTimeLogEntry entry = new RealTimeLogEntry
             {
@@ -185,13 +185,36 @@ namespace Version_3._0
             return filesSource.Length - filesTarget.Length;
         }
 
-        public int Progression(string source, string target)
+        public double Progression(string source, string target)
         {
             var filesSource = Directory.GetFiles(source, "*", SearchOption.AllDirectories);
             var filesTarget = Directory.GetFiles(target, "*", SearchOption.AllDirectories);
-            return filesTarget.Length / filesSource.Length * 100;
-        }
 
+            long totalSizeSource = 0;
+            long totalSizeTarget = 0;
+
+            foreach (var file in filesSource)
+            {
+                var info = new FileInfo(file);
+                totalSizeSource += info.Length;
+            }
+
+            foreach (var file in filesTarget)
+            {
+                var info = new FileInfo(file);
+                totalSizeTarget += info.Length;
+            }
+
+            if (totalSizeSource == 0)
+            {
+                return 0;
+            }
+            else
+            {
+                return (totalSizeTarget * 100.0) / totalSizeSource;
+            }
+        
+        }
         public void UpdateStateFile(Work currentwork)
         {
             string name = currentwork.Name;
@@ -201,7 +224,7 @@ namespace Version_3._0
             long totalFilesToCopy = TotalFilesToCopy(source, state);
             long totalFilesSize = TotalFilesSize(source, state);
             long nbFilesLeftToDo = NbFilesLeftToDo(source, target, state);
-            int progression = Progression(source, target);
+            double progression = Progression(source, target);
             AddLogEntry(name, source, target, state, totalFilesToCopy, totalFilesSize, nbFilesLeftToDo, progression);
         }
 
@@ -214,7 +237,7 @@ namespace Version_3._0
             public long TotalFilesToCopy { get; set; }
             public long TotalFilesSize { get; set; }
             public long NbFilesLeftToDo { get; set; }
-            public int Progression { get; set; }
+            public double Progression { get; set; }
         }
     }
 }

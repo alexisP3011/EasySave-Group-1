@@ -19,6 +19,7 @@ namespace Version_2._0
         WorkStorage storage = WorkStorage.getInstance();
         RealTimeLog realTimeLog = RealTimeLog.getInstance();
         ResourceManager _rm = new ResourceManager("Version_2._0.Ressources.string", typeof(MainWindow).Assembly);
+        SettingsPopup settings = new SettingsPopup();
 
         private ObservableCollection<Work> works;
         public ObservableCollection<Work> Works
@@ -77,6 +78,7 @@ namespace Version_2._0
         public MainWindow()
         {
             InitializeComponent();
+            settings.LoadSettings();
             Works = new ObservableCollection<Work>();
 
             storage.LoadAllWorks();
@@ -288,8 +290,8 @@ namespace Version_2._0
                     workCancellationInfos[workCopy] = cancellationInfo;
                     var token = cancellationInfo.TokenSource.Token;
 
-                  
 
+                    var priorityExtension = settings.PriorityExtension;
                     var task = Task.Run(() =>
                     {
                        
@@ -299,6 +301,7 @@ namespace Version_2._0
                                  workCopy.Source,
                                  workCopy.Target,
                                  workCopy.Name,
+                                 priorityExtension,
                                  token,
                                  CheckSoftwareOpen,  
                                  software);

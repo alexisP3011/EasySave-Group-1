@@ -106,7 +106,7 @@ namespace Version_3._0
             }
         }
 
-        public List<string> ListAllFiles(string directory, string searchPattern = "*.*", SearchOption searchOption = SearchOption.TopDirectoryOnly)
+        public List<string> ListAllFiles(string directory, string priority_extension, string searchPattern = "*.*", SearchOption searchOption = SearchOption.TopDirectoryOnly)
         {
             List<string> filesList = new List<string>();
 
@@ -118,7 +118,13 @@ namespace Version_3._0
             try
             {
                 string[] files = Directory.GetFiles(directory, searchPattern, searchOption);
-                filesList.AddRange(files);
+
+                var pdfFiles = files.Where(f => f.EndsWith(priority_extension, StringComparison.OrdinalIgnoreCase));
+                var otherFiles = files.Where(f => !f.EndsWith(priority_extension, StringComparison.OrdinalIgnoreCase));
+
+                filesList.AddRange(pdfFiles);
+                filesList.AddRange(otherFiles);
+
                 return filesList;
             }
             catch (Exception ex)
@@ -167,8 +173,8 @@ namespace Version_3._0
         }
 
 
-        public void TransferFilesWithLogs(string sourcePath, string destinationPath, string saveName,
-            CancellationToken token, Action<string> checkSoftwareCallback = null, string software = null, bool recursive = false)
+        public void TransferFilesWithLogs(string sourcePath, string destinationPath, string saveName, string priority_extension,
+            CancellationToken token, Action<string> checkSoftwareCallback = null, string software = null, bool recursive = false, IProgress<double>? progress = null)
         {
             if (!Directory.Exists(sourcePath))
             {
@@ -180,7 +186,10 @@ namespace Version_3._0
                 Directory.CreateDirectory(destinationPath);
             }
             SearchOption searchOption = recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
-            List<string> files = ListAllFiles(sourcePath, "*.*", searchOption);
+            List<string> files = ListAllFiles(sourcePath, priority_extension, "*.*");
+
+            long totalBytes = files.Sum(file => new FileInfo(file).Length);
+            long copiedBytes = 0;
 
             foreach (string file in files)
             {
@@ -212,12 +221,13 @@ namespace Version_3._0
                 }
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
+                long fileSize = 0;
                 try
                 {
                     File.Copy(file, destFile, true);
                     Thread.Sleep(5000);
                     stopwatch.Stop();
-                    long fileSize = new FileInfo(file).Length;
+                    fileSize = new FileInfo(file).Length;
                     double transferTimeMs = stopwatch.Elapsed.TotalMilliseconds;
                     double transferTimeSec = Math.Round(transferTimeMs / 1000, 3);
                     AddLogEntry(
@@ -233,6 +243,23 @@ namespace Version_3._0
                 {
 
                 }
+
+                copiedBytes += fileSize;
+
+                if (progress != null && totalBytes > 0)
+                {
+                    double percent = (double)copiedBytes / totalBytes * 100;
+                    progress.Report(percent);
+                }
+
+                RealTimeLog.getInstance().UpdateStateFile(new Work
+                {
+                    Name = saveName,
+                    Source = sourcePath,
+                    Target = destinationPath,
+                    State = "active"
+                });
+
             }
         }
 

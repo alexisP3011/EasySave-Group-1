@@ -7,9 +7,10 @@ using System.IO;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Xml;
+using System.Resources;
+using Version_3._0.Model;
 using Version_3._0.View.PopUp;
 using Version_3._0.View.Popup;
-using Version_3._0.Model;
 
 namespace Version_3._0
 {
@@ -17,6 +18,9 @@ namespace Version_3._0
     {
         WorkStorage storage = WorkStorage.getInstance();
         RealTimeLog realTimeLog = RealTimeLog.getInstance();
+        ResourceManager _rm = new ResourceManager("Version_3._0.Ressources.string", typeof(MainWindow).Assembly);
+        SettingsPopup settings = new SettingsPopup();
+        private Action<double> progressHandler;
 
         private ObservableCollection<Work> works;
         public ObservableCollection<Work> Works
@@ -67,15 +71,18 @@ namespace Version_3._0
             get => progress;
             set
             {
-                progress = 50;
-                OnPropertyChanged(nameof(Progress));
+                if (progress != value)
+                {
+                    progress = value;
+                    OnPropertyChanged(nameof(Progress));
+                }
             }
         }
 
         public MainWindow()
         {
             InitializeComponent();
-
+            settings.LoadSettings();
             Works = new ObservableCollection<Work>();
 
             storage.LoadAllWorks();
@@ -150,11 +157,9 @@ namespace Version_3._0
             if (AreAllWorksSelected)
             {
 
-                string message = Works.Count > 1
-                    ? $"Are you sure you want to delete all {Works.Count} selected works?"
-                    : "Are you sure you want to delete the selected work?";
+                string message = Works.Count > 1 ? string.Format(_rm.GetString("MultipleDeletionConfiramtionMessageAll"), Works.Count) : _rm.GetString("MultipleDeletionConfirmationMessageOne");
 
-                if (MessageBox.Show(message, "Multiple Deletion Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                if (MessageBox.Show(message, _rm.GetString("MultipleDeletionConfirmationMessageTitle"), MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
 
                     for (int i = Works.Count - 1; i >= 0; i--)
@@ -184,11 +189,9 @@ namespace Version_3._0
 
                 if (selectedCount > 0)
                 {
-                    string message = selectedCount > 1
-                        ? $"Are you sure you want to delete the {selectedCount} selected works?"
-                        : $"Are you sure you want to delete the work '{selectedWorks[0].Name}'?";
+                    string message = selectedCount > 1 ? string.Format(_rm.GetString("DeletionConfirmationMessageMultiple"), selectedCount) : string.Format(_rm.GetString("DeletionConfirmationMessageOne"), selectedWorks[0].Name);
 
-                    if (MessageBox.Show(message, "Deletion Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                    if (MessageBox.Show(message, _rm.GetString("DeletionConfirmationMessageTitle"), MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                     {
                         foreach (var work in selectedWorks)
                         {
@@ -200,11 +203,15 @@ namespace Version_3._0
                 }
                 else
                 {
-                    MessageBox.Show("No work is selected for deletion.", "Information");
+                    MessageBox.Show(_rm.GetString("ErrorDeletionMessage"), _rm.GetString("InformationMessageTitle"));
                 }
             }
         }
 
+
+
+
+        // Classe personnalisée pour contenir les informations de cancellation
         public class WorkCancellationInfo
         {
             public CancellationTokenSource TokenSource { get; set; }
@@ -232,7 +239,7 @@ namespace Version_3._0
 
             if (!string.IsNullOrEmpty(targetExtension) && targetExtension.Trim() != "" && string.IsNullOrWhiteSpace(key))
             {
-                MessageBox.Show("Encryption key is required as a target extension is specified in settings.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show(_rm.GetString("ErrorCryptoSoft"), _rm.GetString("InformationMessageTitle"), MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
 
@@ -242,7 +249,7 @@ namespace Version_3._0
 
             if (Process.GetProcessesByName(software).Length > 0)
             {
-                MessageBox.Show("Please close the software to continue.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show(_rm.GetString("ErrorSofwareLaunchMessage"), _rm.GetString("InformationMessageTitle"), MessageBoxButton.OK, MessageBoxImage.Information);
 
                 foreach (var work in selectedWorks)
                 {
@@ -254,17 +261,15 @@ namespace Version_3._0
 
             if (selectedWorks.Count == 0)
             {
-                MessageBox.Show("Please select a work to launch.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show(_rm.GetString("ErrorSelectLaunchMessage"), _rm.GetString("InformationMessageTitle"), MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
 
 
 
-            string confirmationMessage = selectedWorks.Count == 1
-                ? "Are you sure you want to launch the selected work?"
-                : $"Are you sure you want to launch the {selectedWorks.Count} selected works?";
+            string confirmationMessage = selectedWorks.Count == 1 ? _rm.GetString("ConfirmationLaunchMessageOne") : string.Format(_rm.GetString("ConfirmationLaunchMessageMultiple"), selectedWorks.Count);
 
-            var result = MessageBox.Show(confirmationMessage, "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            var result = MessageBox.Show(confirmationMessage, _rm.GetString("ConfirmationLaunchMessageTitle"), MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result != MessageBoxResult.Yes)
             {
                 return;
@@ -289,29 +294,32 @@ namespace Version_3._0
                     workCancellationInfos[workCopy] = cancellationInfo;
                     var token = cancellationInfo.TokenSource.Token;
 
+                    var progressHandler = new Progress<double>(value =>
+                    {
+                        currentWork.Progress = value;
+                    });
 
-
+                    var priorityExtension = settings.PriorityExtension;
                     var task = Task.Run(() =>
                     {
-
                         try
                         {
                             loggerCopy.TransferFilesWithLogs(
-                                 workCopy.Source,
-                                 workCopy.Target,
-                                 workCopy.Name,
-                                 token,
-                                 CheckSoftwareOpen,
-                                 software);
-
-
+                                workCopy.Source,
+                                workCopy.Target,
+                                workCopy.Name,
+                                priorityExtension,
+                                token,
+                                CheckSoftwareOpen,
+                                software,
+                                false,
+                                progressHandler);
 
                             Dispatcher.Invoke(() =>
                             {
                                 if (workCopy.State != "stop" && workCopy.State != "paused")
                                 {
                                     workCopy.State = "finished";
-
 
                                     LaunchRealTimeLog(workCopy);
 
@@ -324,7 +332,6 @@ namespace Version_3._0
                         {
                             Dispatcher.Invoke(() =>
                             {
-
                                 string newState = cancellationInfo.CancellationReason;
                                 workCopy.State = newState;
                                 LaunchRealTimeLog(workCopy);
@@ -335,7 +342,6 @@ namespace Version_3._0
                         }
                         finally
                         {
-
                             if (workCancellationInfos.ContainsKey(workCopy))
                             {
                                 workCancellationInfos.Remove(workCopy);
@@ -355,21 +361,19 @@ namespace Version_3._0
             var inactiveSelected = Works.Where(w => w.IsSelected && (w.State == "inactive" || w.State == "paused")).ToList();
             if (inactiveSelected.Any())
             {
-                MessageBox.Show("Error: Zero work to stop.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(_rm.GetString("ErrorStopZeroWork"), _rm.GetString("InformationMessageTitle"), MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
             if (selectedWorks.Count == 0)
             {
-                MessageBox.Show("Error: Any work selected", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(_rm.GetString("ErrorStopAnyWork"), _rm.GetString("InformationMessageTitle"), MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
-            string confirmationMessage = selectedWorks.Count == 1
-                ? "Are you sure you want to stop the selected work?"
-                : $"Are you sure you want to stop the {selectedWorks.Count} selected works?";
+            string confirmationMessage = selectedWorks.Count == 1 ? _rm.GetString("ConfirmationStopWork") : string.Format(_rm.GetString("ConfirmationStopMultipleWorks"), selectedWorks.Count);
 
-            var result = MessageBox.Show(confirmationMessage, "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            var result = MessageBox.Show(confirmationMessage, _rm.GetString("ConfirmationLaunchMessageTitle"), MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result != MessageBoxResult.Yes)
             {
                 return;
@@ -393,21 +397,19 @@ namespace Version_3._0
             var inactiveSelected = Works.Where(w => w.IsSelected && (w.State == "inactive" || w.State == "paused")).ToList();
             if (inactiveSelected.Any())
             {
-                MessageBox.Show("Error: Zero work to pause.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(_rm.GetString("ErrorPauseZeroWork"), _rm.GetString("InformationMessageTitle"), MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
             if (selectedWorks.Count == 0)
             {
-                MessageBox.Show("Error: Any work selected", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(_rm.GetString("ErrorPauseAnyWork"), _rm.GetString("InformationMessageTitle"), MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
-            string confirmationMessage = selectedWorks.Count == 1
-                ? "Are you sure you want to pause the selected work?"
-                : $"Are you sure you want to pause the {selectedWorks.Count} selected works?";
+            string confirmationMessage = selectedWorks.Count == 1 ? _rm.GetString("ConfirmationPauseWork") : string.Format(_rm.GetString("ConfirmationPauseMultipleWorks"), selectedWorks.Count);
 
-            var result = MessageBox.Show(confirmationMessage, "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            var result = MessageBox.Show(confirmationMessage, _rm.GetString("ConfirmationLaunchMessageTitle"), MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result != MessageBoxResult.Yes)
             {
                 return;
@@ -444,13 +446,6 @@ namespace Version_3._0
 
 
         }
-
-
-
-
-
-
-
 
         public void LaunchRealTimeLog(Work workToUpdate)
         {
@@ -539,13 +534,13 @@ namespace Version_3._0
 
             if (selectedWorks.Count == 0)
             {
-                MessageBox.Show("Please select a work to update.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show(_rm.GetString("ErrorNoSelectUpdateMessage"), _rm.GetString("InformationMessageTitle"), MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
 
             if (selectedWorks.Count > 1)
             {
-                MessageBox.Show("Please select only one work to update.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show(_rm.GetString("ErrorMultipleSelectUpdateMessage"), _rm.GetString("InformationMessageTitle"), MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
 
@@ -574,7 +569,7 @@ namespace Version_3._0
                 storage.DeleteWorkEntry(updatedWork.Name);
                 //storage.AddWorkEntry(updatedWork.Name, updatedWork.Source, updatedWork.Target, updatedWork.Type, "Finished");
 
-                MessageBox.Show($"The work '{updatedWork.Name}' has been successfully updated.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show(string.Format(_rm.GetString("SuccessMessageUpdate"), updatedWork.Name), _rm.GetString("SuccessMessageTitle"), MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
@@ -594,6 +589,7 @@ namespace Version_3._0
         private string type;
         private string state;
         private bool isSelected;
+        private double progress;
 
         public string Name
         {
@@ -652,6 +648,16 @@ namespace Version_3._0
             {
                 isSelected = value;
                 OnPropertyChanged(nameof(IsSelected));
+            }
+        }
+
+        public double Progress
+        {
+            get => progress;
+            set
+            {
+                progress = value;
+                OnPropertyChanged(nameof(Progress));
             }
         }
 
