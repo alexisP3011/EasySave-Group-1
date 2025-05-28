@@ -119,19 +119,32 @@ namespace Version_3._0
             {
                 string[] files = Directory.GetFiles(directory, searchPattern, searchOption);
 
-                var pdfFiles = files.Where(f => f.EndsWith(priority_extension, StringComparison.OrdinalIgnoreCase));
-                var otherFiles = files.Where(f => !f.EndsWith(priority_extension, StringComparison.OrdinalIgnoreCase));
+                // Séparer les extensions prioritaires et les nettoyer
+                var priorityExtensions = priority_extension
+                    .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                    .Select(ext => ext.Trim().ToLowerInvariant())
+                    .ToHashSet();
 
-                filesList.AddRange(pdfFiles);
+                // Trier les fichiers en deux groupes : prioritaires et autres
+                var priorityFiles = files
+                    .Where(f => priorityExtensions.Contains(Path.GetExtension(f).ToLowerInvariant()))
+                    .ToList();
+
+                var otherFiles = files
+                    .Where(f => !priorityExtensions.Contains(Path.GetExtension(f).ToLowerInvariant()))
+                    .ToList();
+
+                filesList.AddRange(priorityFiles);
                 filesList.AddRange(otherFiles);
 
                 return filesList;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return filesList;
             }
         }
+
 
         public void AddLogEntry(string name, string source, string destination, long size, double transferTime)
         {
