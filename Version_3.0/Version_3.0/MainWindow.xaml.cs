@@ -299,6 +299,7 @@ namespace Version_3._0
                         currentWork.Progress = value;
                     });
 
+                    var priorityExtension = settings.PriorityExtension;
                     var task = Task.Run(() =>
                     {
                         try
@@ -307,6 +308,7 @@ namespace Version_3._0
                                 workCopy.Source,
                                 workCopy.Target,
                                 workCopy.Name,
+                                priorityExtension,
                                 token,
                                 CheckSoftwareOpen,
                                 software,

@@ -72,6 +72,8 @@
                             <ComboBoxItem Content=".json" />
                             <ComboBoxItem Content=".xml" />
                             <ComboBoxItem Content=".log" />
+                            <ComboBoxItem Content=".pdf" />
+                            <ComboBoxItem Content=".png" />
                         </ComboBox>
 
 
