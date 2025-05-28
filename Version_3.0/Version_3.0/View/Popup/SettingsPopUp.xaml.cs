@@ -53,7 +53,7 @@ namespace Version_3._0.View.Popup
                 Language = langItem.Content.ToString();
             }
 
-            if (PriorityExtensionBox.SelectedItem is ComboBoxItem priorityItem)
+            if (PriorityExtensionBox.SelectedItem is ListBoxItem priorityItem)
             {
                 PriorityExtension = priorityItem.Content.ToString();
             }
@@ -115,20 +115,23 @@ namespace Version_3._0.View.Popup
                                 }
                             }
                         }
-
                         if (settings.TryGetValue("PriorityExtension", out string PriorityExtensionValue))
                         {
                             PriorityExtension = PriorityExtensionValue;
 
-                            foreach (ComboBoxItem item in PriorityExtensionBox.Items)
+ 
+                            var selectedExtensions = PriorityExtensionValue.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                                                                           .Select(e => e.Trim());
+
+                            foreach (ListBoxItem item in PriorityExtensionBox.Items)
                             {
-                                if (item.Content.ToString() == PriorityExtensionValue)
+                                if (selectedExtensions.Contains(item.Content.ToString()))
                                 {
-                                    PriorityExtensionBox.SelectedItem = item;
-                                    break;
+                                    item.IsSelected = true;
                                 }
                             }
                         }
+
 
 
                         if (settings.TryGetValue("FileSizeTransfert", out string FileSizeTransfertValue))
@@ -168,7 +171,15 @@ namespace Version_3._0.View.Popup
                 settings["TargetExtension"] = TargetExtension;
                 settings["EncryptionKey"] = EncryptionKeyTextBox.Text;
                 settings["Language"] = Language;
-                settings["PriorityExtension"] = PriorityExtension;
+
+                var selectedExtensions = PriorityExtensionBox.SelectedItems
+                .Cast<ListBoxItem>()
+                .Select(i => i.Content.ToString());
+
+                string extensionsString = string.Join(",", selectedExtensions);
+
+                settings["PriorityExtension"] = extensionsString;
+
                 settings["FileSizeTransfert"] = FileSizeTransfert;
 
 
