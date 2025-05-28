@@ -15,7 +15,6 @@ namespace Version_3._0.View.Popup
     public partial class SettingsPopup : Window
     {
         private readonly string SETTINGS_FILE;
-        private ResourceManager _rm = new ResourceManager("Version_3._0.Ressources.string", typeof(SettingsPopup).Assembly);
 
         public SettingsPopup()
         {

@@ -168,7 +168,7 @@ namespace Version_3._0
 
 
         public void TransferFilesWithLogs(string sourcePath, string destinationPath, string saveName,
-            CancellationToken token, Action<string> checkSoftwareCallback = null, string software = null, bool recursive = false)
+            CancellationToken token, Action<string> checkSoftwareCallback = null, string software = null, bool recursive = false, IProgress<double>? progress = null)
         {
             if (!Directory.Exists(sourcePath))
             {
@@ -182,8 +182,12 @@ namespace Version_3._0
             SearchOption searchOption = recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
             List<string> files = ListAllFiles(sourcePath, "*.*", searchOption);
 
+            long totalBytes = files.Sum(file => new FileInfo(file).Length);
+            long copiedBytes = 0;
+
             foreach (string file in files)
             {
+
 
                 token.ThrowIfCancellationRequested();
 
@@ -212,12 +216,13 @@ namespace Version_3._0
                 }
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
+                long fileSize = 0;
                 try
                 {
                     File.Copy(file, destFile, true);
                     Thread.Sleep(5000);
                     stopwatch.Stop();
-                    long fileSize = new FileInfo(file).Length;
+                    fileSize = new FileInfo(file).Length;
                     double transferTimeMs = stopwatch.Elapsed.TotalMilliseconds;
                     double transferTimeSec = Math.Round(transferTimeMs / 1000, 3);
                     AddLogEntry(
@@ -233,6 +238,23 @@ namespace Version_3._0
                 {
 
                 }
+
+                copiedBytes += fileSize;
+
+                if (progress != null && totalBytes > 0)
+                {
+                    double percent = (double)copiedBytes / totalBytes * 100;
+                    progress.Report(percent);
+                }
+
+                RealTimeLog.getInstance().UpdateStateFile(new Work
+                {
+                    Name = saveName,
+                    Source = sourcePath,
+                    Target = destinationPath,
+                    State = "active"
+                });
+
             }
         }
 
