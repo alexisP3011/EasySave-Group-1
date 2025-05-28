@@ -127,7 +127,8 @@
 4. Update a backup work
 5. Launch a backup work
 6. Change the application language
-7. Exit</value>
+7. Configure log format
+8. Exit</value>
   </data>
   <data name="SelectOption" xml:space="preserve">
     <value>Please select an option:</value>
