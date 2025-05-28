@@ -300,6 +300,8 @@ namespace Version_3._0
                     });
 
                     var priorityExtension = settings.PriorityExtension;
+                    var MaxFileSizeTransfert = int.Parse(settings.FileSizeTransfert);
+
                     var task = Task.Run(() =>
                     {
                         try
@@ -309,6 +311,7 @@ namespace Version_3._0
                                 workCopy.Target,
                                 workCopy.Name,
                                 priorityExtension,
+                                MaxFileSizeTransfert,
                                 token,
                                 CheckSoftwareOpen,
                                 software,
