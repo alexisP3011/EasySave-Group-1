@@ -1,15 +1,16 @@
-﻿<Window x:Class="Version_2._0.View.Popup.SettingsPopup"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Version_2._0.View.Popup"
-        xmlns:buttons="clr-namespace:Version_2._0.View.Button"
-        xmlns:res="clr-namespace:Version_2._0"
-        mc:Ignorable="d"
-        x:Name="SettingWindow"
-        Title="{res:Loc SettingsPopUp}" Height="625" Width="800"
-        Icon="/Ressources/myicon.ico">
+﻿<Window x:Class="Version_3._0.View.Popup.SettingsPopup"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Version_3._0.View.Popup"
+      xmlns:buttons="clr-namespace:Version_3._0.View.Button"
+      xmlns:res="clr-namespace:Version_3._0"
+      mc:Ignorable="d"
+      x:Name="SettingWindow"
+      Title="{res:Loc SettingsPopUp}" Height="625" Width="800"
+      Icon="/Ressources/myicon.ico">
+
     <Grid>
         <Grid>
             <Grid Background="#cae9ff" Opacity=".75" Panel.ZIndex="10"/>
@@ -17,20 +18,20 @@
                 <Border Padding="16">
                     <StackPanel>
                         <TextBlock
-                            x:Name="SettingsTitle"
-                            TextAlignment="Center"
-                            FontSize="28"
-                            FontWeight="Bold"
-                            Foreground="#1b4965"
-                            Margin="0,0,0,10"
-                            Text="{res:Loc SettingsPopUp}" />
+                        x:Name="SettingsTitle"
+                        TextAlignment="Center"
+                        FontSize="28"
+                        FontWeight="Bold"
+                        Foreground="#1b4965"
+                        Margin="0,0,0,10"
+                        Text="{res:Loc SettingsPopUp}" />
 
                         <TextBlock
-                            Visibility="Collapsed"
-                            TextWrapping="Wrap"
-                            x:Name="ErrorMessageTextBlock"
-                            Margin="0,0,0,16"
-                            Foreground="Red" />
+                        Visibility="Collapsed"
+                        TextWrapping="Wrap"
+                        x:Name="ErrorMessageTextBlock"
+                        Margin="0,0,0,16"
+                        Foreground="Red" />
 
                         <TextBlock FontSize="16"  Margin="0,0,0,4" x:Name="LanguageTextBlock" Text="{res:Loc LanguageLabel}"/>
                         <ComboBox Margin="0,0,0,16" x:Name="LanguageComboBox">
@@ -90,48 +91,48 @@
                             </Grid.ColumnDefinitions>
 
                             <Button x:Name="CancelButton" 
-                                     Grid.Column="1" 
-                                     Click="CancelButton_Click" 
-                                     Margin="8,0,0,0"
-                                     Height="50" 
-                                     Width="80" 
-                                     Background="OrangeRed"
-                                     FontSize="16"
-                                     FontWeight="Bold"
-                                     BorderThickness="0">
+                                 Grid.Column="1" 
+                                 Click="CancelButton_Click" 
+                                 Margin="8,0,0,0"
+                                 Height="50" 
+                                 Width="80" 
+                                 Background="OrangeRed"
+                                 FontSize="16"
+                                 FontWeight="Bold"
+                                 BorderThickness="0">
                                 <Button.Template>
                                     <ControlTemplate TargetType="Button">
                                         <Border Background="{TemplateBinding Background}"
-                                            CornerRadius="8">
+                                        CornerRadius="8">
                                             <TextBlock Text="{res:Loc CancelButton}"
-                                                       x:Name="CancelButtonText"
-                                                       Foreground="White"
-                                                       HorizontalAlignment="Center"
-                                                       VerticalAlignment="Center"/>
+                                                   x:Name="CancelButtonText"
+                                                   Foreground="White"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"/>
                                         </Border>
                                     </ControlTemplate>
                                 </Button.Template>
                             </Button>
 
                             <Button x:Name="ConfirmButton" 
-                                    Grid.Column="0" 
-                                    Click="ConfirmButton_Click" 
-                                    Margin="0,0,8,0"
-                                    Height="50" 
-                                    Width="80" 
-                                    Background="LimeGreen"
-                                    Foreground="White"
-                                    FontSize="16"
-                                    FontWeight="Bold"
-                                    BorderThickness="0">
+                                Grid.Column="0" 
+                                Click="ConfirmButton_Click" 
+                                Margin="0,0,8,0"
+                                Height="50" 
+                                Width="80" 
+                                Background="LimeGreen"
+                                Foreground="White"
+                                FontSize="16"
+                                FontWeight="Bold"
+                                BorderThickness="0">
                                 <Button.Template>
                                     <ControlTemplate TargetType="Button">
                                         <Border Background="{TemplateBinding Background}"
-                                            CornerRadius="8">
+                                        CornerRadius="8">
                                             <TextBlock x:Name="ConfirmButtonText" Text="{res:Loc ConfirmButton}"
-                                                   Foreground="White"
-                                                   HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"/>
+                                               Foreground="White"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"/>
                                         </Border>
                                     </ControlTemplate>
                                 </Button.Template>

@@ -7,15 +7,14 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Resources;
 
-namespace Version_2._0.View.Popup
+namespace Version_3._0.View.Popup
 {
     /// <summary>
-    /// Logique d'interaction pour SettingsPopup.xaml
+    /// Interaction logic for SettingsPopUp.xaml
     /// </summary>
     public partial class SettingsPopup : Window
     {
         private readonly string SETTINGS_FILE;
-        private ResourceManager _rm = new ResourceManager("Version_2._0.Ressources.string", typeof(SettingsPopup).Assembly);
 
         public SettingsPopup()
         {
@@ -33,7 +32,7 @@ namespace Version_2._0.View.Popup
         public string TargetExtension { get; set; }
         public string EncryptionKey { get; set; }
         public string Language { get; set; }
-        public string PriorityExtension { get; set; } 
+        public string PriorityExtension { get; set; }
         public string FileSizeTransfert { get; set; }
 
 
@@ -41,14 +40,14 @@ namespace Version_2._0.View.Popup
         private void ConfirmButton_Click(object sender, RoutedEventArgs e)
         {
             Software = MiddlewareTextBox.Text;
-            
+
             if (ExtensionComboBox.SelectedItem is ComboBoxItem selectedItem)
             {
                 TargetExtension = selectedItem.Content.ToString();
             }
 
             EncryptionKey = EncryptionKeyTextBox.Text;
-            
+
             if (LanguageComboBox.SelectedItem is ComboBoxItem langItem)
             {
                 Language = langItem.Content.ToString();

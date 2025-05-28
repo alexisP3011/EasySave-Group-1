@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <RootNamespace>Version_3._0</RootNamespace>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<Compile Remove="View\Asset\**" />
+		<EmbeddedResource Remove="View\Asset\**" />
+		<None Remove="View\Asset\**" />
+		<Page Remove="View\Asset\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Remove="Ressources\myicon.ico" />
+		<None Remove="Ressources\settings.png" />
+		<None Remove="settings.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Resource Include="Ressources\myicon.ico" />
+		<Resource Include="Ressources\settings.png" />
+	</ItemGroup>
+
+</Project>
