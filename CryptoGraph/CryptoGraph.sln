@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.36105.23 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoGraph", "CryptoGraph\CryptoGraph.csproj", "{4D20AFFA-7CB2-4BDA-BB5E-485409130CBD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoSoft", "CryptoSoft\CryptoSoft.csproj", "{57C5B5D5-82F7-41D9-93B5-BE203B7C4933}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4D20AFFA-7CB2-4BDA-BB5E-485409130CBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D20AFFA-7CB2-4BDA-BB5E-485409130CBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D20AFFA-7CB2-4BDA-BB5E-485409130CBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D20AFFA-7CB2-4BDA-BB5E-485409130CBD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57C5B5D5-82F7-41D9-93B5-BE203B7C4933}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57C5B5D5-82F7-41D9-93B5-BE203B7C4933}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57C5B5D5-82F7-41D9-93B5-BE203B7C4933}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57C5B5D5-82F7-41D9-93B5-BE203B7C4933}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {62E941B5-60F4-439B-A6AF-05DD63858FE9}
+	EndGlobalSection
+EndGlobal
