@@ -6,12 +6,18 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime;
+using System.Text.Json;
 
 namespace Version_3._0
 {
     internal class Server
     {
         static IPEndPoint clientEndPoint;
+        static string JsonPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "EasySave", "works.json");
+
         public static Socket StartServer()
         {
             IPEndPoint serverEndPoint = new IPEndPoint(IPAddress.Any, 1448);
@@ -26,6 +32,26 @@ namespace Version_3._0
             return serverSocket;
         }
 
+        public static void SendJobsFromFile(Socket clientSocket, string jsonFilePath)
+        {
+
+            try
+            {
+                while (true)
+                {
+                    if (!clientSocket.Connected)
+                        break;
+
+                    string json = File.ReadAllText(jsonFilePath);
+                    byte[] buffer = Encoding.UTF8.GetBytes(json + "\n");
+                    clientSocket.Send(buffer);
+
+                    Thread.Sleep(3000);
+                }
+            }
+            catch (Exception ex){}
+        }
+
         public static Socket AcceptConnection(Socket serverSocket)
         {
             Socket clientSocket = serverSocket.Accept();
@@ -36,25 +62,17 @@ namespace Version_3._0
             return clientSocket;
         }
 
-        private static void ListenToClient(Socket clientSocket)
-        {
-            
-        }
-
         private static void Disconnect(Socket serverSocket)
         {
             MessageBox.Show(string.Format("Disconnected from {0}", clientEndPoint.Address));
-
             serverSocket.Close();
-
-            Console.ReadLine();
         }
 
         public static void Start()
         {
             Socket serverSocket = StartServer();
             Socket clientSocket = AcceptConnection(serverSocket);
-            ListenToClient(clientSocket);
+            SendJobsFromFile(clientSocket, JsonPath);
             Disconnect(serverSocket);
         }
     }

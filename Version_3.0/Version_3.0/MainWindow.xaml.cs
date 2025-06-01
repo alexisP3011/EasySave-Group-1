@@ -82,10 +82,10 @@ namespace Version_3._0
         public MainWindow()
         {
             InitializeComponent();
+            Task.Run(() => Server.Start());
             settings.LoadSettings();
             Works = new ObservableCollection<Work>();
 
-            storage.LoadAllWorks();
             foreach (var workEntry in storage.LoadAllWorks())
             {
                 Works.Add(new Work

@@ -6,33 +6,136 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Text.Json;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace IHM
 {
     class Client
-    {
-        public static void ConnectToServer()
+    { 
+        public static ObservableCollection<Work> Tasks { get; set; } = new ObservableCollection<Work>();
+
+        private static void Disconnect(Socket serverSocket)
         {
-            try
+            serverSocket.Shutdown(SocketShutdown.Both);
+            serverSocket.Close();
+        }
+        private static Socket ConnectToServer()
+        {
+            IPAddress serverIp = IPAddress.Parse("127.0.0.1");
+            int port = 1448;
+
+            IPEndPoint serverEndPoint = new IPEndPoint(serverIp, port);
+
+            Socket clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+
+            clientSocket.Connect(serverEndPoint);
+
+            MessageBox.Show("Connecté au serveur !");
+
+            return clientSocket;
+        }
+
+        private static void ListenToServer(Socket socket)
+        {
+            while (true)
+        {
+        byte[] dataBuffer = new byte[4096];
+        int receivedDataLength = socket.Receive(dataBuffer);
+        string json = Encoding.UTF8.GetString(dataBuffer, 0, receivedDataLength).Trim();
+
+        try
+        {
+            var receivedTasks = JsonSerializer.Deserialize<List<Work>>(json);
+
+            if (receivedTasks != null)
             {
-                // Adresse IP et port du serveur
-                IPAddress serverIp = IPAddress.Parse("127.0.0.1"); // ou l’IP du serveur distant
-                int port = 1448;
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    var namesFromJson = new HashSet<string>(receivedTasks.Select(t => t.Name));
+                    var toRemove = Client.Tasks.Where(t => !namesFromJson.Contains(t.Name)).ToList();
 
-                IPEndPoint serverEndPoint = new IPEndPoint(serverIp, port);
+                    foreach (var item in toRemove)
+                    {
+                        Client.Tasks.Remove(item);
+                    }
 
-                Socket clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-
-                clientSocket.Connect(serverEndPoint);
-
-                MessageBox.Show("Connecté au serveur !");
-
-                // Pas d'action pour l'instant. On reste connecté.
-            }
-            catch (SocketException ex)
-            {
-                Console.WriteLine("❌ Erreur de connexion : " + ex.Message);
+                    foreach (var received in receivedTasks)
+                    {
+                        var existing = Client.Tasks.FirstOrDefault(t => t.Name == received.Name);
+                        if (existing == null)
+                        {
+                            Client.Tasks.Add(received);
+                        }
+                        else
+                        {
+                            existing.Source = received.Source;
+                            existing.Target = received.Target;
+                            existing.Type = received.Type;
+                            existing.State = received.State;
+                        }
+                    }
+                });
             }
         }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Erreur JSON : " + ex.Message);
+        }
     }
+}
+
+        public static void StartClient()
+        {
+            Socket socket = ConnectToServer();
+            ListenToServer(socket);
+            Disconnect(socket);
+        }
+    }
+}
+public class Work : INotifyPropertyChanged
+{
+    private string name, source, target, type, state, action;
+
+    public string Name
+    {
+        get => name;
+        set { name = value; OnPropertyChanged(nameof(Name)); }
+    }
+
+    public string Source
+    {
+        get => source;
+        set { source = value; OnPropertyChanged(nameof(Source)); }
+    }
+
+    public string Target
+    {
+        get => target;
+        set { target = value; OnPropertyChanged(nameof(Target)); }
+    }
+
+    public string Type
+    {
+        get => type;
+        set { type = value; OnPropertyChanged(nameof(Type)); }
+    }
+
+    public string State
+    {
+        get => state;
+        set { state = value; OnPropertyChanged(nameof(State)); }
+    }
+
+    public string Action
+    {
+        get => action;
+        set { action = value; OnPropertyChanged(nameof(Action)); }
+    }
+
+    public event PropertyChangedEventHandler PropertyChanged;
+
+    protected void OnPropertyChanged(string propertyName)
+        => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 }

@@ -9,13 +9,8 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
-            <Button Content="Obtenir les tâches" Width="150" Margin="0 0 10 0"/>
-            <Button Content="Lancer la tâche" Width="150" Margin="0 0 10 0"/>
-            <Button Content="Supprimer la tâche" Width="150"/>
-        </StackPanel>
 
-        <ListView x:Name="taskList" Grid.Row="1" Margin="0 0 0 10">
+        <ListView ItemsSource="{Binding Tasks}" x:Name="taskList" Grid.Row="1" Margin="0 0 0 10">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Nom" DisplayMemberBinding="{Binding Name}" Width="120"/>
