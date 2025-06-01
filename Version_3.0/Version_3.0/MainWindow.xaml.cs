@@ -294,7 +294,7 @@ namespace Version_3._0
 
                     var progressHandler = new Progress<double>(value =>
                     {
-                        currentWork.Progress = value;
+                        workCopy.Progress = value;
                     });
 
                     var task = Task.Run(() =>
