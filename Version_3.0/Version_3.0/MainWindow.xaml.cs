@@ -8,7 +8,6 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Xml;
 using System.Resources;
-using Version_3._0.Model;
 using Version_3._0.View.PopUp;
 using Version_3._0.View.Popup;
 
@@ -237,7 +236,9 @@ namespace Version_3._0
             string targetExtension = settingsPopup.TargetExtension;
             string key = settingsPopup.EncryptionKey;
 
-            if (!string.IsNullOrEmpty(targetExtension) && targetExtension.Trim() != "" && string.IsNullOrWhiteSpace(key))
+            bool shouldEncrypt = !string.IsNullOrWhiteSpace(targetExtension) && !string.IsNullOrWhiteSpace(key);
+
+            if (!string.IsNullOrWhiteSpace(targetExtension) && string.IsNullOrWhiteSpace(key))
             {
                 MessageBox.Show(_rm.GetString("ErrorCryptoSoft"), _rm.GetString("InformationMessageTitle"), MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
@@ -330,6 +331,59 @@ namespace Version_3._0
                                     storage.AddWorkEntry(workCopy.Name, workCopy.Source, workCopy.Target, workCopy.Type, "finished");
                                 }
                             });
+
+                            if (shouldEncrypt)
+                            {
+                                string[] cryptoFiles = Directory.GetFiles(workCopy.Target, $"*{targetExtension}", SearchOption.AllDirectories);
+
+                                if (cryptoFiles.Length == 0)
+                                {
+                                    Dispatcher.Invoke(() =>
+                                    {
+                                        MessageBox.Show($"No files with extension '{targetExtension}' found in:\n{workCopy.Target}", "Nothing to Encrypt", MessageBoxButton.OK, MessageBoxImage.Information);
+                                    });
+                                }
+
+                                foreach (string file in cryptoFiles)
+                                {
+                                    // Wait for CryptoSoft availability
+                                    while (Process.GetProcessesByName("CryptoSoft").Length > 0)
+                                    {
+                                        Dispatcher.Invoke(() =>
+                                        {
+                                            MessageBox.Show("CryptoSoft is already running. This file will wait in the queue.", "Encryption Queue", MessageBoxButton.OK, MessageBoxImage.Information);
+                                        });
+                                        Thread.Sleep(1000);
+                                    }
+
+                                    var psi = new ProcessStartInfo
+                                    {
+                                        FileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "CryptoSoft.exe"),
+                                        Arguments = $"\"{file}\" \"{key}\"",
+                                        RedirectStandardOutput = true,
+                                        RedirectStandardError = true,
+                                        UseShellExecute = false,
+                                        CreateNoWindow = true
+                                    };
+
+                                    using var process = Process.Start(psi);
+                                    string output = process.StandardOutput.ReadToEnd();
+                                    string error = process.StandardError.ReadToEnd();
+                                    process.WaitForExit();
+
+                                    if (process.ExitCode != 0)
+                                    {
+                                        Dispatcher.Invoke(() =>
+                                        {
+                                            MessageBox.Show($"Encryption failed for file {Path.GetFileName(file)}:\n{error}", "Encryption Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                                        });
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine($"Encrypted {file} successfully.");
+                                    }
+                                }
+                            }
                         }
                         catch (OperationCanceledException)
                         {

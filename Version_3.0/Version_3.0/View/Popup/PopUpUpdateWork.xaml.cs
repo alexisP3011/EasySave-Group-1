@@ -154,10 +154,6 @@ namespace Version_3._0.View.PopUp
                     realTimeLog.SaveEntry(log);
                 }
             }
-<<<<<<< HEAD
-
-=======
->>>>>>> Version_3.0
         }
     }
 }
