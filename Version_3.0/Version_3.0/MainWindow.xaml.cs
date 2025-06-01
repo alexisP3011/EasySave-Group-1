@@ -21,6 +21,7 @@ namespace Version_3._0
         ResourceManager _rm = new ResourceManager("Version_3._0.Ressources.string", typeof(MainWindow).Assembly);
         SettingsPopup settings = new SettingsPopup();
         private Action<double> progressHandler;
+        public static MainWindow Instance { get; private set; }
 
         private ObservableCollection<Work> works;
         public ObservableCollection<Work> Works
@@ -81,6 +82,7 @@ namespace Version_3._0
 
         public MainWindow()
         {
+            Instance = this;
             InitializeComponent();
             Task.Run(() => Server.Start());
             settings.LoadSettings();
@@ -353,9 +355,9 @@ namespace Version_3._0
 
         public void StopButton_Click(object sender, RoutedEventArgs e)
         {
-            var selectedWorks = Works.Where(w => w.IsSelected && w.State == "active").ToList();
+            var selectedWorks = Works.Where(w => w.IsSelected && w.State == "active" || w.State == "paused").ToList();
 
-            var inactiveSelected = Works.Where(w => w.IsSelected && (w.State == "inactive" || w.State == "paused")).ToList();
+            var inactiveSelected = Works.Where(w => w.IsSelected && (w.State == "inactive" || w.State == "stop")).ToList();
             if (inactiveSelected.Any())
             {
                 MessageBox.Show(_rm.GetString("ErrorStopZeroWork"), _rm.GetString("InformationMessageTitle"), MessageBoxButton.OK, MessageBoxImage.Error);
@@ -391,7 +393,7 @@ namespace Version_3._0
         {
             var selectedWorks = Works.Where(w => w.IsSelected && w.State == "active").ToList();
 
-            var inactiveSelected = Works.Where(w => w.IsSelected && (w.State == "inactive" || w.State == "paused")).ToList();
+            var inactiveSelected = Works.Where(w => w.IsSelected && (w.State == "inactive" || w.State == "paused" || w.State == "stop")).ToList();
             if (inactiveSelected.Any())
             {
                 MessageBox.Show(_rm.GetString("ErrorPauseZeroWork"), _rm.GetString("InformationMessageTitle"), MessageBoxButton.OK, MessageBoxImage.Error);

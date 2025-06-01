@@ -13,17 +13,19 @@ using System.ComponentModel;
 namespace IHM
 {
     class Client
-    { 
+    {
         public static ObservableCollection<Work> Tasks { get; set; } = new ObservableCollection<Work>();
+        private static Socket clientSocket;
 
         private static void Disconnect(Socket serverSocket)
         {
             serverSocket.Shutdown(SocketShutdown.Both);
             serverSocket.Close();
         }
+
         private static Socket ConnectToServer()
         {
-            IPAddress serverIp = IPAddress.Parse("127.0.0.1");
+            IPAddress serverIp = IPAddress.Parse("192.168.1.57");
             int port = 1448;
 
             IPEndPoint serverEndPoint = new IPEndPoint(serverIp, port);
@@ -89,55 +91,76 @@ namespace IHM
 
         public static void StartClient()
         {
-            Socket socket = ConnectToServer();
-            ListenToServer(socket);
-            Disconnect(socket);
+            clientSocket = ConnectToServer();
+            ListenToServer(clientSocket);
+            Disconnect(clientSocket);
+        }
+
+        public static void SendCommandToServer(string action, string workName)
+        {
+            var command = new Command
+            {
+                Action = action,
+                WorkName = workName
+            };
+
+            string json = JsonSerializer.Serialize(command);
+            byte[] buffer = Encoding.UTF8.GetBytes(json + "\n");
+
+            clientSocket.Send(buffer);
         }
     }
-}
-public class Work : INotifyPropertyChanged
-{
-    private string name, source, target, type, state;
-    private double progress;
 
-    public string Name
+    public class Command
     {
-        get => name;
-        set { name = value; OnPropertyChanged(nameof(Name)); }
+        public string Action { get; set; }
+        public string WorkName { get; set; }
     }
 
-    public string Source
+    public class Work : INotifyPropertyChanged
     {
-        get => source;
-        set { source = value; OnPropertyChanged(nameof(Source)); }
+        private string name, source, target, type, state;
+        private double progress;
+
+        public string Name
+        {
+            get => name;
+            set { name = value; OnPropertyChanged(nameof(Name)); }
+        }
+
+        public string Source
+        {
+            get => source;
+            set { source = value; OnPropertyChanged(nameof(Source)); }
+        }
+
+        public string Target
+        {
+            get => target;
+            set { target = value; OnPropertyChanged(nameof(Target)); }
+        }
+
+        public string Type
+        {
+            get => type;
+            set { type = value; OnPropertyChanged(nameof(Type)); }
+        }
+
+        public string State
+        {
+            get => state;
+            set { state = value; OnPropertyChanged(nameof(State)); }
+        }
+
+        public double Progress
+        {
+            get => progress;
+            set { progress = value; OnPropertyChanged(nameof(Progress)); }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string propertyName)
+            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
-
-    public string Target
-    {
-        get => target;
-        set { target = value; OnPropertyChanged(nameof(Target)); }
-    }
-
-    public string Type
-    {
-        get => type;
-        set { type = value; OnPropertyChanged(nameof(Type)); }
-    }
-
-    public string State
-    {
-        get => state;
-        set { state = value; OnPropertyChanged(nameof(State)); }
-    }
-
-    public double Progress
-    {
-        get => progress;
-        set { progress = value; OnPropertyChanged(nameof(Progress)); }
-    }
-
-    public event PropertyChangedEventHandler PropertyChanged;
-
-    protected void OnPropertyChanged(string propertyName)
-        => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 }

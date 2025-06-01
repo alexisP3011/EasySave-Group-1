@@ -10,11 +10,17 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime;
 using System.Text.Json;
+using System.Diagnostics;
+using Version_3._0.View.Popup;
+using static Version_3._0.MainWindow;
+using System.Windows.Threading;
 
 namespace Version_3._0
 {
     internal class Server
     {
+        private static Socket serverSocket;
+        private static Socket clientSocket;
         static IPEndPoint clientEndPoint;
         static string JsonPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "EasySave", "works.json");
 
@@ -30,6 +36,71 @@ namespace Version_3._0
 
             MessageBox.Show("Server is listening...");
             return serverSocket;
+        }
+
+        public static void ListenCommand(Socket clientSocket)
+        {
+            while (true)
+            {
+                byte[] receivedBuffer = new byte[4096];
+                int received = clientSocket.Receive(receivedBuffer);
+
+                if (received > 0)
+                {
+                    string json = Encoding.UTF8.GetString(receivedBuffer, 0, received).Trim();
+
+                    try
+                    {
+                        var command = JsonSerializer.Deserialize<Command>(json);
+
+                        if (command != null && command.Action == "Launch")
+                        {
+                            Application.Current.Dispatcher.Invoke(() =>
+                            {
+                                var mainWindow = MainWindow.Instance;
+
+                                foreach (var work in mainWindow.Works)
+                                {
+                                    work.IsSelected = (work.Name == command.WorkName);
+                                }
+
+                                mainWindow.LaunchButton_Click(null, null);
+                            });
+                        }
+                        if (command != null && command.Action == "Stop")
+                        {
+                            Application.Current.Dispatcher.Invoke(() =>
+                            {
+                                var mainWindow = MainWindow.Instance;
+
+                                foreach (var work in mainWindow.Works)
+                                {
+                                    work.IsSelected = (work.Name == command.WorkName);
+                                }
+
+                                mainWindow.StopButton_Click(null, null);
+                            });
+                        }
+                        if (command != null && command.Action == "Pause")
+                        {
+                            Application.Current.Dispatcher.Invoke(() =>
+                            {
+                                var mainWindow = MainWindow.Instance;
+
+                                foreach (var work in mainWindow.Works)
+                                {
+                                    work.IsSelected = (work.Name == command.WorkName);
+                                }
+
+                                mainWindow.PauseButton_Click(null, null);
+                            });
+                        }
+                    }
+                    catch (Exception ex){}
+                }                    
+
+                
+            }
         }
 
         public static void SendJobsFromFile(Socket clientSocket, string jsonFilePath)
@@ -57,10 +128,10 @@ namespace Version_3._0
 
                         Thread.Sleep(3000);
                     }
-                    
+
                 }
             }
-            catch (Exception ex){}
+            catch (Exception ex) { }
         }
 
         public static Socket AcceptConnection(Socket serverSocket)
@@ -81,10 +152,17 @@ namespace Version_3._0
 
         public static void Start()
         {
-            Socket serverSocket = StartServer();
-            Socket clientSocket = AcceptConnection(serverSocket);
+            serverSocket = StartServer();
+            clientSocket = AcceptConnection(serverSocket);
+            Task.Run(() => ListenCommand(clientSocket));
             SendJobsFromFile(clientSocket, JsonPath);
             Disconnect(serverSocket);
         }
+    }
+
+    public class Command
+    {
+        public string Action { get; set; }
+        public string WorkName { get; set; }
     }
 }
