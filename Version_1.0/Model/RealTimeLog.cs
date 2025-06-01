@@ -52,25 +52,29 @@ namespace Version_1._0.Model
             if (!File.Exists(saveName))
             {
                 File.WriteAllText(saveName, "[]");
-            }                
+            }
         }
 
         public void SaveEntry(RealTimeLogEntry newEntry)
         {
+            // 🔧 Génère le chemin du fichier journal du jour
+            string date = DateTime.Now.ToString("yyyy-MM-dd");
+            string directory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "EasySave", "logs");
+            string datedFilePath = Path.Combine(directory, $"state_{date}.json");
+
             List<RealTimeLogEntry> existingLogs = new List<RealTimeLogEntry>();
 
-            if (File.Exists(filePath))
+            if (File.Exists(datedFilePath))
             {
-                string json = File.ReadAllText(filePath);
+                string json = File.ReadAllText(datedFilePath);
                 if (!string.IsNullOrWhiteSpace(json))
                 {
                     existingLogs = JsonSerializer.Deserialize<List<RealTimeLogEntry>>(json) ?? new List<RealTimeLogEntry>();
                 }
             }
-
             else
             {
-                File.WriteAllText(filePath, "[]");
+                File.WriteAllText(datedFilePath, "[]");
                 existingLogs = new List<RealTimeLogEntry>();
             }
 
@@ -81,7 +85,27 @@ namespace Version_1._0.Model
                 WriteIndented = true
             };
 
-            File.WriteAllText(filePath, JsonSerializer.Serialize(existingLogs, options));
+            File.WriteAllText(datedFilePath, JsonSerializer.Serialize(existingLogs, options));
+        }
+
+        private void SaveEntryAsXml(RealTimeLogEntry newEntry)
+        {
+            string date = DateTime.Now.ToString("yyyy-MM-dd");
+            string directory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "EasySave", "logs");
+            string datedXmlFilePath = Path.Combine(directory, $"state_{date}.xml");
+
+            var xmlEntry = $"<log>" +
+                          $"<Name>{newEntry.Name}</Name>" +
+                          $"<Source>{newEntry.Source}</Source>" +
+                          $"<Target>{newEntry.Target}</Target>" +
+                          $"<State>{newEntry.State}</State>" +
+                          $"<TotalFilesToCopy>{newEntry.TotalFilesToCopy}</TotalFilesToCopy>" +
+                          $"<TotalFilesSize>{newEntry.TotalFilesSize}</TotalFilesSize>" +
+                          $"<NbFilesLeftToDo>{newEntry.NbFilesLeftToDo}</NbFilesLeftToDo>" +
+                          $"<Progression>{newEntry.Progression}</Progression>" +
+                          $"</log>";
+
+            File.AppendAllText(datedXmlFilePath, xmlEntry + Environment.NewLine);
         }
 
         public void AddLogEntry(string name, string source, string target, string state, long TotalFilesToCopy, long TotalFilesSize, long NbFilesLeftToDo, int Progression)
@@ -97,8 +121,9 @@ namespace Version_1._0.Model
                 NbFilesLeftToDo = NbFilesLeftToDo,
                 Progression = Progression
             };
-            
-            SaveEntry(entry);
+
+            SaveEntry(entry); // JSON
+            SaveEntryAsXml(entry); // XML
         }
 
         public List<RealTimeLogEntry> LoadRealTimeLog()
@@ -178,16 +203,16 @@ namespace Version_1._0.Model
         }
         public long NbFilesLeftToDo(string source, string target, string state)
         {
-                var filesSource = Directory.GetFiles(source, "*", SearchOption.AllDirectories);
-                var filesTarget = Directory.GetFiles(target, "*", SearchOption.AllDirectories);
-                return filesSource.Length - filesTarget.Length;
+            var filesSource = Directory.GetFiles(source, "*", SearchOption.AllDirectories);
+            var filesTarget = Directory.GetFiles(target, "*", SearchOption.AllDirectories);
+            return filesSource.Length - filesTarget.Length;
         }
 
         public int Progression(string source, string target)
         {
             var filesSource = Directory.GetFiles(source, "*", SearchOption.AllDirectories);
             var filesTarget = Directory.GetFiles(target, "*", SearchOption.AllDirectories);
-            return filesTarget.Length / filesSource.Length *100;
+            return filesTarget.Length / filesSource.Length * 100;
         }
 
         public void UpdateStateFile(Work currentwork)

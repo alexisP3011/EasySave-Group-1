@@ -8,6 +8,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using System;
 using System.Collections.Generic;
+using static Version_3._0.MainWindow;
 
 namespace Version_3._0
 {
@@ -107,7 +108,7 @@ namespace Version_3._0
             }
         }
 
-        public List<string> ListAllFiles(string directory, string searchPattern = "*.*", SearchOption searchOption = SearchOption.TopDirectoryOnly)
+        public List<string> ListAllFiles(string directory, string priority_extension, string searchPattern = "*.*", SearchOption searchOption = SearchOption.TopDirectoryOnly)
         {
             List<string> filesList = new List<string>();
 
@@ -119,14 +120,36 @@ namespace Version_3._0
             try
             {
                 string[] files = Directory.GetFiles(directory, searchPattern, searchOption);
-                filesList.AddRange(files);
-                return filesList;
+
+
+                var priorityOrder = priority_extension
+                    .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                    .Select(ext => ext.Trim().ToLowerInvariant())
+                    .ToList();
+
+                var prioritySet = new HashSet<string>(priorityOrder);
+
+                var sortedFiles = files
+                    .Select(f => new FileInfo(f))
+                    .OrderBy(f =>
+                    {
+                        string ext = f.Extension.ToLowerInvariant();
+                        int priorityIndex = prioritySet.Contains(ext) ? priorityOrder.IndexOf(ext) : int.MaxValue;
+                        return priorityIndex;
+                    })
+                    .ThenBy(f => f.Length)
+                    .Select(f => f.FullName)
+                    .ToList();
+
+                return sortedFiles;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return filesList;
             }
         }
+
+
 
         public void AddLogEntry(string name, string source, string destination, long size, double transferTime)
         {
@@ -168,7 +191,7 @@ namespace Version_3._0
         }
 
 
-        public void TransferFilesWithLogs(string sourcePath, string destinationPath, string saveName,
+        public void TransferFilesWithLogs(string sourcePath, string destinationPath, string saveName, string priority_extension, int SizeLimit,
             CancellationToken token, Action<string> checkSoftwareCallback = null, string software = null, bool recursive = false, IProgress<double>? progress = null)
         {
             if (!Directory.Exists(sourcePath))
@@ -181,14 +204,13 @@ namespace Version_3._0
                 Directory.CreateDirectory(destinationPath);
             }
             SearchOption searchOption = recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
-            List<string> files = ListAllFiles(sourcePath, "*.*", searchOption);
+            List<string> files = ListAllFiles(sourcePath, priority_extension, "*.*");
 
             long totalBytes = files.Sum(file => new FileInfo(file).Length);
             long copiedBytes = 0;
 
             foreach (string file in files)
             {
-
 
                 token.ThrowIfCancellationRequested();
 
@@ -199,6 +221,16 @@ namespace Version_3._0
 
                     token.ThrowIfCancellationRequested();
                 }
+
+                
+                //long fileSizeInBytes = new FileInfo(file).Length;
+                //double fileSizeInKB = fileSizeInBytes / 1024.0;
+                //if (fileSizeInKB > SizeLimit)
+                //{
+                 
+                //    token.ThrowIfCancellationRequested();
+
+                //}
 
                 string relativePath;
                 if (recursive)

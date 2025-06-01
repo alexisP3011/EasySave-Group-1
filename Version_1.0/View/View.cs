@@ -24,13 +24,13 @@ namespace Version_1._0.View
         {
             _vm = viewModel;
         }
-        
-        
+
         public void ShowMenu()
         {
             Console.WriteLine(_rm.GetString("WelcomeMessage"));
             Console.WriteLine(_rm.GetString("SelectOption"));
             Console.WriteLine(_rm.GetString("MenuChoices"));
+
             Console.Write(_rm.GetString("EnterChoice"));
         }
 
@@ -147,6 +147,39 @@ namespace Version_1._0.View
         {
             Console.WriteLine();
             Console.WriteLine(_rm.GetString("InvalidOption"));
+            ShowNext();
+        }
+
+        // Demande à l'utilisateur de choisir un format de log
+        public string AskLogFormat()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Veuillez choisir le format de log (JSON/XML) :");
+            string choice = Console.ReadLine()?.Trim().ToUpper();
+
+            while (choice != "JSON" && choice != "XML")
+            {
+                Console.WriteLine("Format invalide. Entrez 'JSON' ou 'XML' :");
+                choice = Console.ReadLine()?.Trim().ToUpper();
+            }
+
+            return choice;
+        }
+
+        // *** AJOUT DES MÉTHODES MANQUANTES POUR Program.cs ***
+
+        public void ShowLogFormatOptions()
+        {
+            Console.WriteLine();
+            Console.WriteLine("1. XML");
+            Console.WriteLine("2. JSON");
+            Console.WriteLine("Veuillez sélectionner un format de log :");
+        }
+
+        public void ShowLogFormatUpdatedMessage(string format)
+        {
+            Console.WriteLine();
+            Console.WriteLine($"Format de log mis à jour en {format}.");
             ShowNext();
         }
     }

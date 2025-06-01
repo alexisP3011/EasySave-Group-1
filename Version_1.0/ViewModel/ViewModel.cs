@@ -76,7 +76,6 @@ namespace Version_1._0.ViewModel
             _currentWork.SetState(input);
         }
 
-
         public void AddWork()
         {
             // Create a new instance of Model.Work
@@ -137,6 +136,7 @@ namespace Version_1._0.ViewModel
                 _currentWork.SetState(work.GetState());
             }
         }
+
         public void UpdateWork()
         {
             // Load all works from storage
@@ -181,22 +181,18 @@ namespace Version_1._0.ViewModel
 
         public void LaunchWork()
         {
-            
             _currentWork.LaunchWork();
-
             UpdateWork();
-
             UpdateRealTimeLog();
-
         }
 
         public void changeLanguage()
         {
             settings.setCulture(input);
         }
+
         public void UpdateRealTimeLog()
         {
-
             var allLogs = realTimeLog.LoadRealTimeLog();
 
             int indexToUpdate = allLogs.FindIndex(l => l.Name == input);
@@ -223,6 +219,34 @@ namespace Version_1._0.ViewModel
         public string setLanguage()
         {
             return settings.LoadSettingsLanguage();
+        }
+
+        // ------------------------
+        // Ajout du support logFormat
+        // ------------------------
+
+        public void SetLogFormat()
+        {
+            settings.SaveLogFormat(input);
+        }
+
+        public string GetLogFormat()
+        {
+            return settings.LoadLogFormat();
+        }
+
+        public void LaunchWorkWithFormat(string format)
+        {
+            var log = DailyLog.getInstance();
+            log.TransferFilesWithLogs(
+                _currentWork.GetSource(),
+                _currentWork.GetTarget(),
+                _currentWork.GetName(),
+                _currentWork.GetType() == "1", // booléen : true = complet, false = différentiel
+                format.ToUpper() // "XML" ou "JSON"
+            );
+            UpdateWork();
+            UpdateRealTimeLog();
         }
     }
 }

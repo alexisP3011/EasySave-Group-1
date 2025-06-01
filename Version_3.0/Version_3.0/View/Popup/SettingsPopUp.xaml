@@ -8,7 +8,7 @@
       xmlns:res="clr-namespace:Version_3._0"
       mc:Ignorable="d"
       x:Name="SettingWindow"
-      Title="{res:Loc SettingsPopUp}" Height="625" Width="800"
+      Title="{res:Loc SettingsPopUp}" Height="725" Width="800"
       Icon="/Ressources/myicon.ico">
 
     <Grid>
@@ -66,13 +66,15 @@
                         </ComboBox>
 
                         <TextBlock FontSize="16" Margin="0,0,0,4" x:Name="PriorityExtensionTextBloc" Text="{res:Loc PriorityExtension}"/>
-                        <ComboBox Margin="0,0,0,16" x:Name="PriorityExtensionBox">
-                            <ComboBoxItem Content=".txt" />
-                            <ComboBoxItem Content=".csv" />
-                            <ComboBoxItem Content=".json" />
-                            <ComboBoxItem Content=".xml" />
-                            <ComboBoxItem Content=".log" />
-                        </ComboBox>
+                        <ListBox Margin="0,0,0,16" x:Name="PriorityExtensionBox" SelectionMode="Multiple" Height="100">
+                            <ListBoxItem Content=".txt" />
+                            <ListBoxItem Content=".csv" />
+                            <ListBoxItem Content=".json" />
+                            <ListBoxItem Content=".xml" />
+                            <ListBoxItem Content=".log" />
+                            <ListBoxItem Content=".pdf" />
+                            <ListBoxItem Content=".png" />
+                        </ListBox>
 
 
 
