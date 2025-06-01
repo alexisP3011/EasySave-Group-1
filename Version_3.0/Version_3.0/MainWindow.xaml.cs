@@ -359,7 +359,7 @@ namespace Version_3._0
 
                                     var psi = new ProcessStartInfo
                                     {
-                                        FileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "CryptoSoft.exe"),
+                                        FileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../../../CryptoSoft/bin/Debug/net8.0/CryptoSoft.exe"),
                                         Arguments = $"\"{file}\" \"{key}\"",
                                         RedirectStandardOutput = true,
                                         RedirectStandardError = true,
