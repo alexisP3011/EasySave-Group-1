@@ -18,6 +18,7 @@ namespace Version_3._0
         private static DailyLog instance;
         private string saveName;
         private List<LogEntry> logEntries;
+        private WorkStorage storage = WorkStorage.getInstance();
 
         private DailyLog()
         {
@@ -251,6 +252,8 @@ namespace Version_3._0
                 long fileSize = 0;
                 try
                 {
+                    storage.DeleteWorkEntry(saveName);
+                    storage.AddWorkEntry(saveName, sourcePath, destinationPath, "Complete", "active");
                     File.Copy(file, destFile, true);
                     Thread.Sleep(5000);
                     stopwatch.Stop();
