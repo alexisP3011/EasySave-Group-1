@@ -15,6 +15,7 @@ namespace Version_3._0.View.Popup
     public partial class SettingsPopup : Window
     {
         private readonly string SETTINGS_FILE;
+        ResourceManager _rm = new ResourceManager("Version_3._0.Ressources.string", typeof(SettingsPopup).Assembly);
 
         public SettingsPopup()
         {
@@ -62,6 +63,7 @@ namespace Version_3._0.View.Popup
 
 
             SaveSettings();
+            MessageBox.Show(_rm.GetString("RestartApp"), _rm.GetString("InformationMessageTitle"));
             this.Close();
         }
 

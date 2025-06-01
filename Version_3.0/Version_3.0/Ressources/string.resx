@@ -303,4 +303,7 @@
   <data name="ErrorCryptoSoft" xml:space="preserve">
     <value>Encryption key is required as a target extension is specified in settings.</value>
   </data>
+  <data name="RestartApp" xml:space="preserve">
+    <value>Restart the application for the changes to take effect.</value>
+  </data>
 </root>
