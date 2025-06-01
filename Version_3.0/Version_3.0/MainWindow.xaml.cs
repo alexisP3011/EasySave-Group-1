@@ -283,8 +283,6 @@ namespace Version_3._0
                 {
                     work.State = "active";
 
-
-
                     var workCopy = work;
 
                     LaunchRealTimeLog(workCopy);
@@ -565,7 +563,7 @@ namespace Version_3._0
                 Works[index].Type = updatedWork.Type;
                 //Works[index].State = "finished";
                 storage.DeleteWorkEntry(updatedWork.Name);
-                //storage.AddWorkEntry(updatedWork.Name, updatedWork.Source, updatedWork.Target, updatedWork.Type, "Finished");
+                storage.AddWorkEntry(updatedWork.Name, updatedWork.Source, updatedWork.Target, updatedWork.Type, "Finished");
 
                 MessageBox.Show(string.Format(_rm.GetString("SuccessMessageUpdate"), updatedWork.Name), _rm.GetString("SuccessMessageTitle"), MessageBoxButton.OK, MessageBoxImage.Information);
             }
