@@ -100,6 +100,7 @@ namespace Version_3._0
                     work.Target = entry.Target;
                     work.Type = entry.Type;
                     work.State = entry.State;
+                    work.Progress = RealTimeLog.getInstance().Progression(entry.Source, entry.Target);
                     works.Add(work);
 
                 }

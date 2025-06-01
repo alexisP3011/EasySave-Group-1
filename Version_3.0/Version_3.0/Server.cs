@@ -41,12 +41,23 @@ namespace Version_3._0
                 {
                     if (!clientSocket.Connected)
                         break;
+                    if (File.Exists(jsonFilePath))
+                    {
+                        string jsonFromFile = File.ReadAllText(jsonFilePath);
+                        List<Work> jobs = JsonSerializer.Deserialize<List<Work>>(jsonFromFile);
 
-                    string json = File.ReadAllText(jsonFilePath);
-                    byte[] buffer = Encoding.UTF8.GetBytes(json + "\n");
-                    clientSocket.Send(buffer);
+                        foreach (var job in jobs)
+                        {
+                            job.Progress = RealTimeLog.getInstance().Progression(job.Source, job.Target);
+                        }
 
-                    Thread.Sleep(3000);
+                        string enrichedJson = JsonSerializer.Serialize(jobs);
+                        byte[] buffer = Encoding.UTF8.GetBytes(enrichedJson);
+                        clientSocket.Send(buffer);
+
+                        Thread.Sleep(3000);
+                    }
+                    
                 }
             }
             catch (Exception ex){}

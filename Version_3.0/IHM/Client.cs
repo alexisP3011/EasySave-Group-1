@@ -40,51 +40,52 @@ namespace IHM
         private static void ListenToServer(Socket socket)
         {
             while (true)
-        {
-        byte[] dataBuffer = new byte[4096];
-        int receivedDataLength = socket.Receive(dataBuffer);
-        string json = Encoding.UTF8.GetString(dataBuffer, 0, receivedDataLength).Trim();
-
-        try
-        {
-            var receivedTasks = JsonSerializer.Deserialize<List<Work>>(json);
-
-            if (receivedTasks != null)
             {
-                Application.Current.Dispatcher.Invoke(() =>
+                byte[] dataBuffer = new byte[4096];
+                int receivedDataLength = socket.Receive(dataBuffer);
+                string json = Encoding.UTF8.GetString(dataBuffer, 0, receivedDataLength).Trim();
+
+                try
                 {
-                    var namesFromJson = new HashSet<string>(receivedTasks.Select(t => t.Name));
-                    var toRemove = Client.Tasks.Where(t => !namesFromJson.Contains(t.Name)).ToList();
+                    var receivedTasks = JsonSerializer.Deserialize<List<Work>>(json);
 
-                    foreach (var item in toRemove)
+                    if (receivedTasks != null)
                     {
-                        Client.Tasks.Remove(item);
-                    }
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            var namesFromJson = new HashSet<string>(receivedTasks.Select(t => t.Name));
+                            var toRemove = Client.Tasks.Where(t => !namesFromJson.Contains(t.Name)).ToList();
 
-                    foreach (var received in receivedTasks)
-                    {
-                        var existing = Client.Tasks.FirstOrDefault(t => t.Name == received.Name);
-                        if (existing == null)
-                        {
-                            Client.Tasks.Add(received);
-                        }
-                        else
-                        {
-                            existing.Source = received.Source;
-                            existing.Target = received.Target;
-                            existing.Type = received.Type;
-                            existing.State = received.State;
-                        }
+                            foreach (var item in toRemove)
+                            {
+                                Client.Tasks.Remove(item);
+                            }
+
+                            foreach (var received in receivedTasks)
+                            {
+                                var existing = Client.Tasks.FirstOrDefault(t => t.Name == received.Name);
+                                if (existing == null)
+                                {
+                                    Client.Tasks.Add(received);
+                                }
+                                else
+                                {
+                                    existing.Source = received.Source;
+                                    existing.Target = received.Target;
+                                    existing.Type = received.Type;
+                                    existing.State = received.State;
+                                    existing.Progress = received.Progress;
+                                }
+                            }
+                        });
                     }
-                });
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Erreur JSON : " + ex.Message);
+                }
             }
         }
-        catch (Exception ex)
-        {
-            Console.WriteLine("Erreur JSON : " + ex.Message);
-        }
-    }
-}
 
         public static void StartClient()
         {
@@ -96,7 +97,8 @@ namespace IHM
 }
 public class Work : INotifyPropertyChanged
 {
-    private string name, source, target, type, state, action;
+    private string name, source, target, type, state;
+    private double progress;
 
     public string Name
     {
@@ -128,10 +130,10 @@ public class Work : INotifyPropertyChanged
         set { state = value; OnPropertyChanged(nameof(State)); }
     }
 
-    public string Action
+    public double Progress
     {
-        get => action;
-        set { action = value; OnPropertyChanged(nameof(Action)); }
+        get => progress;
+        set { progress = value; OnPropertyChanged(nameof(Progress)); }
     }
 
     public event PropertyChangedEventHandler PropertyChanged;

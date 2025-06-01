@@ -94,7 +94,8 @@ namespace Version_3._0
                     Source = workEntry.Source,
                     Target = workEntry.Target,
                     Type = workEntry.Type,
-                    State = workEntry.State
+                    State = workEntry.State,
+                    Progress = workEntry.Progress
                 });
             }
 
@@ -666,6 +667,7 @@ namespace Version_3._0
             Type = "";
             State = "inactive";
             IsSelected = false;
+            progress = 0;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
