@@ -127,7 +127,8 @@
 4. Mettre a jour un travail de sauvegarde
 5. Lancer un travail de sauvegarde
 6. Changer la langue de l'application
-7. Quitter</value>
+7. Configurer le format de logs
+8. Quitter</value>
   </data>
   <data name="SelectOption" xml:space="preserve">
     <value>Veuillez selectionner une option :</value>

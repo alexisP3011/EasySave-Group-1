@@ -190,6 +190,10 @@ namespace Version_2._0
         {
             var filesSource = Directory.GetFiles(source, "*", SearchOption.AllDirectories);
             var filesTarget = Directory.GetFiles(target, "*", SearchOption.AllDirectories);
+            if (filesSource.Length == 0)
+            {
+                return 0; // Handle a division by zero
+            }
             return filesTarget.Length / filesSource.Length * 100;
         }
 

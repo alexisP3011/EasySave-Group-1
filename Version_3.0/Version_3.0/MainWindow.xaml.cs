@@ -300,6 +300,8 @@ namespace Version_3._0
                     });
 
                     var priorityExtension = settings.PriorityExtension;
+                    var MaxFileSizeTransfert = int.Parse(settings.FileSizeTransfert);
+
                     var task = Task.Run(() =>
                     {
                         try
@@ -309,6 +311,7 @@ namespace Version_3._0
                                 workCopy.Target,
                                 workCopy.Name,
                                 priorityExtension,
+                                MaxFileSizeTransfert,
                                 token,
                                 CheckSoftwareOpen,
                                 software,
@@ -567,7 +570,7 @@ namespace Version_3._0
                 Works[index].Type = updatedWork.Type;
                 //Works[index].State = "finished";
                 storage.DeleteWorkEntry(updatedWork.Name);
-                //storage.AddWorkEntry(updatedWork.Name, updatedWork.Source, updatedWork.Target, updatedWork.Type, "Finished");
+                storage.AddWorkEntry(updatedWork.Name, updatedWork.Source, updatedWork.Target, updatedWork.Type, "Finished");
 
                 MessageBox.Show(string.Format(_rm.GetString("SuccessMessageUpdate"), updatedWork.Name), _rm.GetString("SuccessMessageTitle"), MessageBoxButton.OK, MessageBoxImage.Information);
             }

@@ -8,6 +8,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using System;
 using System.Collections.Generic;
+using static Version_3._0.MainWindow;
 
 namespace Version_3._0
 {
@@ -119,19 +120,35 @@ namespace Version_3._0
             {
                 string[] files = Directory.GetFiles(directory, searchPattern, searchOption);
 
-                var pdfFiles = files.Where(f => f.EndsWith(priority_extension, StringComparison.OrdinalIgnoreCase));
-                var otherFiles = files.Where(f => !f.EndsWith(priority_extension, StringComparison.OrdinalIgnoreCase));
 
-                filesList.AddRange(pdfFiles);
-                filesList.AddRange(otherFiles);
+                var priorityOrder = priority_extension
+                    .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                    .Select(ext => ext.Trim().ToLowerInvariant())
+                    .ToList();
 
-                return filesList;
+                var prioritySet = new HashSet<string>(priorityOrder);
+
+                var sortedFiles = files
+                    .Select(f => new FileInfo(f))
+                    .OrderBy(f =>
+                    {
+                        string ext = f.Extension.ToLowerInvariant();
+                        int priorityIndex = prioritySet.Contains(ext) ? priorityOrder.IndexOf(ext) : int.MaxValue;
+                        return priorityIndex;
+                    })
+                    .ThenBy(f => f.Length)
+                    .Select(f => f.FullName)
+                    .ToList();
+
+                return sortedFiles;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return filesList;
             }
         }
+
+
 
         public void AddLogEntry(string name, string source, string destination, long size, double transferTime)
         {
@@ -173,7 +190,7 @@ namespace Version_3._0
         }
 
 
-        public void TransferFilesWithLogs(string sourcePath, string destinationPath, string saveName, string priority_extension,
+        public void TransferFilesWithLogs(string sourcePath, string destinationPath, string saveName, string priority_extension, int SizeLimit,
             CancellationToken token, Action<string> checkSoftwareCallback = null, string software = null, bool recursive = false, IProgress<double>? progress = null)
         {
             if (!Directory.Exists(sourcePath))
@@ -203,6 +220,16 @@ namespace Version_3._0
 
                     token.ThrowIfCancellationRequested();
                 }
+
+                
+                //long fileSizeInBytes = new FileInfo(file).Length;
+                //double fileSizeInKB = fileSizeInBytes / 1024.0;
+                //if (fileSizeInKB > SizeLimit)
+                //{
+                 
+                //    token.ThrowIfCancellationRequested();
+
+                //}
 
                 string relativePath;
                 if (recursive)
